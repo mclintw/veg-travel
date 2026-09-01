@@ -277,6 +277,80 @@
   .trans-row .orig{font-size:12.5px; color:var(--gray-ink); flex:0 0 auto;}
   .trans-row .zh{font-size:14.5px; font-weight:600; color:var(--ink);}
 
+  /* conversation translation (inside section 2) */
+  .sub-divider{
+    border-top:1px solid var(--line);
+    margin:22px 0 16px;
+    padding-top:18px;
+  }
+  .sub-divider h3{
+    font-family:"Songti TC","PMingLiU","Noto Serif TC",serif;
+    font-size:16px;
+    color:var(--indigo-deep);
+    margin:0 0 12px;
+  }
+  .lang-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .lang-row select{
+    flex:1;
+    min-width:0;
+    padding:9px 10px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    font-size:13.5px;
+    font-family:inherit;
+    color:var(--ink);
+    background:var(--paper);
+  }
+  .lang-row .arrow{color:var(--gray-ink); font-size:14px; flex:0 0 auto;}
+
+  .conv-box{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:10px 12px;
+    margin-bottom:10px;
+  }
+  .conv-box-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:6px;
+    gap:8px;
+  }
+  .conv-box-head .conv-label{font-size:11.5px; color:var(--gray-ink);}
+  .conv-box-head .conv-btns{display:flex; gap:6px; flex:0 0 auto;}
+  .mini-btn{
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:8px;
+    width:30px;
+    height:30px;
+    font-size:14px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+  }
+  .mini-btn.active{background:var(--kaki-bg); border-color:var(--kaki); color:var(--kaki);}
+  .mini-btn:disabled{opacity:.4; cursor:not-allowed;}
+  .conv-box textarea{
+    width:100%;
+    border:none;
+    resize:vertical;
+    min-height:52px;
+    font-size:14.5px;
+    font-family:inherit;
+    color:var(--ink);
+    padding:0;
+    outline:none;
+    background:transparent;
+  }
+
   /* location */
   .location-row{
     display:flex;
@@ -285,6 +359,7 @@
   }
   .location-row input{
     flex:1;
+    min-width:0;
     padding:11px 12px;
     border:1px solid var(--line);
     border-radius:10px;
@@ -300,6 +375,7 @@
     padding:0 14px;
     font-size:13px;
     cursor:pointer;
+    white-space:nowrap;
   }
 
   .rest-card{
@@ -508,6 +584,40 @@
     <div class="loading" id="scanLoading" hidden><div class="spinner"></div>分析中，請稍候…</div>
     <div id="scanResults"></div>
     <p class="hint">查看成分，依照你選的素食類型，標示哪些不能吃</p>
+
+    <div class="sub-divider">
+      <h3>對話翻譯</h3>
+      <div class="lang-row">
+        <select id="convInputLang"></select>
+        <span class="arrow">→</span>
+        <select id="convOutputLang"></select>
+      </div>
+
+      <div class="conv-box">
+        <div class="conv-box-head">
+          <span class="conv-label">原文（可直接輸入，或按麥克風語音輸入）</span>
+          <div class="conv-btns">
+            <button class="mini-btn" id="convMicBtn" title="語音輸入">🎤</button>
+            <button class="mini-btn" id="convPlayInputBtn" title="播放原文">🔊</button>
+          </div>
+        </div>
+        <textarea id="convInputText" rows="2" placeholder="輸入文字，或按左邊麥克風用語音輸入…"></textarea>
+      </div>
+
+      <button class="btn" id="convTranslateBtn">翻譯</button>
+      <div class="loading" id="convLoading" hidden><div class="spinner"></div>翻譯中，請稍候…</div>
+      <div id="convError"></div>
+
+      <div class="conv-box" id="convOutputBox" hidden>
+        <div class="conv-box-head">
+          <span class="conv-label">翻譯結果</span>
+          <div class="conv-btns">
+            <button class="mini-btn" id="convPlayOutputBtn" title="播放翻譯">🔊</button>
+          </div>
+        </div>
+        <textarea id="convOutputText" rows="2"></textarea>
+      </div>
+    </div>
   </section>
 
   <!-- SECTION 3: PHOTO TRANSLATE -->
@@ -859,6 +969,135 @@ analyzeBtn.onclick = async ()=>{
   }finally{
     scanLoading.hidden = true;
     analyzeBtn.disabled = false;
+  }
+};
+
+/* ---------- SECTION 2b: conversation translation ---------- */
+const CONV_LANGS = {
+  zh: { label:'中文', code:'zh-TW' },
+  ja: { label:'日文', code:'ja-JP' },
+  en: { label:'英文', code:'en-US' }
+};
+
+const convInputLangSel = document.getElementById('convInputLang');
+const convOutputLangSel = document.getElementById('convOutputLang');
+const convInputText = document.getElementById('convInputText');
+const convOutputText = document.getElementById('convOutputText');
+const convOutputBox = document.getElementById('convOutputBox');
+const convMicBtn = document.getElementById('convMicBtn');
+const convPlayInputBtn = document.getElementById('convPlayInputBtn');
+const convPlayOutputBtn = document.getElementById('convPlayOutputBtn');
+const convTranslateBtn = document.getElementById('convTranslateBtn');
+const convLoading = document.getElementById('convLoading');
+const convError = document.getElementById('convError');
+
+Object.entries(CONV_LANGS).forEach(([key, lang])=>{
+  const optA = document.createElement('option');
+  optA.value = key; optA.textContent = lang.label;
+  convInputLangSel.appendChild(optA);
+  const optB = document.createElement('option');
+  optB.value = key; optB.textContent = lang.label;
+  convOutputLangSel.appendChild(optB);
+});
+convInputLangSel.value = 'zh';
+convOutputLangSel.value = 'ja';
+
+function speakText(text, langCode){
+  if(!text) return;
+  if(!('speechSynthesis' in window)){
+    alert('您的瀏覽器不支援語音播放功能。');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = langCode;
+  const voices = window.speechSynthesis.getVoices();
+  const match = voices.find(v => v.lang && v.lang.startsWith(langCode.split('-')[0]));
+  if(match) utter.voice = match;
+  utter.rate = 0.95;
+  window.speechSynthesis.speak(utter);
+}
+
+convPlayInputBtn.onclick = ()=> speakText(convInputText.value.trim(), CONV_LANGS[convInputLangSel.value].code);
+convPlayOutputBtn.onclick = ()=> speakText(convOutputText.value.trim(), CONV_LANGS[convOutputLangSel.value].code);
+
+/* voice input via Web Speech API — not supported in every browser, so the mic
+   button just disables itself gracefully when it isn't available. */
+const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
+let convRecognition = null;
+let convRecognizing = false;
+
+if(SpeechRecognitionCtor){
+  convRecognition = new SpeechRecognitionCtor();
+  convRecognition.continuous = false;
+  convRecognition.interimResults = true;
+
+  convRecognition.onresult = (e)=>{
+    let transcript = '';
+    for(let i = 0; i < e.results.length; i++) transcript += e.results[i][0].transcript;
+    convInputText.value = transcript;
+  };
+  convRecognition.onend = ()=>{
+    convRecognizing = false;
+    convMicBtn.classList.remove('active');
+  };
+  convRecognition.onerror = ()=>{
+    convRecognizing = false;
+    convMicBtn.classList.remove('active');
+  };
+
+  convMicBtn.onclick = ()=>{
+    if(convRecognizing){
+      convRecognition.stop();
+      return;
+    }
+    convRecognition.lang = CONV_LANGS[convInputLangSel.value].code;
+    convInputText.value = '';
+    try{
+      convRecognition.start();
+      convRecognizing = true;
+      convMicBtn.classList.add('active');
+    }catch(e){ /* recognition already running — ignore */ }
+  };
+} else {
+  convMicBtn.disabled = true;
+  convMicBtn.title = '此瀏覽器不支援語音輸入，請直接輸入文字';
+}
+
+convTranslateBtn.onclick = async ()=>{
+  const sourceText = convInputText.value.trim();
+  if(!sourceText){
+    alert('請先輸入或用語音輸入要翻譯的文字。');
+    return;
+  }
+  convError.innerHTML = '';
+  convOutputBox.hidden = true;
+  convLoading.hidden = false;
+  convTranslateBtn.disabled = true;
+
+  const inputLangLabel = CONV_LANGS[convInputLangSel.value].label;
+  const outputLangLabel = CONV_LANGS[convOutputLangSel.value].label;
+
+  const promptText = `請將以下${inputLangLabel}文字翻譯成${outputLangLabel}，只回傳翻譯後的文字本身，不要加任何說明、引號、標籤或 markdown 符號：
+
+${sourceText}`;
+
+  try{
+    const text = await callClaude({
+      content: [{ type:"text", text: promptText }],
+      maxTokens: 500
+    });
+    convOutputText.value = text.trim();
+    convOutputBox.hidden = false;
+  }catch(err){
+    console.error(err);
+    convError.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
+    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
+      openKeySettings(true);
+    }
+  }finally{
+    convLoading.hidden = true;
+    convTranslateBtn.disabled = false;
   }
 };
 
