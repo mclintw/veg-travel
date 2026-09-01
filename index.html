@@ -382,6 +382,15 @@
     line-height:1.6;
   }
   .banner-note a{color:var(--indigo); font-weight:600;}
+
+  [hidden]{display:none !important;}
+
+  #translateCanvas{
+    width:100%;
+    border-radius:10px;
+    margin:14px 0;
+    border:1px solid var(--line);
+  }
 </style>
 </head>
 <body>
@@ -431,7 +440,7 @@
   <!-- SECTION 2: SCAN -->
   <section class="card">
     <div class="badge">二</div>
-    <h2>掃描菜單</h2>
+    <h2>掃描成分是否可以吃</h2>
     <input type="file" accept="image/*" capture="environment" id="cameraInput" hidden>
     <button class="btn" id="captureBtn">📷&nbsp; 拍照掃描菜單</button>
     <img id="preview" hidden>
@@ -441,9 +450,23 @@
     <p class="hint">會把日文菜單翻譯成中文，並依照你選的素食類型，標示哪些不能吃。</p>
   </section>
 
-  <!-- SECTION 3: RESTAURANTS -->
+  <!-- SECTION 3: PHOTO TRANSLATE -->
   <section class="card">
     <div class="badge">三</div>
+    <h2>照片翻譯</h2>
+    <input type="file" accept="image/*" capture="environment" id="translateCameraInput" hidden>
+    <button class="btn" id="translateCaptureBtn">📷&nbsp; 拍照翻譯（招牌、公告等）</button>
+    <img id="translatePreview" hidden>
+    <canvas id="translateCanvas" hidden></canvas>
+    <button class="btn secondary" id="translateBtn" hidden style="margin-top:10px;">翻譯這張照片</button>
+    <div class="loading" id="translateLoading" hidden><div class="spinner"></div>翻譯中，請稍候…</div>
+    <div id="translateError"></div>
+    <p class="hint">會辨識照片中的日文文字，直接在原圖上換成中文，方便看懂招牌、公告、標示等內容。</p>
+  </section>
+
+  <!-- SECTION 4: RESTAURANTS -->
+  <section class="card">
+    <div class="badge">四</div>
     <h2>尋找附近餐廳</h2>
     <div class="location-row">
       <input type="text" id="locationInput" placeholder="例如：新宿駅、京都車站附近">
@@ -732,7 +755,129 @@ analyzeBtn.onclick = async ()=>{
   }
 };
 
-/* ---------- SECTION 3: nearby restaurants ---------- */
+/* ---------- SECTION 3: photo translate (overlay Chinese on original image) ---------- */
+const translateCameraInput = document.getElementById('translateCameraInput');
+const translateCaptureBtn = document.getElementById('translateCaptureBtn');
+const translatePreview = document.getElementById('translatePreview');
+const translateCanvas = document.getElementById('translateCanvas');
+const translateBtn = document.getElementById('translateBtn');
+const translateLoading = document.getElementById('translateLoading');
+const translateError = document.getElementById('translateError');
+
+let translateImageBase64 = null;
+let translateImageMediaType = null;
+let translateImageEl = null;
+
+translateCaptureBtn.onclick = ()=> translateCameraInput.click();
+
+translateCameraInput.onchange = (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  translateImageMediaType = file.type || 'image/jpeg';
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const dataUrl = reader.result;
+    translateImageBase64 = dataUrl.split(',')[1];
+    translatePreview.src = dataUrl;
+    translatePreview.hidden = false;
+    translateCanvas.hidden = true;
+    translateBtn.hidden = false;
+    translateError.innerHTML = '';
+
+    const img = new Image();
+    img.onload = ()=>{ translateImageEl = img; };
+    img.src = dataUrl;
+  };
+  reader.readAsDataURL(file);
+};
+
+translateBtn.onclick = async ()=>{
+  if(!translateImageBase64 || !translateImageEl) return;
+  translateError.innerHTML = '';
+  translateLoading.hidden = false;
+  translateBtn.disabled = true;
+
+  const promptText = `這是一張在日本拍攝的照片（招牌、公告、標示、菜單或包裝等），上面可能有日文文字。
+請找出照片中每一段獨立的日文文字，並翻譯成繁體中文。
+針對每一段文字，請估計它在照片中的位置，用「相對於整張照片寬高的百分比（0-100 的數字）」表示：
+- x：文字區塊左上角的水平位置百分比
+- y：文字區塊左上角的垂直位置百分比
+- width：文字區塊寬度百分比
+- height：文字區塊高度百分比
+並判斷這段文字所在區域的底色是「light」（淺色底）還是「dark」（深色底），方便之後用對比色蓋過去重新寫字。
+
+請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號：
+{
+  "blocks": [
+    {"original":"日文原文", "translated_zh":"繁體中文翻譯", "x":0, "y":0, "width":0, "height":0, "bg":"light" | "dark"}
+  ]
+}`;
+
+  try{
+    const text = await callClaude({
+      content: [
+        { type:"image", source:{ type:"base64", media_type: translateImageMediaType, data: translateImageBase64 } },
+        { type:"text", text: promptText }
+      ],
+      maxTokens: 1500
+    });
+    const json = extractJSON(text);
+    const blocks = json.blocks || [];
+    if(!blocks.length){
+      translateError.innerHTML = '<div class="error-box">沒有在照片中辨識出日文文字，請再拍一次試試看。</div>';
+    } else {
+      renderTranslatedImage(blocks);
+    }
+  }catch(err){
+    console.error(err);
+    translateError.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
+    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
+      settingsBlock.open = true;
+      settingsBlock.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }finally{
+    translateLoading.hidden = true;
+    translateBtn.disabled = false;
+  }
+};
+
+function renderTranslatedImage(blocks){
+  const img = translateImageEl;
+  const w = img.naturalWidth;
+  const h = img.naturalHeight;
+  translateCanvas.width = w;
+  translateCanvas.height = h;
+  const ctx = translateCanvas.getContext('2d');
+  ctx.drawImage(img, 0, 0, w, h);
+
+  blocks.forEach(b=>{
+    if(!b.translated_zh) return;
+    const bx = (b.x || 0) / 100 * w;
+    const by = (b.y || 0) / 100 * h;
+    const bw = Math.max((b.width || 0) / 100 * w, 4);
+    const bh = Math.max((b.height || 0) / 100 * h, 4);
+    const pad = Math.max(bh * 0.15, 2);
+
+    const isDark = b.bg === 'dark';
+    ctx.fillStyle = isDark ? 'rgba(20,20,20,0.92)' : 'rgba(255,255,255,0.92)';
+    ctx.fillRect(bx - pad, by - pad, bw + pad * 2, bh + pad * 2);
+
+    ctx.fillStyle = isDark ? '#FFFFFF' : '#2A2A22';
+    ctx.textBaseline = 'middle';
+    let size = Math.max(bh * 0.78, 10);
+    ctx.font = `600 ${size}px "PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif`;
+    while(ctx.measureText(b.translated_zh).width > bw && size > 8){
+      size -= 1;
+      ctx.font = `600 ${size}px "PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif`;
+    }
+    ctx.fillText(b.translated_zh, bx, by + bh / 2);
+  });
+
+  translatePreview.hidden = true;
+  translateCanvas.hidden = false;
+}
+
+/* ---------- SECTION 4: nearby restaurants ---------- */
 const locationInput = document.getElementById('locationInput');
 const geoBtn = document.getElementById('geoBtn');
 const searchBtn = document.getElementById('searchBtn');
