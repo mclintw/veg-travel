@@ -259,6 +259,15 @@
   .dish-body .reason{font-size:13px; color:var(--ink-soft);}
   .dish-body .status-tag{font-size:11px; color:var(--gray-ink);}
 
+  .trans-item{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    margin-top:10px;
+  }
+  .trans-item .orig{font-size:12.5px; color:var(--gray-ink); margin-bottom:3px;}
+  .trans-item .zh{font-size:15.5px; font-weight:600; color:var(--ink);}
+
   /* location */
   .location-row{
     display:flex;
@@ -384,13 +393,6 @@
   .banner-note a{color:var(--indigo); font-weight:600;}
 
   [hidden]{display:none !important;}
-
-  #translateCanvas{
-    width:100%;
-    border-radius:10px;
-    margin:14px 0;
-    border:1px solid var(--line);
-  }
 </style>
 </head>
 <body>
@@ -457,11 +459,11 @@
     <input type="file" accept="image/*" capture="environment" id="translateCameraInput" hidden>
     <button class="btn" id="translateCaptureBtn">📷&nbsp; 拍照翻譯（招牌、公告等）</button>
     <img id="translatePreview" hidden>
-    <canvas id="translateCanvas" hidden></canvas>
     <button class="btn secondary" id="translateBtn" hidden style="margin-top:10px;">翻譯這張照片</button>
     <div class="loading" id="translateLoading" hidden><div class="spinner"></div>翻譯中，請稍候…</div>
     <div id="translateError"></div>
-    <p class="hint">會辨識照片中的日文文字，直接在原圖上換成中文，方便看懂招牌、公告、標示等內容。</p>
+    <div id="translateResults"></div>
+    <p class="hint">會辨識照片中的日文文字，翻譯成中文後以清單列出，方便看懂招牌、公告、標示等內容。</p>
   </section>
 
   <!-- SECTION 4: RESTAURANTS -->
@@ -755,18 +757,17 @@ analyzeBtn.onclick = async ()=>{
   }
 };
 
-/* ---------- SECTION 3: photo translate (overlay Chinese on original image) ---------- */
+/* ---------- SECTION 3: photo translate (text list, not overlaid on the image) ---------- */
 const translateCameraInput = document.getElementById('translateCameraInput');
 const translateCaptureBtn = document.getElementById('translateCaptureBtn');
 const translatePreview = document.getElementById('translatePreview');
-const translateCanvas = document.getElementById('translateCanvas');
 const translateBtn = document.getElementById('translateBtn');
 const translateLoading = document.getElementById('translateLoading');
 const translateError = document.getElementById('translateError');
+const translateResults = document.getElementById('translateResults');
 
 let translateImageBase64 = null;
 let translateImageMediaType = null;
-let translateImageEl = null;
 
 translateCaptureBtn.onclick = ()=> translateCameraInput.click();
 
@@ -780,67 +781,49 @@ translateCameraInput.onchange = (e)=>{
     translateImageBase64 = dataUrl.split(',')[1];
     translatePreview.src = dataUrl;
     translatePreview.hidden = false;
-    translateCanvas.hidden = true;
     translateBtn.hidden = false;
     translateError.innerHTML = '';
-
-    const img = new Image();
-    img.onload = ()=>{ translateImageEl = img; };
-    img.src = dataUrl;
+    translateResults.innerHTML = '';
   };
   reader.readAsDataURL(file);
 };
 
 translateBtn.onclick = async ()=>{
-  if(!translateImageBase64 || !translateImageEl) return;
+  if(!translateImageBase64) return;
   translateError.innerHTML = '';
+  translateResults.innerHTML = '';
   translateLoading.hidden = false;
   translateBtn.disabled = true;
 
-  // Overlay a faint reference grid before sending to Claude — vision models place
-  // text far more accurately when they can read off grid marks instead of guessing
-  // raw percentages blind. The grid is only in the copy we send to the API; the
-  // final rendered image is drawn from the original, grid-free photo.
-  const griddedDataUrl = buildGridOverlayImage(translateImageEl);
-  const griddedBase64 = griddedDataUrl.split(',')[1];
-
-  const promptText = `這是一張在日本拍攝的照片（招牌、公告、標示、菜單或包裝等），上面可能有日文文字。日文常常是「縱書」— 一整欄文字由上往下排列，多欄由右往左排列，請特別注意分辨。
-為了幫助你標出文字的精確位置，這張圖片上疊加了一層淡淡的紅色參考格線：頂端每隔 5% 標示了 X 座標刻度（0-100），左側每隔 5% 標示了 Y 座標刻度（0-100）。請直接讀取格線刻度來估計位置，不要憑空猜測。
-
-請找出照片中每一段日文文字並翻譯成繁體中文，切分規則非常重要：
-- 如果是「縱書」（直式，字由上往下排成一直欄），每一欄文字獨立算一個區塊，區塊要「窄而高」，寬度大約只等於一個字的寬度，不要把好幾欄合併在一起。
-- 如果是「橫書」（橫式，字由左往右排成一行），每一行文字獨立算一個區塊，區塊要「寬而矮」，高度大約只等於一行字的高度，不要把好幾行合併在一起。
-- 不同區塊之間絕對不可以互相重疊。每個區塊都要盡量貼齊文字本身的實際範圍，不要留多餘空白，也不要包含格線刻度數字本身。
-
-針對每一段文字，請參考格線刻度，給出它的邊界框，用「相對於整張照片寬高的百分比（0-100 的數字，可以有小數）」表示：
-- x：文字區塊左上角的水平位置百分比
-- y：文字區塊左上角的垂直位置百分比
-- width：文字區塊寬度百分比
-- height：文字區塊高度百分比
-- orientation："vertical"（縱書，由上往下）或 "horizontal"（橫書，由左往右）
+  const promptText = `這是一張在日本拍攝的照片（招牌、公告、標示、菜單或包裝等），上面可能有日文文字。
+請按照畫面上的閱讀順序（由上到下，直書的話由右到左），找出每一段獨立的日文文字，並翻譯成繁體中文。
 
 請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號：
 {
-  "blocks": [
-    {"original":"日文原文", "translated_zh":"繁體中文翻譯", "x":0, "y":0, "width":0, "height":0, "orientation":"vertical"}
+  "items": [
+    {"original":"日文原文", "translated_zh":"繁體中文翻譯"}
   ]
 }`;
 
   try{
     const text = await callClaude({
       content: [
-        { type:"image", source:{ type:"base64", media_type: "image/png", data: griddedBase64 } },
+        { type:"image", source:{ type:"base64", media_type: translateImageMediaType, data: translateImageBase64 } },
         { type:"text", text: promptText }
       ],
-      maxTokens: 3000
+      maxTokens: 1500
     });
     const json = extractJSON(text);
-    const rawBlocks = json.blocks || [];
-    const blocks = resolveOverlaps(clampBlocks(rawBlocks));
-    if(!blocks.length){
+    const items = (json.items || []).filter(it => it && it.translated_zh);
+    if(!items.length){
       translateError.innerHTML = '<div class="error-box">沒有在照片中辨識出日文文字，請再拍一次試試看。</div>';
     } else {
-      renderTranslatedImage(blocks);
+      translateResults.innerHTML = items.map(it => `
+        <div class="trans-item">
+          <div class="orig">${it.original || ''}</div>
+          <div class="zh">${it.translated_zh}</div>
+        </div>
+      `).join('');
     }
   }catch(err){
     console.error(err);
@@ -854,181 +837,6 @@ translateBtn.onclick = async ()=>{
     translateBtn.disabled = false;
   }
 };
-
-/* Draws a faint coordinate grid (with 0-100 percentage labels) over a copy of the
-   photo, purely to give the vision model reference marks to read positions off of. */
-function buildGridOverlayImage(img){
-  const w = img.naturalWidth, h = img.naturalHeight;
-  const c = document.createElement('canvas');
-  c.width = w; c.height = h;
-  const ctx = c.getContext('2d');
-  ctx.drawImage(img, 0, 0, w, h);
-
-  const unit = Math.max(w, h);
-  ctx.strokeStyle = 'rgba(255,0,0,0.35)';
-  ctx.lineWidth = Math.max(unit * 0.0012, 1);
-  ctx.fillStyle = 'rgba(200,0,0,0.9)';
-  ctx.font = `${Math.max(unit * 0.016, 11)}px sans-serif`;
-  for(let p = 5; p < 100; p += 5){
-    const x = p / 100 * w;
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
-    ctx.fillText(String(p), x + 2, 12);
-    const y = p / 100 * h;
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-    ctx.fillText(String(p), 2, y - 2);
-  }
-  return c.toDataURL('image/png');
-}
-
-/* Samples pixel colors just outside a box (before anything is drawn over it) so the
-   patch that erases the original text blends into the surrounding paper/photo
-   instead of showing up as a stark flat rectangle. */
-function sampleEdgeColor(ctx, bx, by, bw, bh, w, h){
-  const pts = [
-    [bx + bw / 2, by - 4],
-    [bx + bw / 2, by + bh + 4],
-    [bx - 4, by + bh / 2],
-    [bx + bw + 4, by + bh / 2]
-  ];
-  let r = 0, g = 0, b = 0, n = 0;
-  pts.forEach(([px, py]) => {
-    const cx = Math.min(Math.max(Math.round(px), 0), w - 1);
-    const cy = Math.min(Math.max(Math.round(py), 0), h - 1);
-    const d = ctx.getImageData(cx, cy, 1, 1).data;
-    r += d[0]; g += d[1]; b += d[2]; n++;
-  });
-  return [Math.round(r / n), Math.round(g / n), Math.round(b / n)];
-}
-
-/* The model's raw boxes are sometimes wildly oversized (a whole word estimated as
-   30% of the photo). Cap each box to a plausible size for one text line/column so
-   a single bad estimate can't blanket the image or swallow up its neighbors. */
-function clampBlocks(blocks){
-  return blocks.filter(b => b && b.translated_zh).map(b=>{
-    const vertical = b.orientation === 'vertical';
-    const maxW = vertical ? 12 : 48;
-    const maxH = vertical ? 65 : 14;
-    return {
-      ...b,
-      x: Math.min(Math.max(b.x || 0, 0), 100),
-      y: Math.min(Math.max(b.y || 0, 0), 100),
-      width: Math.min(Math.max(b.width || 0, 1), maxW),
-      height: Math.min(Math.max(b.height || 0, 1), maxH),
-      orientation: vertical ? 'vertical' : 'horizontal'
-    };
-  });
-}
-
-/* Claims cells on a fine virtual grid so accepted boxes never overlap: each block
-   in turn only keeps the sub-region of itself that's still unclaimed, and is
-   dropped if most of it is already taken (i.e. it was likely a near-duplicate of
-   an earlier, already-placed block). This is what actually prevents the "giant
-   overlapping rectangles" look, independent of how accurate the raw boxes are. */
-function resolveOverlaps(blocks){
-  const GRID = 400;
-  const claimed = new Uint8Array(GRID * GRID);
-  const result = [];
-
-  blocks.forEach(b=>{
-    const x0 = Math.max(0, Math.min(GRID - 1, Math.floor(b.x / 100 * GRID)));
-    const y0 = Math.max(0, Math.min(GRID - 1, Math.floor(b.y / 100 * GRID)));
-    const x1 = Math.max(x0 + 1, Math.min(GRID, Math.ceil((b.x + b.width) / 100 * GRID)));
-    const y1 = Math.max(y0 + 1, Math.min(GRID, Math.ceil((b.y + b.height) / 100 * GRID)));
-
-    let minX = null, minY = null, maxX = null, maxY = null, free = 0;
-    const total = (x1 - x0) * (y1 - y0);
-    for(let yy = y0; yy < y1; yy++){
-      for(let xx = x0; xx < x1; xx++){
-        if(!claimed[yy * GRID + xx]){
-          free++;
-          if(minX === null || xx < minX) minX = xx;
-          if(maxX === null || xx > maxX) maxX = xx;
-          if(minY === null || yy < minY) minY = yy;
-          if(maxY === null || yy > maxY) maxY = yy;
-        }
-      }
-    }
-    if(free < total * 0.5) return; // mostly overlaps an already-placed block — skip it
-
-    for(let yy = minY; yy <= maxY; yy++){
-      for(let xx = minX; xx <= maxX; xx++) claimed[yy * GRID + xx] = 1;
-    }
-
-    result.push({
-      ...b,
-      x: minX / GRID * 100,
-      y: minY / GRID * 100,
-      width: (maxX - minX + 1) / GRID * 100,
-      height: (maxY - minY + 1) / GRID * 100
-    });
-  });
-
-  return result;
-}
-
-function renderTranslatedImage(blocks){
-  const img = translateImageEl;
-  const w = img.naturalWidth;
-  const h = img.naturalHeight;
-  translateCanvas.width = w;
-  translateCanvas.height = h;
-  const ctx = translateCanvas.getContext('2d');
-  ctx.drawImage(img, 0, 0, w, h);
-
-  blocks.forEach(b=>{
-    if(!b.translated_zh) return;
-    const bx = (b.x || 0) / 100 * w;
-    const by = (b.y || 0) / 100 * h;
-    const bw = Math.max((b.width || 0) / 100 * w, 4);
-    const bh = Math.max((b.height || 0) / 100 * h, 4);
-    const pad = Math.max(Math.min(bw, bh) * 0.1, 1);
-
-    // Erase the original text with the surrounding background color instead of a
-    // flat white/black box, then pick a readable text color against that color.
-    const [r, g, bl] = sampleEdgeColor(ctx, bx, by, bw, bh, w, h);
-    ctx.fillStyle = `rgb(${r},${g},${bl})`;
-    ctx.fillRect(bx - pad, by - pad, bw + pad * 2, bh + pad * 2);
-
-    const luminance = 0.299 * r + 0.587 * g + 0.114 * bl;
-    ctx.fillStyle = luminance > 150 ? '#2A2A22' : '#FFFFFF';
-
-    if(b.orientation === 'vertical'){
-      drawVerticalText(ctx, b.translated_zh, bx + bw / 2, by, bw, bh);
-    } else {
-      drawHorizontalText(ctx, b.translated_zh, bx, by + bh / 2, bw);
-    }
-  });
-
-  translatePreview.hidden = true;
-  translateCanvas.hidden = false;
-}
-
-function drawHorizontalText(ctx, text, x, y, maxWidth){
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'middle';
-  let size = 20;
-  ctx.font = `600 ${size}px "PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif`;
-  while(ctx.measureText(text).width > maxWidth && size > 8){
-    size -= 1;
-    ctx.font = `600 ${size}px "PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif`;
-  }
-  ctx.fillText(text, x, y);
-}
-
-/* Renders each character stacked top-to-bottom, matching the original column's
-   reading direction, so a Japanese 縦書き column becomes a Chinese one in place. */
-function drawVerticalText(ctx, text, centerX, top, boxW, boxH){
-  const chars = Array.from(text);
-  if(!chars.length) return;
-  const size = Math.max(Math.min(boxW * 0.85, boxH / chars.length * 0.9), 8);
-  ctx.font = `600 ${size}px "PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif`;
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  const lineHeight = boxH / chars.length;
-  chars.forEach((ch, i)=>{
-    ctx.fillText(ch, centerX, top + lineHeight * (i + 0.5));
-  });
-}
 
 /* ---------- SECTION 4: nearby restaurants ---------- */
 const locationInput = document.getElementById('locationInput');
