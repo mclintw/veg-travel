@@ -427,7 +427,8 @@
       <input type="password" id="apiKeyInput" placeholder="貼上你的 API 金鑰，例如 sk-ant-...">
       <div class="key-status unset" id="keyStatus">尚未設定金鑰</div>
       <p style="margin-top:10px;">
-        金鑰只會存在這次瀏覽器分頁的記憶體中，不會被儲存、上傳或送到 Anthropic 以外的任何地方；重新整理頁面後就會清除，需要再貼一次。
+        金鑰會儲存在你這個瀏覽器的本機儲存空間（localStorage），只留在你自己的裝置上，不會被上傳或送到 Anthropic 以外的任何地方；下次打開網頁不用再貼一次，但換了瀏覽器或裝置就要重新輸入。
+        <a href="#" id="clearKeyLink">清除已儲存的金鑰</a>
       </p>
     </div>
   </details>
@@ -547,17 +548,20 @@ const VEG_TYPES = [
 
 let currentType = VEG_TYPES.find(t=>t.id==='lacto-ovo');
 
-/* ---------- API key (only needed when self-hosted) ---------- */
+/* ---------- API key (only needed when self-hosted; saved to this browser's
+   localStorage so it doesn't need to be re-entered on every visit, and never
+   touches the source code or GitHub) ---------- */
+const API_KEY_STORAGE_KEY = 'vegTravelApiKey';
 let userApiKey = '';
 const apiKeyInput = document.getElementById('apiKeyInput');
 const keyStatus = document.getElementById('keyStatus');
 const keyStatusLabel = document.getElementById('keyStatusLabel');
 const settingsBlock = document.getElementById('settingsBlock');
+const clearKeyLink = document.getElementById('clearKeyLink');
 
-apiKeyInput.oninput = ()=>{
-  userApiKey = apiKeyInput.value.trim();
+function refreshKeyStatus(){
   if(userApiKey){
-    keyStatus.textContent = '已設定金鑰，這個分頁重新整理後會清除';
+    keyStatus.textContent = '已設定金鑰，已儲存在這個瀏覽器';
     keyStatus.className = 'key-status set';
     keyStatusLabel.textContent = '⚙️ API 金鑰設定（已設定）';
   } else {
@@ -565,6 +569,32 @@ apiKeyInput.oninput = ()=>{
     keyStatus.className = 'key-status unset';
     keyStatusLabel.textContent = '⚙️ API 金鑰設定（在自己網站上使用時才需要）';
   }
+}
+
+try{
+  const saved = localStorage.getItem(API_KEY_STORAGE_KEY);
+  if(saved){
+    userApiKey = saved;
+    apiKeyInput.value = saved;
+  }
+}catch(e){ /* localStorage unavailable — falls back to entering it each visit */ }
+refreshKeyStatus();
+
+apiKeyInput.oninput = ()=>{
+  userApiKey = apiKeyInput.value.trim();
+  try{
+    if(userApiKey) localStorage.setItem(API_KEY_STORAGE_KEY, userApiKey);
+    else localStorage.removeItem(API_KEY_STORAGE_KEY);
+  }catch(e){ /* ignore — key still works for this session via userApiKey */ }
+  refreshKeyStatus();
+};
+
+clearKeyLink.onclick = (e)=>{
+  e.preventDefault();
+  userApiKey = '';
+  apiKeyInput.value = '';
+  try{ localStorage.removeItem(API_KEY_STORAGE_KEY); }catch(err){}
+  refreshKeyStatus();
 };
 
 /* ---------- render profile section ---------- */
