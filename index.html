@@ -337,46 +337,86 @@
     line-height:1.6;
   }
 
-  /* API key settings */
-  details.settings{
+  /* API key settings — small icon button that opens a modal */
+  .icon-btn{
+    position:relative;
+    width:34px;
+    height:34px;
+    border-radius:50%;
     border:1px solid var(--line);
-    border-radius:12px;
     background:var(--card);
-    padding:0;
-    margin-bottom:20px;
-    overflow:hidden;
-  }
-  details.settings summary{
-    list-style:none;
+    font-size:15px;
     cursor:pointer;
-    padding:13px 16px;
-    font-size:13.5px;
-    color:var(--indigo);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+  }
+  .icon-btn .dot{
+    position:absolute;
+    top:2px;
+    right:2px;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:var(--matcha);
+    border:1.5px solid var(--card);
+    display:none;
+  }
+  .icon-btn.key-set .dot{display:block;}
+
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(30,28,20,.4);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    z-index:50;
+  }
+  .modal{
+    background:var(--card);
+    border-radius:var(--radius);
+    max-width:400px;
+    width:100%;
+    max-height:85vh;
+    overflow-y:auto;
+    padding:18px 20px 20px;
+  }
+  .modal-header{
     display:flex;
     align-items:center;
     justify-content:space-between;
+    margin-bottom:10px;
   }
-  details.settings summary::-webkit-details-marker{display:none;}
-  details.settings summary .chev{transition:.15s;}
-  details.settings[open] summary .chev{transform:rotate(180deg);}
-  .settings-body{
-    padding:0 16px 16px;
-    border-top:1px solid var(--line);
+  .modal-header span{
+    font-family:"Songti TC","PMingLiU","Noto Serif TC",serif;
+    font-size:16.5px;
+    color:var(--indigo-deep);
   }
-  .settings-body p{
+  .modal-close{
+    border:none;
+    background:none;
+    font-size:16px;
+    color:var(--gray-ink);
+    cursor:pointer;
+    padding:4px;
+  }
+  .modal-body p{
     font-size:12.5px;
     color:var(--ink-soft);
-    margin:12px 0;
+    margin:10px 0;
     line-height:1.7;
   }
-  .settings-body input{
+  .modal-body input{
     width:100%;
     padding:11px 12px;
     border:1px solid var(--line);
     border-radius:10px;
     font-size:13.5px;
     font-family:inherit;
-    margin-bottom:6px;
+    margin:10px 0 6px;
   }
   .key-status{
     font-size:12px;
@@ -387,7 +427,7 @@
   }
   .key-status.set{color:var(--matcha);}
   .key-status.unset{color:var(--gray-ink);}
-  .settings-body a{color:var(--indigo);}
+  .modal-body a{color:var(--indigo);}
 
   .banner-note{
     font-size:12px;
@@ -409,29 +449,37 @@
 
   <header class="top">
     <div class="brand">素食旅行小幫手<small>VEGETARIAN TRAVEL COMPANION</small></div>
-    <div class="lang-tag">日本旅遊版</div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div class="lang-tag">日本旅遊版</div>
+      <button class="icon-btn" id="apiKeyIconBtn" title="API 金鑰設定" aria-label="API 金鑰設定">⚙️<span class="dot"></span></button>
+    </div>
   </header>
 
-  <!-- API KEY SETTINGS -->
-  <details class="settings" id="settingsBlock">
-    <summary>
-      <span id="keyStatusLabel">⚙️ API 金鑰設定（在自己網站上使用時才需要）</span>
-      <span class="chev">⌄</span>
-    </summary>
-    <div class="settings-body">
-      <p>
-        在 Claude 對話裡預覽這個工具時，「掃描菜單」和「找餐廳」不需要填這裡。<br>
-        但如果你把這個網頁架到 GitHub Pages 或其他自己的網站上，就需要貼上你自己的 Anthropic API 金鑰，這兩個 AI 功能才能運作。
-        可以到 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> 申請。
-      </p>
-      <input type="password" id="apiKeyInput" placeholder="貼上你的 API 金鑰，例如 sk-ant-...">
-      <div class="key-status unset" id="keyStatus">尚未設定金鑰</div>
-      <p style="margin-top:10px;">
-        金鑰會儲存在你這個瀏覽器的本機儲存空間（localStorage），只留在你自己的裝置上，不會被上傳或送到 Anthropic 以外的任何地方；下次打開網頁不用再貼一次，但換了瀏覽器或裝置就要重新輸入。
-        <a href="#" id="clearKeyLink">清除已儲存的金鑰</a>
-      </p>
+  <!-- API KEY SETTINGS (opens as a modal from the gear icon above) -->
+  <div class="modal-overlay" id="apiKeyModalOverlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <span>API 金鑰設定</span>
+        <button class="modal-close" id="apiKeyModalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <p>
+          在 Claude 對話裡預覽這個工具時，「檢查食物成分」「照片翻譯」和「找餐廳」不需要填這裡。<br>
+          但如果你把這個網頁架到 GitHub Pages 或其他自己的網站上，就需要貼上你自己的 Anthropic API 金鑰，這些 AI 功能才能運作。
+          可以到 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> 申請。
+        </p>
+        <div class="key-status unset" id="keyStatus">尚未設定金鑰</div>
+        <button class="btn secondary" id="revealKeyInputBtn" style="margin-top:12px;">輸入 / 更改金鑰</button>
+        <div id="keyInputArea" hidden>
+          <input type="password" id="apiKeyInput" placeholder="貼上你的 API 金鑰，例如 sk-ant-...">
+          <p style="margin-top:4px;">
+            金鑰會儲存在你這個瀏覽器的本機儲存空間（localStorage），只留在你自己的裝置上，不會被上傳或送到 Anthropic 以外的任何地方；下次打開網頁不用再貼一次，但換了瀏覽器或裝置就要重新輸入。
+            <a href="#" id="clearKeyLink">清除已儲存的金鑰</a>
+          </p>
+        </div>
+      </div>
     </div>
-  </details>
+  </div>
 
   <!-- SECTION 1: PROFILE -->
   <section class="card">
@@ -553,21 +601,24 @@ let currentType = VEG_TYPES.find(t=>t.id==='lacto-ovo');
    touches the source code or GitHub) ---------- */
 const API_KEY_STORAGE_KEY = 'vegTravelApiKey';
 let userApiKey = '';
+const apiKeyIconBtn = document.getElementById('apiKeyIconBtn');
+const apiKeyModalOverlay = document.getElementById('apiKeyModalOverlay');
+const apiKeyModalClose = document.getElementById('apiKeyModalClose');
+const revealKeyInputBtn = document.getElementById('revealKeyInputBtn');
+const keyInputArea = document.getElementById('keyInputArea');
 const apiKeyInput = document.getElementById('apiKeyInput');
 const keyStatus = document.getElementById('keyStatus');
-const keyStatusLabel = document.getElementById('keyStatusLabel');
-const settingsBlock = document.getElementById('settingsBlock');
 const clearKeyLink = document.getElementById('clearKeyLink');
 
 function refreshKeyStatus(){
   if(userApiKey){
     keyStatus.textContent = '已設定金鑰，已儲存在這個瀏覽器';
     keyStatus.className = 'key-status set';
-    keyStatusLabel.textContent = '⚙️ API 金鑰設定（已設定）';
+    apiKeyIconBtn.classList.add('key-set');
   } else {
     keyStatus.textContent = '尚未設定金鑰';
     keyStatus.className = 'key-status unset';
-    keyStatusLabel.textContent = '⚙️ API 金鑰設定（在自己網站上使用時才需要）';
+    apiKeyIconBtn.classList.remove('key-set');
   }
 }
 
@@ -579,6 +630,22 @@ try{
   }
 }catch(e){ /* localStorage unavailable — falls back to entering it each visit */ }
 refreshKeyStatus();
+
+/* Opening the modal never reveals the key input straight away — it only shows
+   status + an explanation. The actual input box needs one more explicit click,
+   so the key isn't just sitting exposed the moment someone taps the gear icon. */
+function openKeySettings(revealInput){
+  keyInputArea.hidden = !revealInput;
+  apiKeyModalOverlay.hidden = false;
+}
+function closeKeySettings(){
+  apiKeyModalOverlay.hidden = true;
+}
+
+apiKeyIconBtn.onclick = ()=> openKeySettings(false);
+apiKeyModalClose.onclick = closeKeySettings;
+apiKeyModalOverlay.onclick = (e)=>{ if(e.target === apiKeyModalOverlay) closeKeySettings(); };
+revealKeyInputBtn.onclick = ()=>{ keyInputArea.hidden = false; };
 
 apiKeyInput.oninput = ()=>{
   userApiKey = apiKeyInput.value.trim();
@@ -787,8 +854,7 @@ analyzeBtn.onclick = async ()=>{
     console.error(err);
     scanResults.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
     if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-      settingsBlock.open = true;
-      settingsBlock.scrollIntoView({behavior:'smooth', block:'start'});
+      openKeySettings(true);
     }
   }finally{
     scanLoading.hidden = true;
@@ -868,8 +934,7 @@ translateBtn.onclick = async ()=>{
     console.error(err);
     translateError.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
     if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-      settingsBlock.open = true;
-      settingsBlock.scrollIntoView({behavior:'smooth', block:'start'});
+      openKeySettings(true);
     }
   }finally{
     translateLoading.hidden = true;
@@ -1028,8 +1093,7 @@ async function runRestaurantSearch(forceRefresh){
     console.error(err);
     restResults.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
     if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-      settingsBlock.open = true;
-      settingsBlock.scrollIntoView({behavior:'smooth', block:'start'});
+      openKeySettings(true);
     }
   }finally{
     restLoading.hidden = true;
