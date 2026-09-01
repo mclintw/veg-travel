@@ -277,18 +277,7 @@
   .trans-row .orig{font-size:12.5px; color:var(--gray-ink); flex:0 0 auto;}
   .trans-row .zh{font-size:14.5px; font-weight:600; color:var(--ink);}
 
-  /* conversation translation (inside section 2) */
-  .sub-divider{
-    border-top:1px solid var(--line);
-    margin:22px 0 16px;
-    padding-top:18px;
-  }
-  .sub-divider h3{
-    font-family:"Songti TC","PMingLiU","Noto Serif TC",serif;
-    font-size:16px;
-    color:var(--indigo-deep);
-    margin:0 0 12px;
-  }
+  /* conversation translation */
   .lang-row{
     display:flex;
     align-items:center;
@@ -573,9 +562,45 @@
     <p class="hint">可以直接把手機畫面拿給店員看，或播放語音唸給對方聽，避免溝通誤會。</p>
   </section>
 
-  <!-- SECTION 2: SCAN -->
+  <!-- SECTION 2: CONVERSATION TRANSLATION -->
   <section class="card">
     <div class="badge">二</div>
+    <h2>對話翻譯</h2>
+    <div class="lang-row">
+      <select id="convInputLang"></select>
+      <span class="arrow">→</span>
+      <select id="convOutputLang"></select>
+    </div>
+
+    <div class="conv-box">
+      <div class="conv-box-head">
+        <span class="conv-label">原文（可直接輸入，或按麥克風語音輸入）</span>
+        <div class="conv-btns">
+          <button class="mini-btn" id="convMicBtn" title="語音輸入">🎤</button>
+          <button class="mini-btn" id="convPlayInputBtn" title="播放原文">🔊</button>
+        </div>
+      </div>
+      <textarea id="convInputText" rows="2" placeholder="輸入文字，或按左邊麥克風用語音輸入…"></textarea>
+    </div>
+
+    <button class="btn" id="convTranslateBtn">翻譯</button>
+    <div class="loading" id="convLoading" hidden><div class="spinner"></div>翻譯中，請稍候…</div>
+    <div id="convError"></div>
+
+    <div class="conv-box" id="convOutputBox" hidden>
+      <div class="conv-box-head">
+        <span class="conv-label">翻譯結果</span>
+        <div class="conv-btns">
+          <button class="mini-btn" id="convPlayOutputBtn" title="播放翻譯">🔊</button>
+        </div>
+      </div>
+      <textarea id="convOutputText" rows="2"></textarea>
+    </div>
+  </section>
+
+  <!-- SECTION 3: SCAN -->
+  <section class="card">
+    <div class="badge">三</div>
     <h2>檢查食物成分</h2>
     <input type="file" accept="image/*" capture="environment" id="cameraInput" hidden>
     <button class="btn" id="captureBtn">📷&nbsp; 拍照食物成分標籤</button>
@@ -584,45 +609,11 @@
     <div class="loading" id="scanLoading" hidden><div class="spinner"></div>分析中，請稍候…</div>
     <div id="scanResults"></div>
     <p class="hint">查看成分，依照你選的素食類型，標示哪些不能吃</p>
-
-    <div class="sub-divider">
-      <h3>對話翻譯</h3>
-      <div class="lang-row">
-        <select id="convInputLang"></select>
-        <span class="arrow">→</span>
-        <select id="convOutputLang"></select>
-      </div>
-
-      <div class="conv-box">
-        <div class="conv-box-head">
-          <span class="conv-label">原文（可直接輸入，或按麥克風語音輸入）</span>
-          <div class="conv-btns">
-            <button class="mini-btn" id="convMicBtn" title="語音輸入">🎤</button>
-            <button class="mini-btn" id="convPlayInputBtn" title="播放原文">🔊</button>
-          </div>
-        </div>
-        <textarea id="convInputText" rows="2" placeholder="輸入文字，或按左邊麥克風用語音輸入…"></textarea>
-      </div>
-
-      <button class="btn" id="convTranslateBtn">翻譯</button>
-      <div class="loading" id="convLoading" hidden><div class="spinner"></div>翻譯中，請稍候…</div>
-      <div id="convError"></div>
-
-      <div class="conv-box" id="convOutputBox" hidden>
-        <div class="conv-box-head">
-          <span class="conv-label">翻譯結果</span>
-          <div class="conv-btns">
-            <button class="mini-btn" id="convPlayOutputBtn" title="播放翻譯">🔊</button>
-          </div>
-        </div>
-        <textarea id="convOutputText" rows="2"></textarea>
-      </div>
-    </div>
   </section>
 
-  <!-- SECTION 3: PHOTO TRANSLATE -->
+  <!-- SECTION 4: PHOTO TRANSLATE -->
   <section class="card">
-    <div class="badge">三</div>
+    <div class="badge">四</div>
     <h2>照片翻譯</h2>
     <input type="file" accept="image/*" capture="environment" id="translateCameraInput" hidden>
     <button class="btn" id="translateCaptureBtn">📷&nbsp; 拍照翻譯（招牌、公告等）</button>
@@ -634,9 +625,9 @@
     <p class="hint">會辨識照片中的日文文字，翻譯成中文後以清單列出，方便看懂招牌、公告、標示等內容。</p>
   </section>
 
-  <!-- SECTION 4: RESTAURANTS -->
+  <!-- SECTION 5: RESTAURANTS -->
   <section class="card">
-    <div class="badge">四</div>
+    <div class="badge">五</div>
     <h2>尋找附近餐廳</h2>
     <div class="location-row">
       <input type="text" id="locationInput" placeholder="例如：新宿駅、京都車站附近">
@@ -972,7 +963,7 @@ analyzeBtn.onclick = async ()=>{
   }
 };
 
-/* ---------- SECTION 2b: conversation translation ---------- */
+/* ---------- SECTION 2: conversation translation ---------- */
 const CONV_LANGS = {
   zh: { label:'中文', code:'zh-TW' },
   ja: { label:'日文', code:'ja-JP' },
@@ -1101,7 +1092,7 @@ ${sourceText}`;
   }
 };
 
-/* ---------- SECTION 3: photo translate (text list, not overlaid on the image) ---------- */
+/* ---------- SECTION 4: photo translate (text list, not overlaid on the image) ---------- */
 const translateCameraInput = document.getElementById('translateCameraInput');
 const translateCaptureBtn = document.getElementById('translateCaptureBtn');
 const translatePreview = document.getElementById('translatePreview');
@@ -1181,7 +1172,7 @@ translateBtn.onclick = async ()=>{
   }
 };
 
-/* ---------- SECTION 4: nearby restaurants ---------- */
+/* ---------- SECTION 5: nearby restaurants ---------- */
 const locationInput = document.getElementById('locationInput');
 const geoBtn = document.getElementById('geoBtn');
 const searchBtn = document.getElementById('searchBtn');
