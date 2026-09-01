@@ -259,14 +259,23 @@
   .dish-body .reason{font-size:13px; color:var(--ink-soft);}
   .dish-body .status-tag{font-size:11px; color:var(--gray-ink);}
 
-  .trans-item{
+  .trans-list{
     border:1px solid var(--line);
     border-radius:10px;
-    padding:12px 14px;
-    margin-top:10px;
+    margin-top:12px;
+    overflow:hidden;
   }
-  .trans-item .orig{font-size:12.5px; color:var(--gray-ink); margin-bottom:3px;}
-  .trans-item .zh{font-size:15.5px; font-weight:600; color:var(--ink);}
+  .trans-row{
+    padding:10px 14px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .trans-row:last-child{border-bottom:none;}
+  .trans-row .orig{font-size:12.5px; color:var(--gray-ink); flex:0 0 auto;}
+  .trans-row .zh{font-size:14.5px; font-weight:600; color:var(--ink);}
 
   /* location */
   .location-row{
@@ -442,14 +451,14 @@
   <!-- SECTION 2: SCAN -->
   <section class="card">
     <div class="badge">二</div>
-    <h2>掃描成分是否可以吃</h2>
+    <h2>檢查食物成分</h2>
     <input type="file" accept="image/*" capture="environment" id="cameraInput" hidden>
-    <button class="btn" id="captureBtn">📷&nbsp; 拍照掃描菜單</button>
+    <button class="btn" id="captureBtn">📷&nbsp; 拍照食物成分標籤</button>
     <img id="preview" hidden>
     <button class="btn secondary" id="analyzeBtn" hidden style="margin-top:10px;">分析這張照片</button>
     <div class="loading" id="scanLoading" hidden><div class="spinner"></div>分析中，請稍候…</div>
     <div id="scanResults"></div>
-    <p class="hint">會把日文菜單翻譯成中文，並依照你選的素食類型，標示哪些不能吃。</p>
+    <p class="hint">查看成分，依照你選的素食類型，標示哪些不能吃</p>
   </section>
 
   <!-- SECTION 3: PHOTO TRANSLATE -->
@@ -818,12 +827,12 @@ translateBtn.onclick = async ()=>{
     if(!items.length){
       translateError.innerHTML = '<div class="error-box">沒有在照片中辨識出日文文字，請再拍一次試試看。</div>';
     } else {
-      translateResults.innerHTML = items.map(it => `
-        <div class="trans-item">
-          <div class="orig">${it.original || ''}</div>
-          <div class="zh">${it.translated_zh}</div>
+      translateResults.innerHTML = `<div class="trans-list">${items.map(it => `
+        <div class="trans-row">
+          <span class="orig">${it.original || ''}</span>
+          <span class="zh">${it.translated_zh}</span>
         </div>
-      `).join('');
+      `).join('')}</div>`;
     }
   }catch(err){
     console.error(err);
