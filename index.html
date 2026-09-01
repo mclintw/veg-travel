@@ -797,29 +797,38 @@ translateBtn.onclick = async ()=>{
   translateLoading.hidden = false;
   translateBtn.disabled = true;
 
+  // Overlay a faint reference grid before sending to Claude — vision models place
+  // text far more accurately when they can read off grid marks instead of guessing
+  // raw percentages blind. The grid is only in the copy we send to the API; the
+  // final rendered image is drawn from the original, grid-free photo.
+  const griddedDataUrl = buildGridOverlayImage(translateImageEl);
+  const griddedBase64 = griddedDataUrl.split(',')[1];
+
   const promptText = `這是一張在日本拍攝的照片（招牌、公告、標示、菜單或包裝等），上面可能有日文文字。
-請找出照片中每一段獨立的日文文字，並翻譯成繁體中文。
-針對每一段文字，請估計它在照片中的位置，用「相對於整張照片寬高的百分比（0-100 的數字）」表示：
+為了幫助你標出文字的精確位置，這張圖片上疊加了一層淡淡的紅色參考格線：頂端每隔 5% 標示了 X 座標刻度（0-100），左側每隔 5% 標示了 Y 座標刻度（0-100）。請直接讀取格線刻度來估計位置，不要憑空猜測。
+
+請找出照片中每一段日文文字，盡量以「一行文字」為單位切分（不要把整段話合成一個大區塊），並翻譯成繁體中文。
+針對每一段文字，請參考格線刻度，給出它的邊界框，用「相對於整張照片寬高的百分比（0-100 的數字，可以有小數）」表示：
 - x：文字區塊左上角的水平位置百分比
 - y：文字區塊左上角的垂直位置百分比
 - width：文字區塊寬度百分比
 - height：文字區塊高度百分比
-並判斷這段文字所在區域的底色是「light」（淺色底）還是「dark」（深色底），方便之後用對比色蓋過去重新寫字。
+邊界框請盡量貼齊文字本身的實際大小，不要留多餘空白，也不要包含格線刻度數字本身。
 
 請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號：
 {
   "blocks": [
-    {"original":"日文原文", "translated_zh":"繁體中文翻譯", "x":0, "y":0, "width":0, "height":0, "bg":"light" | "dark"}
+    {"original":"日文原文", "translated_zh":"繁體中文翻譯", "x":0, "y":0, "width":0, "height":0}
   ]
 }`;
 
   try{
     const text = await callClaude({
       content: [
-        { type:"image", source:{ type:"base64", media_type: translateImageMediaType, data: translateImageBase64 } },
+        { type:"image", source:{ type:"base64", media_type: "image/png", data: griddedBase64 } },
         { type:"text", text: promptText }
       ],
-      maxTokens: 1500
+      maxTokens: 2500
     });
     const json = extractJSON(text);
     const blocks = json.blocks || [];
@@ -841,6 +850,51 @@ translateBtn.onclick = async ()=>{
   }
 };
 
+/* Draws a faint coordinate grid (with 0-100 percentage labels) over a copy of the
+   photo, purely to give the vision model reference marks to read positions off of. */
+function buildGridOverlayImage(img){
+  const w = img.naturalWidth, h = img.naturalHeight;
+  const c = document.createElement('canvas');
+  c.width = w; c.height = h;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(img, 0, 0, w, h);
+
+  const unit = Math.max(w, h);
+  ctx.strokeStyle = 'rgba(255,0,0,0.35)';
+  ctx.lineWidth = Math.max(unit * 0.0012, 1);
+  ctx.fillStyle = 'rgba(200,0,0,0.9)';
+  ctx.font = `${Math.max(unit * 0.016, 11)}px sans-serif`;
+  for(let p = 5; p < 100; p += 5){
+    const x = p / 100 * w;
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+    ctx.fillText(String(p), x + 2, 12);
+    const y = p / 100 * h;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+    ctx.fillText(String(p), 2, y - 2);
+  }
+  return c.toDataURL('image/png');
+}
+
+/* Samples pixel colors just outside a box (before anything is drawn over it) so the
+   patch that erases the original text blends into the surrounding paper/photo
+   instead of showing up as a stark flat rectangle. */
+function sampleEdgeColor(ctx, bx, by, bw, bh, w, h){
+  const pts = [
+    [bx + bw / 2, by - 4],
+    [bx + bw / 2, by + bh + 4],
+    [bx - 4, by + bh / 2],
+    [bx + bw + 4, by + bh / 2]
+  ];
+  let r = 0, g = 0, b = 0, n = 0;
+  pts.forEach(([px, py]) => {
+    const cx = Math.min(Math.max(Math.round(px), 0), w - 1);
+    const cy = Math.min(Math.max(Math.round(py), 0), h - 1);
+    const d = ctx.getImageData(cx, cy, 1, 1).data;
+    r += d[0]; g += d[1]; b += d[2]; n++;
+  });
+  return [Math.round(r / n), Math.round(g / n), Math.round(b / n)];
+}
+
 function renderTranslatedImage(blocks){
   const img = translateImageEl;
   const w = img.naturalWidth;
@@ -856,13 +910,16 @@ function renderTranslatedImage(blocks){
     const by = (b.y || 0) / 100 * h;
     const bw = Math.max((b.width || 0) / 100 * w, 4);
     const bh = Math.max((b.height || 0) / 100 * h, 4);
-    const pad = Math.max(bh * 0.15, 2);
+    const pad = Math.max(bh * 0.12, 2);
 
-    const isDark = b.bg === 'dark';
-    ctx.fillStyle = isDark ? 'rgba(20,20,20,0.92)' : 'rgba(255,255,255,0.92)';
+    // Erase the original text with the surrounding background color instead of a
+    // flat white/black box, then pick a readable text color against that color.
+    const [r, g, bl] = sampleEdgeColor(ctx, bx, by, bw, bh, w, h);
+    ctx.fillStyle = `rgb(${r},${g},${bl})`;
     ctx.fillRect(bx - pad, by - pad, bw + pad * 2, bh + pad * 2);
 
-    ctx.fillStyle = isDark ? '#FFFFFF' : '#2A2A22';
+    const luminance = 0.299 * r + 0.587 * g + 0.114 * bl;
+    ctx.fillStyle = luminance > 150 ? '#2A2A22' : '#FFFFFF';
     ctx.textBaseline = 'middle';
     let size = Math.max(bh * 0.78, 10);
     ctx.font = `600 ${size}px "PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif`;
