@@ -217,8 +217,10 @@
   .hint{font-size:15px; color:var(--gray-ink); margin:12px 0 0;}
 
   /* camera section */
-  #preview{
+  #preview, #translatePreview{
     width:100%;
+    max-width:100%;
+    height:auto;
     border-radius:12px;
     margin:16px 0;
     display:block;
@@ -559,7 +561,6 @@
       <textarea id="convInputText" rows="3" placeholder="在這裡輸入文字，或按下方按鈕用語音輸入…"></textarea>
       <div class="conv-actions">
         <button class="btn secondary" id="convMicBtn">🎤 語音輸入</button>
-        <button class="btn secondary" id="convPlayInputBtn">🔊 播放原文</button>
       </div>
     </div>
 
@@ -954,7 +955,6 @@ const convInputText = document.getElementById('convInputText');
 const convOutputText = document.getElementById('convOutputText');
 const convOutputBox = document.getElementById('convOutputBox');
 const convMicBtn = document.getElementById('convMicBtn');
-const convPlayInputBtn = document.getElementById('convPlayInputBtn');
 const convPlayOutputBtn = document.getElementById('convPlayOutputBtn');
 const convTranslateBtn = document.getElementById('convTranslateBtn');
 const convLoading = document.getElementById('convLoading');
@@ -987,7 +987,6 @@ function speakText(text, langCode){
   window.speechSynthesis.speak(utter);
 }
 
-convPlayInputBtn.onclick = ()=> speakText(convInputText.value.trim(), CONV_LANGS[convInputLangSel.value].code);
 convPlayOutputBtn.onclick = ()=> speakText(convOutputText.value.trim(), CONV_LANGS[convOutputLangSel.value].code);
 
 /* voice input via Web Speech API — not supported in every browser, so the mic
