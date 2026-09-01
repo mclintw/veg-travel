@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>素食旅行小幫手 | 日本旅遊版</title>
+<style>
+  :root{
+    --paper:#FAF6EC;
+    --card:#FFFFFF;
+    --ink:#2A2A22;
+    --ink-soft:#5C5A4E;
+    --line:#E1D9C4;
+    --indigo:#2B4257;
+    --indigo-deep:#1D2E3D;
+    --matcha:#6B8E4E;
+    --matcha-bg:#EEF3E5;
+    --kaki:#B85B3C;
+    --kaki-bg:#F7E9E1;
+    --gray-bg:#EFEDE6;
+    --gray-ink:#8A8778;
+    --stamp:#A4392C;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    max-width:480px;
+    margin:0 auto;
+    padding:20px 16px 48px;
+  }
+  header.top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    padding:6px 2px 20px;
+    border-bottom:1px solid var(--line);
+    margin-bottom:22px;
+  }
+  header.top .brand{
+    font-family:"Songti TC","PMingLiU","Noto Serif TC",serif;
+    font-size:21px;
+    letter-spacing:.02em;
+    color:var(--indigo-deep);
+  }
+  header.top .brand small{
+    display:block;
+    font-family:"PingFang TC",sans-serif;
+    font-size:11px;
+    color:var(--gray-ink);
+    margin-top:2px;
+    letter-spacing:.06em;
+  }
+  .lang-tag{
+    font-size:12px;
+    color:var(--indigo);
+    border:1px solid var(--indigo);
+    border-radius:20px;
+    padding:3px 10px;
+    white-space:nowrap;
+  }
+
+  section.card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:22px 20px 24px;
+    margin-bottom:20px;
+    position:relative;
+  }
+  .badge{
+    position:absolute;
+    top:-14px;
+    left:20px;
+    width:32px;
+    height:32px;
+    border-radius:6px;
+    background:var(--stamp);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:"Songti TC","PMingLiU",serif;
+    font-size:17px;
+    transform:rotate(-3deg);
+    box-shadow:0 2px 4px rgba(0,0,0,.18);
+  }
+  section.card h2{
+    font-family:"Songti TC","PMingLiU","Noto Serif TC",serif;
+    font-size:18px;
+    margin:6px 0 16px;
+    color:var(--indigo-deep);
+  }
+
+  /* type chips */
+  .type-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:18px;
+  }
+  .chip{
+    border:1px solid var(--line);
+    background:var(--paper);
+    color:var(--ink-soft);
+    font-size:13px;
+    padding:7px 13px;
+    border-radius:20px;
+    cursor:pointer;
+    transition:.15s;
+  }
+  .chip.active{
+    background:var(--indigo);
+    border-color:var(--indigo);
+    color:#fff;
+  }
+
+  /* the "show to staff" japanese card */
+  .staff-card{
+    border:1.5px solid var(--indigo);
+    border-radius:12px;
+    padding:16px 16px 14px;
+    background:#F7FAFB;
+    position:relative;
+    margin-bottom:6px;
+  }
+  .staff-card .jp-tag{
+    position:absolute;
+    top:-10px;
+    left:14px;
+    background:var(--indigo);
+    color:#fff;
+    font-size:11px;
+    padding:2px 9px;
+    border-radius:10px;
+    letter-spacing:.05em;
+  }
+  .diet-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+    align-items:flex-start;
+  }
+  .diet-row:first-of-type{margin-top:6px;}
+  .diet-icon{
+    flex:0 0 auto;
+    width:26px;
+    height:26px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:14px;
+    margin-top:2px;
+  }
+  .diet-icon.ok{background:var(--matcha-bg); color:var(--matcha);}
+  .diet-icon.no{background:var(--kaki-bg); color:var(--kaki);}
+  .diet-text{font-size:14.5px; color:var(--ink); flex:1;}
+  .diet-text .label{font-size:11.5px; color:var(--gray-ink); display:block; margin-bottom:2px;}
+
+  .zh-gloss{
+    font-size:12px;
+    color:var(--gray-ink);
+    margin:10px 2px 0;
+    line-height:1.6;
+  }
+  .zh-gloss b{color:var(--ink-soft); font-weight:600;}
+
+  .play-btn{
+    margin-top:14px;
+    width:100%;
+    background:var(--indigo-deep);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:13px;
+    font-size:15px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .play-btn:active{opacity:.85;}
+  .play-btn.playing{background:var(--kaki);}
+
+  /* generic buttons */
+  .btn{
+    background:var(--indigo);
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:12px 16px;
+    font-size:14px;
+    cursor:pointer;
+    width:100%;
+  }
+  .btn.secondary{
+    background:var(--paper);
+    color:var(--indigo);
+    border:1px solid var(--indigo);
+  }
+  .btn:disabled{opacity:.5; cursor:not-allowed;}
+
+  .hint{font-size:12.5px; color:var(--gray-ink); margin:10px 0 0;}
+
+  /* camera section */
+  #preview{
+    width:100%;
+    border-radius:10px;
+    margin:14px 0;
+    display:block;
+    border:1px solid var(--line);
+  }
+  .loading{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:13.5px;
+    color:var(--ink-soft);
+    margin-top:14px;
+  }
+  .spinner{
+    width:14px;height:14px;
+    border:2px solid var(--line);
+    border-top-color:var(--indigo);
+    border-radius:50%;
+    animation:spin .8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  .dish-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:13px 14px;
+    margin-top:12px;
+    display:flex;
+    gap:12px;
+  }
+  .dish-status{
+    flex:0 0 auto;
+    width:30px;height:30px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:15px;
+  }
+  .dish-status.ok{background:var(--matcha-bg); color:var(--matcha);}
+  .dish-status.warning{background:var(--kaki-bg); color:var(--kaki);}
+  .dish-status.unknown{background:var(--gray-bg); color:var(--gray-ink);}
+  .dish-body .orig{font-size:12.5px; color:var(--gray-ink); margin-bottom:2px;}
+  .dish-body .name{font-size:15px; font-weight:600; margin-bottom:3px;}
+  .dish-body .reason{font-size:13px; color:var(--ink-soft);}
+  .dish-body .status-tag{font-size:11px; color:var(--gray-ink);}
+
+  /* location */
+  .location-row{
+    display:flex;
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .location-row input{
+    flex:1;
+    padding:11px 12px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    font-size:14px;
+    font-family:inherit;
+  }
+  .location-row button{
+    flex:0 0 auto;
+    background:var(--paper);
+    border:1px solid var(--indigo);
+    color:var(--indigo);
+    border-radius:10px;
+    padding:0 14px;
+    font-size:13px;
+    cursor:pointer;
+  }
+
+  .rest-card{
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:14px 15px;
+    margin-top:12px;
+  }
+  .rest-card .name{font-size:15.5px; font-weight:600; color:var(--indigo-deep); margin-bottom:2px;}
+  .rest-card .area{font-size:12.5px; color:var(--gray-ink); margin-bottom:8px;}
+  .rest-card .desc{font-size:13.5px; margin-bottom:6px;}
+  .rest-card .why{
+    font-size:12.5px;
+    background:var(--matcha-bg);
+    color:var(--matcha);
+    display:inline-block;
+    padding:4px 9px;
+    border-radius:8px;
+  }
+
+  .error-box{
+    font-size:13px;
+    color:var(--kaki);
+    background:var(--kaki-bg);
+    border-radius:8px;
+    padding:10px 12px;
+    margin-top:12px;
+  }
+
+  footer.note{
+    font-size:11.5px;
+    color:var(--gray-ink);
+    text-align:center;
+    padding-top:10px;
+    line-height:1.6;
+  }
+
+  /* API key settings */
+  details.settings{
+    border:1px solid var(--line);
+    border-radius:12px;
+    background:var(--card);
+    padding:0;
+    margin-bottom:20px;
+    overflow:hidden;
+  }
+  details.settings summary{
+    list-style:none;
+    cursor:pointer;
+    padding:13px 16px;
+    font-size:13.5px;
+    color:var(--indigo);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  details.settings summary::-webkit-details-marker{display:none;}
+  details.settings summary .chev{transition:.15s;}
+  details.settings[open] summary .chev{transform:rotate(180deg);}
+  .settings-body{
+    padding:0 16px 16px;
+    border-top:1px solid var(--line);
+  }
+  .settings-body p{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin:12px 0;
+    line-height:1.7;
+  }
+  .settings-body input{
+    width:100%;
+    padding:11px 12px;
+    border:1px solid var(--line);
+    border-radius:10px;
+    font-size:13.5px;
+    font-family:inherit;
+    margin-bottom:6px;
+  }
+  .key-status{
+    font-size:12px;
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    padding:2px 0;
+  }
+  .key-status.set{color:var(--matcha);}
+  .key-status.unset{color:var(--gray-ink);}
+  .settings-body a{color:var(--indigo);}
+
+  .banner-note{
+    font-size:12px;
+    color:var(--indigo);
+    background:#EEF3F6;
+    border:1px solid #D8E3E9;
+    border-radius:8px;
+    padding:9px 11px;
+    margin-bottom:14px;
+    line-height:1.6;
+  }
+  .banner-note a{color:var(--indigo); font-weight:600;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">素食旅行小幫手<small>VEGETARIAN TRAVEL COMPANION</small></div>
+    <div class="lang-tag">日本旅遊版</div>
+  </header>
+
+  <!-- API KEY SETTINGS -->
+  <details class="settings" id="settingsBlock">
+    <summary>
+      <span id="keyStatusLabel">⚙️ API 金鑰設定（在自己網站上使用時才需要）</span>
+      <span class="chev">⌄</span>
+    </summary>
+    <div class="settings-body">
+      <p>
+        在 Claude 對話裡預覽這個工具時，「掃描菜單」和「找餐廳」不需要填這裡。<br>
+        但如果你把這個網頁架到 GitHub Pages 或其他自己的網站上，就需要貼上你自己的 Anthropic API 金鑰，這兩個 AI 功能才能運作。
+        可以到 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> 申請。
+      </p>
+      <input type="password" id="apiKeyInput" placeholder="貼上你的 API 金鑰，例如 sk-ant-...">
+      <div class="key-status unset" id="keyStatus">尚未設定金鑰</div>
+      <p style="margin-top:10px;">
+        金鑰只會存在這次瀏覽器分頁的記憶體中，不會被儲存、上傳或送到 Anthropic 以外的任何地方；重新整理頁面後就會清除，需要再貼一次。
+      </p>
+    </div>
+  </details>
+
+  <!-- SECTION 1: PROFILE -->
+  <section class="card">
+    <div class="badge">一</div>
+    <h2>你的素食類型</h2>
+    <div class="type-chips" id="typeChips"></div>
+
+    <div class="staff-card">
+      <div class="jp-tag">出示給店員看 / 日本語</div>
+      <div id="dietDetailsJa"></div>
+    </div>
+    <div class="zh-gloss" id="dietGlossZh"></div>
+
+    <button class="play-btn" id="playBtn">🔊&nbsp; 播放日文語音給店員聽</button>
+    <p class="hint">可以直接把手機畫面拿給店員看，或播放語音唸給對方聽，避免溝通誤會。</p>
+  </section>
+
+  <!-- SECTION 2: SCAN -->
+  <section class="card">
+    <div class="badge">二</div>
+    <h2>掃描菜單</h2>
+    <input type="file" accept="image/*" capture="environment" id="cameraInput" hidden>
+    <button class="btn" id="captureBtn">📷&nbsp; 拍照掃描菜單</button>
+    <img id="preview" hidden>
+    <button class="btn secondary" id="analyzeBtn" hidden style="margin-top:10px;">分析這張照片</button>
+    <div class="loading" id="scanLoading" hidden><div class="spinner"></div>分析中，請稍候…</div>
+    <div id="scanResults"></div>
+    <p class="hint">會把日文菜單翻譯成中文，並依照你選的素食類型，標示哪些不能吃。</p>
+  </section>
+
+  <!-- SECTION 3: RESTAURANTS -->
+  <section class="card">
+    <div class="badge">三</div>
+    <h2>尋找附近餐廳</h2>
+    <div class="location-row">
+      <input type="text" id="locationInput" placeholder="例如：新宿駅、京都車站附近">
+      <button id="geoBtn">📍目前位置</button>
+    </div>
+    <button class="btn" id="searchBtn">搜尋附近餐廳</button>
+    <div class="loading" id="restLoading" hidden><div class="spinner"></div>搜尋中，請稍候…</div>
+    <div id="restResults"></div>
+  </section>
+
+  <footer class="note">
+    菜單解析與餐廳資訊為 AI 提供之參考資料。<br>
+    若擔心過敏或誤食，仍建議到店後再次向店員確認食材。
+  </footer>
+</div>
+
+<script>
+/* ---------- vegetarian type data ---------- */
+const VEG_TYPES = [
+  {
+    id:'vegan',
+    labelZh:'全素',
+    canJa:['野菜・果物・穀物・豆類・きのこ・海藻'],
+    cannotJa:['肉・魚介類全般','卵・乳製品','はちみつ','動物性だし・ラード・ゼラチン'],
+    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻'],
+    cannotZh:['所有肉類、海鮮','蛋、乳製品','蜂蜜','動物性高湯、豬油、明膠'],
+    speech:'私は完全菜食主義者、ヴィーガンです。肉、魚介類、卵、乳製品、はちみつなど、動物由来のものは一切食べられません。野菜や穀物、豆類の料理をお願いします。'
+  },
+  {
+    id:'lacto-ovo',
+    labelZh:'蛋奶素',
+    canJa:['卵・卵製品','牛乳・チーズ・バターなどの乳製品','野菜・果物・穀物・豆類・きのこ'],
+    cannotJa:['肉類（牛・豚・鶏など）','魚介類（魚・エビ・貝・イカなど）','鰹だし・魚醤などの動物性だし','ラード・ゼラチン'],
+    canZh:['蛋、蛋製品','牛奶、起司、奶油等乳製品','蔬菜、水果、穀類、豆類、菇類'],
+    cannotZh:['牛、豬、雞等肉類','魚、蝦、貝類、花枝等海鮮','柴魚高湯、魚露等動物性高湯','豬油、明膠'],
+    speech:'私は乳卵菜食、ラクト・オボ・ベジタリアンです。卵と乳製品は食べられますが、肉、魚、魚介類、鰹だしなどの動物性のだしは食べられません。'
+  },
+  {
+    id:'lacto',
+    labelZh:'奶素',
+    canJa:['牛乳・チーズなどの乳製品','野菜・果物・穀物・豆類'],
+    cannotJa:['卵','肉類・魚介類','動物性だし・ラード・ゼラチン'],
+    canZh:['牛奶、起司等乳製品','蔬菜、水果、穀類、豆類'],
+    cannotZh:['蛋','所有肉類、海鮮','動物性高湯、豬油、明膠'],
+    speech:'私は乳菜食、ラクト・ベジタリアンです。乳製品は食べられますが、卵、肉、魚介類は食べられません。'
+  },
+  {
+    id:'ovo',
+    labelZh:'蛋素',
+    canJa:['卵・卵製品','野菜・果物・穀物・豆類'],
+    cannotJa:['乳製品','肉類・魚介類','動物性だし・ラード・ゼラチン'],
+    canZh:['蛋、蛋製品','蔬菜、水果、穀類、豆類'],
+    cannotZh:['乳製品','所有肉類、海鮮','動物性高湯、豬油、明膠'],
+    speech:'私は卵菜食、オボ・ベジタリアンです。卵は食べられますが、乳製品、肉、魚介類は食べられません。'
+  },
+  {
+    id:'pesco',
+    labelZh:'海鮮素',
+    canJa:['魚介類','卵・乳製品','野菜・果物・穀物・豆類'],
+    cannotJa:['牛・豚・鶏などの肉類'],
+    canZh:['魚、蝦、貝類等海鮮','蛋、乳製品','蔬菜、水果、穀類、豆類'],
+    cannotZh:['牛、豬、雞等肉類'],
+    speech:'私はペスカタリアンです。魚介類、卵、乳製品は食べられますが、牛、豚、鶏などの肉類は食べられません。'
+  }
+];
+
+let currentType = VEG_TYPES.find(t=>t.id==='lacto-ovo');
+
+/* ---------- API key (only needed when self-hosted) ---------- */
+let userApiKey = '';
+const apiKeyInput = document.getElementById('apiKeyInput');
+const keyStatus = document.getElementById('keyStatus');
+const keyStatusLabel = document.getElementById('keyStatusLabel');
+const settingsBlock = document.getElementById('settingsBlock');
+
+apiKeyInput.oninput = ()=>{
+  userApiKey = apiKeyInput.value.trim();
+  if(userApiKey){
+    keyStatus.textContent = '已設定金鑰，這個分頁重新整理後會清除';
+    keyStatus.className = 'key-status set';
+    keyStatusLabel.textContent = '⚙️ API 金鑰設定（已設定）';
+  } else {
+    keyStatus.textContent = '尚未設定金鑰';
+    keyStatus.className = 'key-status unset';
+    keyStatusLabel.textContent = '⚙️ API 金鑰設定（在自己網站上使用時才需要）';
+  }
+};
+
+/* ---------- render profile section ---------- */
+const chipsEl = document.getElementById('typeChips');
+const detailsJaEl = document.getElementById('dietDetailsJa');
+const glossZhEl = document.getElementById('dietGlossZh');
+
+function renderChips(){
+  chipsEl.innerHTML = '';
+  VEG_TYPES.forEach(t=>{
+    const c = document.createElement('div');
+    c.className = 'chip' + (t.id===currentType.id ? ' active':'');
+    c.textContent = t.labelZh;
+    c.onclick = ()=>{ currentType = t; renderChips(); renderDetails(); };
+    chipsEl.appendChild(c);
+  });
+}
+
+function renderDetails(){
+  detailsJaEl.innerHTML = `
+    <div class="diet-row">
+      <div class="diet-icon ok">○</div>
+      <div class="diet-text"><span class="label">食べられるもの</span>${currentType.canJa.join('、')}</div>
+    </div>
+    <div class="diet-row">
+      <div class="diet-icon no">×</div>
+      <div class="diet-text"><span class="label">食べられないもの</span>${currentType.cannotJa.join('、')}</div>
+    </div>
+  `;
+  glossZhEl.innerHTML = `<b>中文對照：</b>可以吃 ${currentType.canZh.join('、')}；不能吃 ${currentType.cannotZh.join('、')}`;
+}
+renderChips();
+renderDetails();
+
+/* ---------- TTS ---------- */
+const playBtn = document.getElementById('playBtn');
+playBtn.onclick = ()=>{
+  if(!('speechSynthesis' in window)){
+    alert('您的瀏覽器不支援語音播放功能。');
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(currentType.speech);
+  utter.lang = 'ja-JP';
+  const voices = window.speechSynthesis.getVoices();
+  const jaVoice = voices.find(v=>v.lang && v.lang.startsWith('ja'));
+  if(jaVoice) utter.voice = jaVoice;
+  utter.rate = 0.95;
+  playBtn.classList.add('playing');
+  utter.onend = ()=> playBtn.classList.remove('playing');
+  utter.onerror = ()=> playBtn.classList.remove('playing');
+  window.speechSynthesis.speak(utter);
+};
+
+/* ---------- shared Claude API caller ---------- */
+async function callClaude({content, tools, maxTokens}){
+  const body = {
+    model: "claude-sonnet-4-6",
+    max_tokens: maxTokens || 1000,
+    messages: [{ role: "user", content }]
+  };
+  if(tools) body.tools = tools;
+
+  const headers = { "Content-Type": "application/json" };
+  // Only needed when this page is hosted outside the Claude conversation
+  // (e.g. on GitHub Pages), where there's no built-in proxy/auth.
+  if(userApiKey){
+    headers["x-api-key"] = userApiKey;
+    headers["anthropic-version"] = "2023-06-01";
+    headers["anthropic-dangerous-direct-browser-access"] = "true";
+  }
+
+  let res;
+  try{
+    res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers,
+      body: JSON.stringify(body)
+    });
+  }catch(networkErr){
+    throw new Error("NETWORK_OR_CORS");
+  }
+
+  if(res.status === 401 || res.status === 403){
+    throw new Error("AUTH_MISSING");
+  }
+  if(!res.ok){
+    throw new Error("API request failed: " + res.status);
+  }
+  const data = await res.json();
+  const text = (data.content || [])
+    .filter(b=>b.type==='text')
+    .map(b=>b.text)
+    .join('\n');
+  return text;
+}
+
+function friendlyApiErrorMessage(err){
+  if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
+    return '這個功能需要 Anthropic API 金鑰才能使用。請點選上方「⚙️ API 金鑰設定」，貼上你自己的金鑰後再試一次。';
+  }
+  return '分析失敗，請確認網路連線，或檢查「⚙️ API 金鑰設定」裡的金鑰是否正確後再試一次。';
+}
+
+function extractJSON(text){
+  const cleaned = text.replace(/```json/gi,'').replace(/```/g,'').trim();
+  const start = cleaned.indexOf('{');
+  const end = cleaned.lastIndexOf('}');
+  if(start === -1 || end === -1) throw new Error("no JSON found");
+  return JSON.parse(cleaned.slice(start, end+1));
+}
+
+/* ---------- SECTION 2: camera scan ---------- */
+const cameraInput = document.getElementById('cameraInput');
+const captureBtn = document.getElementById('captureBtn');
+const previewImg = document.getElementById('preview');
+const analyzeBtn = document.getElementById('analyzeBtn');
+const scanLoading = document.getElementById('scanLoading');
+const scanResults = document.getElementById('scanResults');
+
+let currentImageBase64 = null;
+let currentImageMediaType = null;
+
+captureBtn.onclick = ()=> cameraInput.click();
+
+cameraInput.onchange = (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  currentImageMediaType = file.type || 'image/jpeg';
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const dataUrl = reader.result;
+    currentImageBase64 = dataUrl.split(',')[1];
+    previewImg.src = dataUrl;
+    previewImg.hidden = false;
+    analyzeBtn.hidden = false;
+    scanResults.innerHTML = '';
+  };
+  reader.readAsDataURL(file);
+};
+
+analyzeBtn.onclick = async ()=>{
+  if(!currentImageBase64) return;
+  scanResults.innerHTML = '';
+  scanLoading.hidden = false;
+  analyzeBtn.disabled = true;
+
+  const promptText = `這是一張餐廳菜單或食品包裝的照片，內容可能是日文。
+請讀出照片中所有的品項名稱，並翻譯成繁體中文。
+目前使用者選擇的素食類型是「${currentType.labelZh}」。
+不能吃：${currentType.cannotZh.join('、')}
+可以吃：${currentType.canZh.join('、')}
+
+請針對每一個品項，判斷這個素食類型是否可以食用。
+判斷結果分三種："ok"（可以放心吃）、"warning"（可能含有這個類型不能吃的食材）、"unknown"（光看照片無法判斷）。
+
+請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號：
+{
+  "dishes": [
+    {"original": "日文原文", "translated_zh": "繁體中文翻譯", "status": "ok" | "warning" | "unknown", "reason": "判斷理由（繁體中文，約一句話）"}
+  ]
+}`;
+
+  try{
+    const text = await callClaude({
+      content: [
+        { type:"image", source:{ type:"base64", media_type: currentImageMediaType, data: currentImageBase64 } },
+        { type:"text", text: promptText }
+      ],
+      maxTokens: 1500
+    });
+    const json = extractJSON(text);
+    if(!json.dishes || !json.dishes.length){
+      scanResults.innerHTML = '<div class="error-box">沒有辨識出任何品項，請再拍一次試試看。</div>';
+    } else {
+      const icons = { ok:'○', warning:'！', unknown:'？' };
+      const labels = { ok:'可以吃', warning:'請注意', unknown:'無法確認' };
+      scanResults.innerHTML = json.dishes.map(d=>`
+        <div class="dish-card">
+          <div class="dish-status ${d.status}">${icons[d.status] || '？'}</div>
+          <div class="dish-body">
+            <div class="orig">${d.original || ''}</div>
+            <div class="name">${d.translated_zh || ''} <span class="status-tag">（${labels[d.status] || '無法確認'}）</span></div>
+            <div class="reason">${d.reason || ''}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+  }catch(err){
+    console.error(err);
+    scanResults.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
+    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
+      settingsBlock.open = true;
+      settingsBlock.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }finally{
+    scanLoading.hidden = true;
+    analyzeBtn.disabled = false;
+  }
+};
+
+/* ---------- SECTION 3: nearby restaurants ---------- */
+const locationInput = document.getElementById('locationInput');
+const geoBtn = document.getElementById('geoBtn');
+const searchBtn = document.getElementById('searchBtn');
+const restLoading = document.getElementById('restLoading');
+const restResults = document.getElementById('restResults');
+
+let currentCoords = null;
+
+geoBtn.onclick = ()=>{
+  if(!('geolocation' in navigator)){
+    alert('目前環境無法取得定位，請直接輸入地名。');
+    return;
+  }
+  geoBtn.textContent = '定位中…';
+  navigator.geolocation.getCurrentPosition(
+    (pos)=>{
+      currentCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+      locationInput.value = `目前位置（緯度${currentCoords.lat.toFixed(4)}, 經度${currentCoords.lng.toFixed(4)}）`;
+      geoBtn.textContent = '📍目前位置';
+    },
+    ()=>{
+      alert('無法取得目前位置，請直接輸入地名。');
+      geoBtn.textContent = '📍目前位置';
+    }
+  );
+};
+
+searchBtn.onclick = async ()=>{
+  const locText = locationInput.value.trim();
+  if(!locText && !currentCoords){
+    alert('請先取得目前位置，或輸入地名。');
+    return;
+  }
+  restResults.innerHTML = '';
+  restLoading.hidden = false;
+  searchBtn.disabled = true;
+
+  const locationDesc = currentCoords
+    ? `緯度${currentCoords.lat}, 經度${currentCoords.lng} 附近`
+    : locText;
+
+  const promptText = `你是專門服務台灣旅客的素食餐廳嚮導。
+地點：${locationDesc}
+素食類型：${currentType.labelZh}
+不能吃：${currentType.cannotZh.join('、')}
+可以吃：${currentType.canZh.join('、')}
+
+請使用網路搜尋，找出這個地點附近 3 到 5 間適合這種素食類型安心用餐的餐廳或咖啡店。
+請使用真實存在的店名（可保留日文原名），並附上你能查到的地址或所在區域、車站。找不到的話請不要憑空捏造。
+
+請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號，內容請用繁體中文：
+{
+  "restaurants": [
+    {"name": "店名（可保留日文）", "area": "所在區域或最近車站", "description": "簡短介紹（繁體中文，一到兩句）", "why_suitable": "為什麼適合這個素食類型（繁體中文，簡短）"}
+  ]
+}`;
+
+  try{
+    const text = await callClaude({
+      content: [{ type:"text", text: promptText }],
+      tools: [{ type:"web_search_20250305", name:"web_search" }],
+      maxTokens: 1500
+    });
+    const json = extractJSON(text);
+    if(!json.restaurants || !json.restaurants.length){
+      restResults.innerHTML = '<div class="error-box">這個地點附近沒有找到合適的店家，請換個地名試試看。</div>';
+    } else {
+      restResults.innerHTML = json.restaurants.map(r=>`
+        <div class="rest-card">
+          <div class="name">${r.name || ''}</div>
+          <div class="area">${r.area || ''}</div>
+          <div class="desc">${r.description || ''}</div>
+          <div class="why">${r.why_suitable || ''}</div>
+        </div>
+      `).join('');
+    }
+  }catch(err){
+    console.error(err);
+    restResults.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
+    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
+      settingsBlock.open = true;
+      settingsBlock.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+  }finally{
+    restLoading.hidden = true;
+    searchBtn.disabled = false;
+  }
+};
+</script>
+</body>
+</html>
