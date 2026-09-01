@@ -451,6 +451,7 @@
     </div>
     <button class="btn" id="searchBtn">搜尋附近餐廳</button>
     <div class="loading" id="restLoading" hidden><div class="spinner"></div>搜尋中，請稍候…</div>
+    <div id="cacheNote" class="hint" hidden></div>
     <div id="restResults"></div>
   </section>
 
@@ -737,8 +738,33 @@ const geoBtn = document.getElementById('geoBtn');
 const searchBtn = document.getElementById('searchBtn');
 const restLoading = document.getElementById('restLoading');
 const restResults = document.getElementById('restResults');
+const cacheNote = document.getElementById('cacheNote');
 
 let currentCoords = null;
+
+/* window.storage (shared, cross-visitor cache) only exists inside the Claude
+   artifact preview. If this page is hosted standalone (e.g. GitHub Pages),
+   it won't exist, so we fall back to this browser's own localStorage —
+   still saves repeat API calls, just per-device instead of shared. */
+const hasCloudStorage = (typeof window.storage !== 'undefined');
+
+async function cacheGet(key){
+  if(hasCloudStorage){
+    try{
+      const r = await window.storage.get(key, true);
+      return r ? r.value : null;
+    }catch(e){ return null; }
+  }
+  try{ return localStorage.getItem(key); }catch(e){ return null; }
+}
+
+async function cacheSet(key, value){
+  if(hasCloudStorage){
+    try{ await window.storage.set(key, value, true); }catch(e){ console.error('cache save failed', e); }
+    return;
+  }
+  try{ localStorage.setItem(key, value); }catch(e){ console.error('cache save failed', e); }
+}
 
 geoBtn.onclick = ()=>{
   if(!('geolocation' in navigator)){
@@ -759,21 +785,75 @@ geoBtn.onclick = ()=>{
   );
 };
 
-searchBtn.onclick = async ()=>{
+/* Build a cache key that groups nearby results together:
+   - free-text place names are normalized (trim/lowercase/no spaces)
+   - GPS coords are rounded to ~1km so small movements share a cache entry
+   - the diet type is included, since suitable restaurants differ by type
+   - today's date is included, so it naturally refreshes once a day */
+function buildCacheKey(){
+  const today = new Date().toISOString().slice(0,10); // YYYY-MM-DD, resets daily
+  let placePart;
+  if(currentCoords){
+    const latR = currentCoords.lat.toFixed(2);
+    const lngR = currentCoords.lng.toFixed(2);
+    placePart = `geo_${latR}_${lngR}`;
+  } else {
+    placePart = locationInput.value.trim().toLowerCase().replace(/\s+/g,'_');
+  }
+  return `restaurants:${placePart}:${currentType.id}:${today}`;
+}
+
+function renderRestaurants(json){
+  if(!json.restaurants || !json.restaurants.length){
+    restResults.innerHTML = '<div class="error-box">這個地點附近沒有找到合適的店家，請換個地名試試看。</div>';
+  } else {
+    restResults.innerHTML = json.restaurants.map(r=>`
+      <div class="rest-card">
+        <div class="name">${r.name || ''}</div>
+        <div class="area">${r.area || ''}</div>
+        <div class="desc">${r.description || ''}</div>
+        <div class="why">${r.why_suitable || ''}</div>
+      </div>
+    `).join('');
+  }
+}
+
+async function runRestaurantSearch(forceRefresh){
   const locText = locationInput.value.trim();
   if(!locText && !currentCoords){
     alert('請先取得目前位置，或輸入地名。');
     return;
   }
   restResults.innerHTML = '';
+  cacheNote.hidden = true;
   restLoading.hidden = false;
   searchBtn.disabled = true;
 
-  const locationDesc = currentCoords
-    ? `緯度${currentCoords.lat}, 經度${currentCoords.lng} 附近`
-    : locText;
+  const cacheKey = buildCacheKey();
 
-  const promptText = `你是專門服務台灣旅客的素食餐廳嚮導。
+  try{
+    // Try today's cached result first, unless the person explicitly asked to skip it.
+    if(!forceRefresh){
+      const cachedValue = await cacheGet(cacheKey);
+      if(cachedValue){
+        renderRestaurants(JSON.parse(cachedValue));
+        cacheNote.hidden = false;
+        const noteText = hasCloudStorage
+          ? '這是今天稍早查過的結果（共用快取，節省 API 費用）。'
+          : '這是今天稍早在這個裝置查過的結果（本機快取，節省 API 費用）。';
+        cacheNote.innerHTML = noteText + '<a href="#" id="forceRefreshLink">忽略快取、重新搜尋</a>';
+        document.getElementById('forceRefreshLink').onclick = (e)=>{ e.preventDefault(); runRestaurantSearch(true); };
+        restLoading.hidden = true;
+        searchBtn.disabled = false;
+        return;
+      }
+    }
+
+    const locationDesc = currentCoords
+      ? `緯度${currentCoords.lat}, 經度${currentCoords.lng} 附近`
+      : locText;
+
+    const promptText = `你是專門服務台灣旅客的素食餐廳嚮導。
 地點：${locationDesc}
 素食類型：${currentType.labelZh}
 不能吃：${currentType.cannotZh.join('、')}
@@ -789,25 +869,16 @@ searchBtn.onclick = async ()=>{
   ]
 }`;
 
-  try{
     const text = await callClaude({
       content: [{ type:"text", text: promptText }],
       tools: [{ type:"web_search_20250305", name:"web_search" }],
       maxTokens: 1500
     });
     const json = extractJSON(text);
-    if(!json.restaurants || !json.restaurants.length){
-      restResults.innerHTML = '<div class="error-box">這個地點附近沒有找到合適的店家，請換個地名試試看。</div>';
-    } else {
-      restResults.innerHTML = json.restaurants.map(r=>`
-        <div class="rest-card">
-          <div class="name">${r.name || ''}</div>
-          <div class="area">${r.area || ''}</div>
-          <div class="desc">${r.description || ''}</div>
-          <div class="why">${r.why_suitable || ''}</div>
-        </div>
-      `).join('');
-    }
+    renderRestaurants(json);
+
+    // Save today's result so later searches (yours or, if shared, other visitors') reuse it for free.
+    await cacheSet(cacheKey, JSON.stringify(json));
   }catch(err){
     console.error(err);
     restResults.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
@@ -819,7 +890,9 @@ searchBtn.onclick = async ()=>{
     restLoading.hidden = true;
     searchBtn.disabled = false;
   }
-};
+}
+
+searchBtn.onclick = ()=> runRestaurantSearch(false);
 </script>
 </body>
 </html>
