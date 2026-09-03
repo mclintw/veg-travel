@@ -758,11 +758,16 @@ async function callClaude({content, tools, maxTokens=1000}){
     }
     const data = await res.json();
     let text = '';
+    let hasToolUse = false;
     for(const block of (data.content || [])){
       if(block.type === 'text') text += block.text;
+      if(block.type === 'tool_use') hasToolUse = true;
     }
     if(!text && data.content){
       text = data.content.map(c => c.text || '').join('');
+    }
+    if(!text.trim() && hasToolUse){
+      throw new Error('AI 需要額外工具步驟，目前版本暫不支援。請換個地點再試一次。');
     }
     return text;
   }catch(err){
@@ -780,11 +785,22 @@ function friendlyApiErrorMessage(err){
 }
 
 function extractJSON(text){
-  const match = text.match(/\{[\s\S]*\}/);
+  if(!text || typeof text !== 'string') throw new Error('無法解析 AI 回傳的內容');
+  // Strip markdown code fences if present
+  let cleaned = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+  // Try direct parse
+  try{ return JSON.parse(cleaned); }catch(e){}
+  // Find the largest JSON object
+  const match = cleaned.match(/\{[\s\S]*\}/);
   if(match){
     try{ return JSON.parse(match[0]); }catch(e){}
   }
-  try{ return JSON.parse(text); }catch(e){}
+  // Try to find restaurants array specifically
+  const arrMatch = cleaned.match(/"restaurants"\s*:\s*(\[[\s\S]*?\])/);
+  if(arrMatch){
+    try{ return { restaurants: JSON.parse(arrMatch[1]) }; }catch(e){}
+  }
+  console.error('Failed to parse AI response:', text.slice(0, 500));
   throw new Error('無法解析 AI 回傳的內容');
 }
 
@@ -1204,8 +1220,9 @@ async function runRestaurantSearch(forceRefresh){
 不能吃：${currentType.cannotZh.join('、')}
 可以吃：${currentType.canZh.join('、')}
 
-請使用網路搜尋，找出這個地點附近 3 到 5 間適合這種素食類型安心用餐的餐廳或咖啡店。
-請使用真實存在的店名（可保留日文原名），並附上你能查到的地址或所在區域、車站。找不到的話請不要憑空捏造。
+請找出這個地點附近 3 到 5 間適合這種素食類型安心用餐的餐廳或咖啡店。
+請使用真實存在、你知道的店名（可保留日文原名），並附上地址或所在區域、車站。找不到的話請不要憑空捏造，寧願回傳較少間也不要亂編。
+務必只輸出純 JSON，不要加任何說明、前言或 markdown 標記。
 
 請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號，內容請用繁體中文：
 {
@@ -1216,7 +1233,6 @@ async function runRestaurantSearch(forceRefresh){
 
     const text = await callClaude({
       content: [{ type:"text", text: promptText }],
-      tools: [{ type:"web_search_20250305", name:"web_search" }],
       maxTokens: 1500
     });
     const json = extractJSON(text);
