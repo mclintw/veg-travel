@@ -607,7 +607,7 @@
   <!-- SECTION 5: RESTAURANTS -->
   <section class="card">
     <div class="badge">五</div>
-    <h2>尋找附近餐廳</h2>
+    <h2>搜尋素食餐廳</h2>
     <div class="location-row">
       <input type="text" id="locationInput" placeholder="例如：新宿駅、京都車站附近">
       <button id="geoBtn">📍目前位置</button>
@@ -634,431 +634,300 @@ const VEG_TYPES = [
     cannotJa:['肉・魚介類全般','卵・乳製品','はちみつ','動物性だし・ラード・ゼラチン'],
     canZh:['蔬菜、水果、穀類、豆類、菇類、海藻'],
     cannotZh:['所有肉類、海鮮','蛋、乳製品','蜂蜜','動物性高湯、豬油、明膠'],
-    speech:'私は完全菜食主義者、ヴィーガンです。肉、魚介類、卵、乳製品、はちみつなど、動物由来のものは一切食べられません。野菜や穀物、豆類の料理をお願いします。'
-  },
-  {
-    id:'lacto-ovo',
-    labelZh:'蛋奶素',
-    canJa:['卵・卵製品','牛乳・チーズ・バターなどの乳製品','野菜・果物・穀物・豆類・きのこ'],
-    cannotJa:['肉類（牛・豚・鶏など）','魚介類（魚・エビ・貝・イカなど）','鰹だし・魚醤などの動物性だし','ラード・ゼラチン'],
-    canZh:['蛋、蛋製品','牛奶、起司、奶油等乳製品','蔬菜、水果、穀類、豆類、菇類'],
-    cannotZh:['牛、豬、雞等肉類','魚、蝦、貝類、花枝等海鮮','柴魚高湯、魚露等動物性高湯','豬油、明膠'],
-    speech:'私は乳卵菜食、ラクト・オボ・ベジタリアンです。卵と乳製品は食べられますが、肉、魚、魚介類、鰹だしなどの動物性のだしは食べられません。'
-  },
-  {
-    id:'lacto',
-    labelZh:'奶素',
-    canJa:['牛乳・チーズなどの乳製品','野菜・果物・穀物・豆類'],
-    cannotJa:['卵','肉類・魚介類','動物性だし・ラード・ゼラチン'],
-    canZh:['牛奶、起司等乳製品','蔬菜、水果、穀類、豆類'],
-    cannotZh:['蛋','所有肉類、海鮮','動物性高湯、豬油、明膠'],
-    speech:'私は乳菜食、ラクト・ベジタリアンです。乳製品は食べられますが、卵、肉、魚介類は食べられません。'
+    speech:'私は完全菜食主義者、ヴィーガンです。肉、魚介類、卵、乳製品、はちみつなど、動物由来のものは一切食べられません。'
   },
   {
     id:'ovo',
     labelZh:'蛋素',
-    canJa:['卵・卵製品','野菜・果物・穀物・豆類'],
-    cannotJa:['乳製品','肉類・魚介類','動物性だし・ラード・ゼラチン'],
-    canZh:['蛋、蛋製品','蔬菜、水果、穀類、豆類'],
-    cannotZh:['乳製品','所有肉類、海鮮','動物性高湯、豬油、明膠'],
-    speech:'私は卵菜食、オボ・ベジタリアンです。卵は食べられますが、乳製品、肉、魚介類は食べられません。'
+    canJa:['野菜・果物・穀物・豆類・きのこ・海藻','卵'],
+    cannotJa:['肉・魚介類全般','乳製品','はちみつ','動物性だし・ラード・ゼラチン'],
+    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻','蛋'],
+    cannotZh:['所有肉類、海鮮','乳製品','蜂蜜','動物性高湯、豬油、明膠'],
+    speech:'私は卵は食べますが、肉、魚介類、乳製品、はちみつなど動物由来のものは食べられません。'
   },
   {
-    id:'pesco',
-    labelZh:'海鮮素',
-    canJa:['魚介類','卵・乳製品','野菜・果物・穀物・豆類'],
-    cannotJa:['牛・豚・鶏などの肉類'],
-    canZh:['魚、蝦、貝類等海鮮','蛋、乳製品','蔬菜、水果、穀類、豆類'],
-    cannotZh:['牛、豬、雞等肉類'],
-    speech:'私はペスカタリアンです。魚介類、卵、乳製品は食べられますが、牛、豚、鶏などの肉類は食べられません。'
+    id:'lacto',
+    labelZh:'奶素',
+    canJa:['野菜・果物・穀物・豆類・きのこ・海藻','乳製品'],
+    cannotJa:['肉・魚介類全般','卵','はちみつ','動物性だし・ラード・ゼラチン'],
+    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻','乳製品'],
+    cannotZh:['所有肉類、海鮮','蛋','蜂蜜','動物性高湯、豬油、明膠'],
+    speech:'私は乳製品は食べますが、肉、魚介類、卵、はちみつなど動物由来のものは食べられません。'
+  },
+  {
+    id:'lactoovo',
+    labelZh:'奶蛋素',
+    canJa:['野菜・果物・穀物・豆類・きのこ・海藻','卵','乳製品'],
+    cannotJa:['肉・魚介類全般','はちみつ','動物性だし・ラード・ゼラチン'],
+    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻','蛋','乳製品'],
+    cannotZh:['所有肉類、海鮮','蜂蜜','動物性高湯、豬油、明膠'],
+    speech:'私は卵と乳製品は食べますが、肉、魚介類、はちみつなど動物由来のものは食べられません。'
+  },
+  {
+    id:'pescatarian',
+    labelZh:'魚素（海鮮可）',
+    canJa:['野菜・果物・穀物・豆類・きのこ・海藻','魚介類'],
+    cannotJa:['肉','卵','乳製品','はちみつ','動物性だし・ラード・ゼラチン'],
+    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻','海鮮'],
+    cannotZh:['肉類','蛋','乳製品','蜂蜜','動物性高湯、豬油、明膠'],
+    speech:'私は魚介類は食べますが、肉、卵、乳製品、はちみつなど動物由来のものは食べられません。'
   }
 ];
 
-let currentType = VEG_TYPES.find(t=>t.id==='lacto-ovo');
+let currentType = VEG_TYPES[0];
 
-/* ---------- API key (only needed when self-hosted; saved to this browser's
-   localStorage so it doesn't need to be re-entered on every visit, and never
-   touches the source code or GitHub) ---------- */
-const API_KEY_STORAGE_KEY = 'vegTravelApiKey';
-let userApiKey = '';
-const apiKeyIconBtn = document.getElementById('apiKeyIconBtn');
-const apiKeyModalOverlay = document.getElementById('apiKeyModalOverlay');
-const apiKeyModalClose = document.getElementById('apiKeyModalClose');
-const revealKeyInputBtn = document.getElementById('revealKeyInputBtn');
-const keyInputArea = document.getElementById('keyInputArea');
-const apiKeyInput = document.getElementById('apiKeyInput');
-const keyStatus = document.getElementById('keyStatus');
-const clearKeyLink = document.getElementById('clearKeyLink');
+/* ---------- API key management ---------- */
+const API_KEY_STORAGE = 'anthropic_api_key';
+function getApiKey(){ return localStorage.getItem(API_KEY_STORAGE) || ''; }
+function setApiKey(k){ localStorage.setItem(API_KEY_STORAGE, k); updateKeyUI(); }
+function clearApiKey(){ localStorage.removeItem(API_KEY_STORAGE); updateKeyUI(); }
 
-function refreshKeyStatus(){
-  if(userApiKey){
-    keyStatus.textContent = '已設定金鑰，已儲存在這個瀏覽器';
-    keyStatus.className = 'key-status set';
-    apiKeyIconBtn.classList.add('key-set');
+function updateKeyUI(){
+  const key = getApiKey();
+  const status = document.getElementById('keyStatus');
+  const iconBtn = document.getElementById('apiKeyIconBtn');
+  if(key){
+    status.className = 'key-status set';
+    status.textContent = '已設定金鑰';
+    iconBtn.classList.add('key-set');
   } else {
-    keyStatus.textContent = '尚未設定金鑰';
-    keyStatus.className = 'key-status unset';
-    apiKeyIconBtn.classList.remove('key-set');
+    status.className = 'key-status unset';
+    status.textContent = '尚未設定金鑰';
+    iconBtn.classList.remove('key-set');
   }
 }
 
-try{
-  const saved = localStorage.getItem(API_KEY_STORAGE_KEY);
-  if(saved){
-    userApiKey = saved;
-    apiKeyInput.value = saved;
+function openKeySettings(forceReveal){
+  document.getElementById('apiKeyModalOverlay').hidden = false;
+  if(forceReveal){
+    document.getElementById('keyInputArea').hidden = false;
+    document.getElementById('apiKeyInput').focus();
   }
-}catch(e){ /* localStorage unavailable — falls back to entering it each visit */ }
-refreshKeyStatus();
-
-/* Opening the modal never reveals the key input straight away — it only shows
-   status + an explanation. The actual input box needs one more explicit click,
-   so the key isn't just sitting exposed the moment someone taps the gear icon. */
-function openKeySettings(revealInput){
-  keyInputArea.hidden = !revealInput;
-  apiKeyModalOverlay.hidden = false;
-}
-function closeKeySettings(){
-  apiKeyModalOverlay.hidden = true;
 }
 
-apiKeyIconBtn.onclick = ()=> openKeySettings(false);
-apiKeyModalClose.onclick = closeKeySettings;
-apiKeyModalOverlay.onclick = (e)=>{ if(e.target === apiKeyModalOverlay) closeKeySettings(); };
-revealKeyInputBtn.onclick = ()=>{ keyInputArea.hidden = false; };
-
-apiKeyInput.oninput = ()=>{
-  userApiKey = apiKeyInput.value.trim();
-  try{
-    if(userApiKey) localStorage.setItem(API_KEY_STORAGE_KEY, userApiKey);
-    else localStorage.removeItem(API_KEY_STORAGE_KEY);
-  }catch(e){ /* ignore — key still works for this session via userApiKey */ }
-  refreshKeyStatus();
+document.getElementById('apiKeyIconBtn').onclick = ()=> openKeySettings(false);
+document.getElementById('apiKeyModalClose').onclick = ()=> document.getElementById('apiKeyModalOverlay').hidden = true;
+document.getElementById('apiKeyModalOverlay').onclick = (e)=>{
+  if(e.target === document.getElementById('apiKeyModalOverlay')) document.getElementById('apiKeyModalOverlay').hidden = true;
 };
-
-clearKeyLink.onclick = (e)=>{
+document.getElementById('revealKeyInputBtn').onclick = ()=>{
+  document.getElementById('keyInputArea').hidden = false;
+  document.getElementById('apiKeyInput').focus();
+};
+document.getElementById('apiKeyInput').onchange = (e)=>{
+  const v = e.target.value.trim();
+  if(v) setApiKey(v);
+};
+document.getElementById('clearKeyLink').onclick = (e)=>{
   e.preventDefault();
-  userApiKey = '';
-  apiKeyInput.value = '';
-  try{ localStorage.removeItem(API_KEY_STORAGE_KEY); }catch(err){}
-  refreshKeyStatus();
+  clearApiKey();
+  document.getElementById('apiKeyInput').value = '';
 };
 
-/* ---------- render profile section ---------- */
-const chipsEl = document.getElementById('typeChips');
-const detailsJaEl = document.getElementById('dietDetailsJa');
-const glossZhEl = document.getElementById('dietGlossZh');
+updateKeyUI();
 
-function renderChips(){
-  chipsEl.innerHTML = '';
-  VEG_TYPES.forEach(t=>{
-    const c = document.createElement('div');
-    c.className = 'chip' + (t.id===currentType.id ? ' active':'');
-    c.textContent = t.labelZh;
-    c.onclick = ()=>{ currentType = t; renderChips(); renderDetails(); };
-    chipsEl.appendChild(c);
-  });
-}
-
-function renderDetails(){
-  detailsJaEl.innerHTML = `
-    <div class="diet-row">
-      <div class="diet-icon ok">○</div>
-      <div class="diet-text"><span class="label">食べられるもの</span>${currentType.canJa.join('、')}</div>
-    </div>
-    <div class="diet-row">
-      <div class="diet-icon no">×</div>
-      <div class="diet-text"><span class="label">食べられないもの</span>${currentType.cannotJa.join('、')}</div>
-    </div>
-  `;
-  glossZhEl.innerHTML = `<b>中文對照：</b>可以吃 ${currentType.canZh.join('、')}；不能吃 ${currentType.cannotZh.join('、')}`;
-}
-renderChips();
-renderDetails();
-
-/* ---------- TTS ---------- */
-const playBtn = document.getElementById('playBtn');
-playBtn.onclick = ()=>{
-  if(!('speechSynthesis' in window)){
-    alert('您的瀏覽器不支援語音播放功能。');
-    return;
+/* ---------- Claude API call ---------- */
+async function callClaude({content, tools, maxTokens=1000}){
+  const apiKey = getApiKey();
+  if(!apiKey){
+    const err = new Error('AUTH_MISSING');
+    throw err;
   }
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(currentType.speech);
-  utter.lang = 'ja-JP';
-  const voices = window.speechSynthesis.getVoices();
-  const jaVoice = voices.find(v=>v.lang && v.lang.startsWith('ja'));
-  if(jaVoice) utter.voice = jaVoice;
-  utter.rate = 0.95;
-  playBtn.classList.add('playing');
-  utter.onend = ()=> playBtn.classList.remove('playing');
-  utter.onerror = ()=> playBtn.classList.remove('playing');
-  window.speechSynthesis.speak(utter);
-};
-
-/* ---------- shared Claude API caller ---------- */
-async function callClaude({content, tools, maxTokens}){
   const body = {
-    model: "claude-sonnet-4-6",
-    max_tokens: maxTokens || 1000,
-    messages: [{ role: "user", content }]
+    model: 'claude-sonnet-4-20250514',
+    max_tokens: maxTokens,
+    messages: [{ role: 'user', content }]
   };
   if(tools) body.tools = tools;
-
-  const headers = { "Content-Type": "application/json" };
-  // Only needed when this page is hosted outside the Claude conversation
-  // (e.g. on GitHub Pages), where there's no built-in proxy/auth.
-  if(userApiKey){
-    headers["x-api-key"] = userApiKey;
-    headers["anthropic-version"] = "2023-06-01";
-    headers["anthropic-dangerous-direct-browser-access"] = "true";
-  }
-
-  let res;
   try{
-    res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers,
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify(body)
     });
-  }catch(networkErr){
-    throw new Error("NETWORK_OR_CORS");
+    if(!res.ok){
+      const errText = await res.text();
+      if(res.status === 401) throw new Error('AUTH_MISSING');
+      throw new Error(errText || 'API error');
+    }
+    const data = await res.json();
+    // Extract text from content blocks
+    let text = '';
+    for(const block of (data.content || [])){
+      if(block.type === 'text') text += block.text;
+      if(block.type === 'tool_use' && block.name === 'web_search'){
+        // tool use results are handled differently, but for simplicity we take the final text
+      }
+    }
+    // If there are tool results in subsequent messages, Claude handles them, but for browser we need simpler handling
+    // For web_search tool, the response may include tool_use, we need to handle it properly
+    // Simplified: assume the final text is in the response
+    if(!text && data.content){
+      text = data.content.map(c => c.text || '').join('');
+    }
+    return text;
+  }catch(err){
+    if(err.message === 'Failed to fetch' || err.name === 'TypeError'){
+      throw new Error('NETWORK_OR_CORS');
+    }
+    throw err;
   }
-
-  if(res.status === 401 || res.status === 403){
-    throw new Error("AUTH_MISSING");
-  }
-  if(!res.ok){
-    throw new Error("API request failed: " + res.status);
-  }
-  const data = await res.json();
-  const text = (data.content || [])
-    .filter(b=>b.type==='text')
-    .map(b=>b.text)
-    .join('\n');
-  return text;
 }
 
 function friendlyApiErrorMessage(err){
-  if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-    return '這個功能需要 Anthropic API 金鑰才能使用。請點選上方「⚙️ API 金鑰設定」，貼上你自己的金鑰後再試一次。';
-  }
-  return '分析失敗，請確認網路連線，或檢查「⚙️ API 金鑰設定」裡的金鑰是否正確後再試一次。';
+  if(err.message === 'AUTH_MISSING') return '請先設定 API 金鑰（點右上角齒輪圖示）。';
+  if(err.message === 'NETWORK_OR_CORS') return '網路錯誤或瀏覽器限制，請確認金鑰正確，或改用支援的環境。';
+  return err.message || '發生錯誤，請稍後再試。';
 }
 
 function extractJSON(text){
-  const cleaned = text.replace(/```json/gi,'').replace(/```/g,'').trim();
-  const start = cleaned.indexOf('{');
-  const end = cleaned.lastIndexOf('}');
-  if(start === -1 || end === -1) throw new Error("no JSON found");
-  return JSON.parse(cleaned.slice(start, end+1));
+  // Try to find JSON in the response
+  const match = text.match(/\{[\s\S]*\}/);
+  if(match){
+    try{ return JSON.parse(match[0]); }catch(e){}
+  }
+  try{ return JSON.parse(text); }catch(e){}
+  throw new Error('無法解析 AI 回傳的內容');
 }
 
-/* ---------- SECTION 2: camera scan ---------- */
-const cameraInput = document.getElementById('cameraInput');
-const captureBtn = document.getElementById('captureBtn');
-const previewImg = document.getElementById('preview');
-const analyzeBtn = document.getElementById('analyzeBtn');
-const scanLoading = document.getElementById('scanLoading');
-const scanResults = document.getElementById('scanResults');
-
-let currentImageBase64 = null;
-let currentImageMediaType = null;
-
-captureBtn.onclick = ()=> cameraInput.click();
-
-cameraInput.onchange = (e)=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  currentImageMediaType = file.type || 'image/jpeg';
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    const dataUrl = reader.result;
-    currentImageBase64 = dataUrl.split(',')[1];
-    previewImg.src = dataUrl;
-    previewImg.hidden = false;
-    analyzeBtn.hidden = false;
-    scanResults.innerHTML = '';
+/* ---------- SECTION 1: type chips ---------- */
+const typeChips = document.getElementById('typeChips');
+VEG_TYPES.forEach(t => {
+  const chip = document.createElement('button');
+  chip.className = 'chip' + (t.id === currentType.id ? ' active' : '');
+  chip.textContent = t.labelZh;
+  chip.onclick = ()=>{
+    currentType = t;
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    renderDiet();
   };
-  reader.readAsDataURL(file);
-};
+  typeChips.appendChild(chip);
+});
 
-analyzeBtn.onclick = async ()=>{
-  if(!currentImageBase64) return;
-  scanResults.innerHTML = '';
-  scanLoading.hidden = false;
-  analyzeBtn.disabled = true;
+function renderDiet(){
+  const ja = document.getElementById('dietDetailsJa');
+  const zh = document.getElementById('dietGlossZh');
+  let html = '';
+  currentType.canJa.forEach(item => {
+    html += `<div class="diet-row"><div class="diet-icon ok">✓</div><div class="diet-text"><span class="label">可吃</span>${item}</div></div>`;
+  });
+  currentType.cannotJa.forEach(item => {
+    html += `<div class="diet-row"><div class="diet-icon no">✕</div><div class="diet-text"><span class="label">不可吃</span>${item}</div></div>`;
+  });
+  ja.innerHTML = html;
+  zh.innerHTML = `<b>中文說明：</b>可吃 ${currentType.canZh.join('、')}；不可吃 ${currentType.cannotZh.join('、')}`;
+}
+renderDiet();
 
-  const promptText = `這是一張餐廳菜單或食品包裝的照片，內容可能是日文。
-請讀出照片中所有的品項名稱，並翻譯成繁體中文。
-目前使用者選擇的素食類型是「${currentType.labelZh}」。
-不能吃：${currentType.cannotZh.join('、')}
-可以吃：${currentType.canZh.join('、')}
-
-請針對每一個品項，判斷這個素食類型是否可以食用。
-判斷結果分三種："ok"（可以放心吃）、"warning"（可能含有這個類型不能吃的食材）、"unknown"（光看照片無法判斷）。
-
-請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號：
-{
-  "dishes": [
-    {"original": "日文原文", "translated_zh": "繁體中文翻譯", "status": "ok" | "warning" | "unknown", "reason": "判斷理由（繁體中文，約一句話）"}
-  ]
-}`;
-
-  try{
-    const text = await callClaude({
-      content: [
-        { type:"image", source:{ type:"base64", media_type: currentImageMediaType, data: currentImageBase64 } },
-        { type:"text", text: promptText }
-      ],
-      maxTokens: 1500
-    });
-    const json = extractJSON(text);
-    if(!json.dishes || !json.dishes.length){
-      scanResults.innerHTML = '<div class="error-box">沒有辨識出任何品項，請再拍一次試試看。</div>';
-    } else {
-      const icons = { ok:'○', warning:'！', unknown:'？' };
-      const labels = { ok:'可以吃', warning:'請注意', unknown:'無法確認' };
-      scanResults.innerHTML = json.dishes.map(d=>`
-        <div class="dish-card">
-          <div class="dish-status ${d.status}">${icons[d.status] || '？'}</div>
-          <div class="dish-body">
-            <div class="orig">${d.original || ''}</div>
-            <div class="name">${d.translated_zh || ''} <span class="status-tag">（${labels[d.status] || '無法確認'}）</span></div>
-            <div class="reason">${d.reason || ''}</div>
-          </div>
-        </div>
-      `).join('');
-    }
-  }catch(err){
-    console.error(err);
-    scanResults.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
-    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-      openKeySettings(true);
-    }
-  }finally{
-    scanLoading.hidden = true;
-    analyzeBtn.disabled = false;
+/* ---------- speech ---------- */
+const playBtn = document.getElementById('playBtn');
+playBtn.onclick = ()=>{
+  if(window.speechSynthesis.speaking){
+    window.speechSynthesis.cancel();
+    playBtn.classList.remove('playing');
+    playBtn.innerHTML = '🔊&nbsp; 播放日文語音給店員聽';
+    return;
   }
+  const u = new SpeechSynthesisUtterance(currentType.speech);
+  u.lang = 'ja-JP';
+  u.onend = ()=>{
+    playBtn.classList.remove('playing');
+    playBtn.innerHTML = '🔊&nbsp; 播放日文語音給店員聽';
+  };
+  playBtn.classList.add('playing');
+  playBtn.innerHTML = '⏹&nbsp; 停止播放';
+  window.speechSynthesis.speak(u);
 };
 
 /* ---------- SECTION 2: conversation translation ---------- */
-const CONV_LANGS = {
-  zh: { label:'中文', code:'zh-TW' },
-  ja: { label:'日文', code:'ja-JP' },
-  en: { label:'英文', code:'en-US' }
-};
+const LANGS = [
+  {code:'zh-TW', label:'中文（繁體）'},
+  {code:'ja', label:'日文'},
+  {code:'en', label:'英文'},
+  {code:'ko', label:'韓文'},
+  {code:'zh-CN', label:'中文（簡體）'}
+];
+const convInputLang = document.getElementById('convInputLang');
+const convOutputLang = document.getElementById('convOutputLang');
+LANGS.forEach(l => {
+  const o1 = document.createElement('option');
+  o1.value = l.code; o1.textContent = l.label;
+  convInputLang.appendChild(o1);
+  const o2 = document.createElement('option');
+  o2.value = l.code; o2.textContent = l.label;
+  convOutputLang.appendChild(o2);
+});
+convInputLang.value = 'zh-TW';
+convOutputLang.value = 'ja';
 
-const convInputLangSel = document.getElementById('convInputLang');
-const convOutputLangSel = document.getElementById('convOutputLang');
 const convInputText = document.getElementById('convInputText');
-const convOutputText = document.getElementById('convOutputText');
-const convOutputBox = document.getElementById('convOutputBox');
 const convMicBtn = document.getElementById('convMicBtn');
-const convPlayOutputBtn = document.getElementById('convPlayOutputBtn');
 const convTranslateBtn = document.getElementById('convTranslateBtn');
 const convLoading = document.getElementById('convLoading');
 const convError = document.getElementById('convError');
+const convOutputBox = document.getElementById('convOutputBox');
+const convOutputText = document.getElementById('convOutputText');
+const convPlayOutputBtn = document.getElementById('convPlayOutputBtn');
 
-Object.entries(CONV_LANGS).forEach(([key, lang])=>{
-  const optA = document.createElement('option');
-  optA.value = key; optA.textContent = lang.label;
-  convInputLangSel.appendChild(optA);
-  const optB = document.createElement('option');
-  optB.value = key; optB.textContent = lang.label;
-  convOutputLangSel.appendChild(optB);
-});
-convInputLangSel.value = 'zh';
-convOutputLangSel.value = 'ja';
+let recognition = null;
+if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+  recognition.onresult = (e)=>{
+    const t = e.results[0][0].transcript;
+    convInputText.value = t;
+    convMicBtn.classList.remove('recording');
+    convMicBtn.textContent = '🎤 語音輸入';
+  };
+  recognition.onerror = ()=>{
+    convMicBtn.classList.remove('recording');
+    convMicBtn.textContent = '🎤 語音輸入';
+  };
+  recognition.onend = ()=>{
+    convMicBtn.classList.remove('recording');
+    convMicBtn.textContent = '🎤 語音輸入';
+  };
+}
 
-function speakText(text, langCode){
-  if(!text) return;
-  if(!('speechSynthesis' in window)){
-    alert('您的瀏覽器不支援語音播放功能。');
+convMicBtn.onclick = ()=>{
+  if(!recognition){
+    alert('此瀏覽器不支援語音輸入');
     return;
   }
-  window.speechSynthesis.cancel();
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = langCode;
-  const voices = window.speechSynthesis.getVoices();
-  const match = voices.find(v => v.lang && v.lang.startsWith(langCode.split('-')[0]));
-  if(match) utter.voice = match;
-  utter.rate = 0.95;
-  window.speechSynthesis.speak(utter);
-}
-
-convPlayOutputBtn.onclick = ()=> speakText(convOutputText.value.trim(), CONV_LANGS[convOutputLangSel.value].code);
-
-/* voice input via Web Speech API — not supported in every browser, so the mic
-   button just disables itself gracefully when it isn't available. */
-const SpeechRecognitionCtor = window.SpeechRecognition || window.webkitSpeechRecognition;
-let convRecognition = null;
-let convRecognizing = false;
-
-if(SpeechRecognitionCtor){
-  convRecognition = new SpeechRecognitionCtor();
-  convRecognition.continuous = false;
-  convRecognition.interimResults = true;
-
-  convRecognition.onresult = (e)=>{
-    let transcript = '';
-    for(let i = 0; i < e.results.length; i++) transcript += e.results[i][0].transcript;
-    convInputText.value = transcript;
-  };
-  convRecognition.onend = ()=>{
-    convRecognizing = false;
-    convMicBtn.classList.remove('recording');
-    convMicBtn.textContent = '🎤 語音輸入';
-  };
-  convRecognition.onerror = ()=>{
-    convRecognizing = false;
-    convMicBtn.classList.remove('recording');
-    convMicBtn.textContent = '🎤 語音輸入';
-  };
-
-  convMicBtn.onclick = ()=>{
-    if(convRecognizing){
-      convRecognition.stop();
-      return;
-    }
-    convRecognition.lang = CONV_LANGS[convInputLangSel.value].code;
-    convInputText.value = '';
-    try{
-      convRecognition.start();
-      convRecognizing = true;
-      convMicBtn.classList.add('recording');
-      convMicBtn.textContent = '🎤 錄音中，再按一次停止';
-    }catch(e){ /* recognition already running — ignore */ }
-  };
-} else {
-  convMicBtn.disabled = true;
-  convMicBtn.textContent = '🎤 此瀏覽器不支援語音輸入';
-}
+  if(convMicBtn.classList.contains('recording')){
+    recognition.stop();
+    return;
+  }
+  recognition.lang = convInputLang.value;
+  recognition.start();
+  convMicBtn.classList.add('recording');
+  convMicBtn.textContent = '⏹ 停止錄音';
+};
 
 convTranslateBtn.onclick = async ()=>{
-  const sourceText = convInputText.value.trim();
-  if(!sourceText){
-    alert('請先輸入或用語音輸入要翻譯的文字。');
-    return;
-  }
+  const text = convInputText.value.trim();
+  if(!text){ alert('請先輸入文字'); return; }
   convError.innerHTML = '';
   convOutputBox.hidden = true;
   convLoading.hidden = false;
   convTranslateBtn.disabled = true;
-
-  const inputLangLabel = CONV_LANGS[convInputLangSel.value].label;
-  const outputLangLabel = CONV_LANGS[convOutputLangSel.value].label;
-
-  const promptText = `請將以下${inputLangLabel}文字翻譯成${outputLangLabel}，只回傳翻譯後的文字本身，不要加任何說明、引號、標籤或 markdown 符號：
-
-${sourceText}`;
-
   try{
-    const text = await callClaude({
+    const fromLang = LANGS.find(l => l.code === convInputLang.value)?.label || convInputLang.value;
+    const toLang = LANGS.find(l => l.code === convOutputLang.value)?.label || convOutputLang.value;
+    const promptText = `請把以下「${fromLang}」文字翻譯成「${toLang}」。只回傳翻譯結果，不要加任何說明：\n\n${text}`;
+    const result = await callClaude({
       content: [{ type:"text", text: promptText }],
-      maxTokens: 500
+      maxTokens: 800
     });
-    convOutputText.value = text.trim();
+    convOutputText.value = result.trim();
     convOutputBox.hidden = false;
   }catch(err){
     console.error(err);
@@ -1072,7 +941,89 @@ ${sourceText}`;
   }
 };
 
-/* ---------- SECTION 4: photo translate (text list, not overlaid on the image) ---------- */
+convPlayOutputBtn.onclick = ()=>{
+  const text = convOutputText.value.trim();
+  if(!text) return;
+  if(window.speechSynthesis.speaking){
+    window.speechSynthesis.cancel();
+    return;
+  }
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = convOutputLang.value === 'ja' ? 'ja-JP' : convOutputLang.value === 'zh-TW' || convOutputLang.value === 'zh-CN' ? 'zh-TW' : convOutputLang.value;
+  window.speechSynthesis.speak(u);
+};
+
+/* ---------- SECTION 3: scan food ---------- */
+const cameraInput = document.getElementById('cameraInput');
+const captureBtn = document.getElementById('captureBtn');
+const preview = document.getElementById('preview');
+const analyzeBtn = document.getElementById('analyzeBtn');
+const scanLoading = document.getElementById('scanLoading');
+const scanResults = document.getElementById('scanResults');
+
+let imageBase64 = null;
+let imageMediaType = null;
+
+captureBtn.onclick = ()=> cameraInput.click();
+
+cameraInput.onchange = (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  imageMediaType = file.type || 'image/jpeg';
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    const dataUrl = reader.result;
+    imageBase64 = dataUrl.split(',')[1];
+    preview.src = dataUrl;
+    preview.hidden = false;
+    analyzeBtn.hidden = false;
+    scanResults.innerHTML = '';
+  };
+  reader.readAsDataURL(file);
+};
+
+analyzeBtn.onclick = async ()=>{
+  if(!imageBase64) return;
+  scanResults.innerHTML = '';
+  scanLoading.hidden = false;
+  analyzeBtn.disabled = true;
+  try{
+    const promptText = `這是一張食物成分標籤的照片。請根據使用者的素食類型（${currentType.labelZh}），分析照片中的成分，標示哪些可以吃、哪些不能吃。\n\n素食類型：${currentType.labelZh}\n可吃：${currentType.canZh.join('、')}\n不可吃：${currentType.cannotZh.join('、')}\n\n請只回傳以下 JSON 格式：\n{\n  "dishes": [\n    {"name": "品名或成分名", "status": "ok|warning|unknown", "reason": "簡短說明（繁體中文）", "original": "原文（如果有）"}\n  ]\n}`;
+    const text = await callClaude({
+      content: [
+        { type:"image", source:{ type:"base64", media_type: imageMediaType, data: imageBase64 } },
+        { type:"text", text: promptText }
+      ],
+      maxTokens: 1500
+    });
+    const json = extractJSON(text);
+    const dishes = json.dishes || [];
+    if(!dishes.length){
+      scanResults.innerHTML = '<div class="error-box">無法辨識成分，請再拍一次試試看。</div>';
+    } else {
+      let html = '';
+      dishes.forEach(d => {
+        const statusClass = d.status === 'ok' ? 'ok' : d.status === 'warning' ? 'warning' : 'unknown';
+        const statusIcon = d.status === 'ok' ? '✓' : d.status === 'warning' ? '!' : '?';
+        html += `<div class="dish-card"><div class="dish-status ${statusClass}">${statusIcon}</div><div class="dish-body">`;
+        if(d.original) html += `<div class="orig">${d.original}</div>`;
+        html += `<div class="name">${d.name || ''}</div><div class="reason">${d.reason || ''}</div></div></div>`;
+      });
+      scanResults.innerHTML = html;
+    }
+  }catch(err){
+    console.error(err);
+    scanResults.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
+    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
+      openKeySettings(true);
+    }
+  }finally{
+    scanLoading.hidden = true;
+    analyzeBtn.disabled = false;
+  }
+};
+
+/* ---------- SECTION 4: photo translate ---------- */
 const translateCameraInput = document.getElementById('translateCameraInput');
 const translateCaptureBtn = document.getElementById('translateCaptureBtn');
 const translatePreview = document.getElementById('translatePreview');
@@ -1133,12 +1084,12 @@ translateBtn.onclick = async ()=>{
     if(!items.length){
       translateError.innerHTML = '<div class="error-box">沒有在照片中辨識出日文文字，請再拍一次試試看。</div>';
     } else {
-      translateResults.innerHTML = `<div class="trans-list">${items.map(it => `
-        <div class="trans-row">
-          <span class="orig">${it.original || ''}</span>
-          <span class="zh">${it.translated_zh}</span>
-        </div>
-      `).join('')}</div>`;
+      let html = '<div class="trans-list">';
+      items.forEach(it => {
+        html += `<div class="trans-row"><span class="orig">${it.original || ''}</span><span class="zh">${it.translated_zh}</span></div>`;
+      });
+      html += '</div>';
+      translateResults.innerHTML = html;
     }
   }catch(err){
     console.error(err);
@@ -1152,90 +1103,66 @@ translateBtn.onclick = async ()=>{
   }
 };
 
-/* ---------- SECTION 5: nearby restaurants ---------- */
+/* ---------- SECTION 5: restaurants ---------- */
 const locationInput = document.getElementById('locationInput');
 const geoBtn = document.getElementById('geoBtn');
 const searchBtn = document.getElementById('searchBtn');
 const restLoading = document.getElementById('restLoading');
-const restResults = document.getElementById('restResults');
 const cacheNote = document.getElementById('cacheNote');
+const restResults = document.getElementById('restResults');
 
 let currentCoords = null;
 
-/* window.storage (shared, cross-visitor cache) only exists inside the Claude
-   artifact preview. If this page is hosted standalone (e.g. GitHub Pages),
-   it won't exist, so we fall back to this browser's own localStorage —
-   still saves repeat API calls, just per-device instead of shared. */
-const hasCloudStorage = (typeof window.storage !== 'undefined');
-
-async function cacheGet(key){
-  if(hasCloudStorage){
-    try{
-      const r = await window.storage.get(key, true);
-      return r ? r.value : null;
-    }catch(e){ return null; }
-  }
-  try{ return localStorage.getItem(key); }catch(e){ return null; }
-}
-
-async function cacheSet(key, value){
-  if(hasCloudStorage){
-    try{ await window.storage.set(key, value, true); }catch(e){ console.error('cache save failed', e); }
-    return;
-  }
-  try{ localStorage.setItem(key, value); }catch(e){ console.error('cache save failed', e); }
-}
-
 geoBtn.onclick = ()=>{
-  if(!('geolocation' in navigator)){
-    alert('目前環境無法取得定位，請直接輸入地名。');
+  if(!navigator.geolocation){
+    alert('此瀏覽器不支援定位');
     return;
   }
+  geoBtn.disabled = true;
   geoBtn.textContent = '定位中…';
   navigator.geolocation.getCurrentPosition(
     (pos)=>{
       currentCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      locationInput.value = `目前位置（緯度${currentCoords.lat.toFixed(4)}, 經度${currentCoords.lng.toFixed(4)}）`;
+      locationInput.value = `目前位置 (${currentCoords.lat.toFixed(4)}, ${currentCoords.lng.toFixed(4)})`;
+      geoBtn.disabled = false;
       geoBtn.textContent = '📍目前位置';
     },
-    ()=>{
-      alert('無法取得目前位置，請直接輸入地名。');
+    (err)=>{
+      alert('無法取得位置：' + err.message);
+      geoBtn.disabled = false;
       geoBtn.textContent = '📍目前位置';
     }
   );
 };
 
-/* Build a cache key that groups nearby results together:
-   - free-text place names are normalized (trim/lowercase/no spaces)
-   - GPS coords are rounded to ~1km so small movements share a cache entry
-   - the diet type is included, since suitable restaurants differ by type
-   - today's date is included, so it naturally refreshes once a day */
 function buildCacheKey(){
-  const today = new Date().toISOString().slice(0,10); // YYYY-MM-DD, resets daily
-  let placePart;
-  if(currentCoords){
-    const latR = currentCoords.lat.toFixed(2);
-    const lngR = currentCoords.lng.toFixed(2);
-    placePart = `geo_${latR}_${lngR}`;
-  } else {
-    placePart = locationInput.value.trim().toLowerCase().replace(/\s+/g,'_');
-  }
-  return `restaurants:${placePart}:${currentType.id}:${today}`;
+  const typeId = currentType.id;
+  const loc = currentCoords ? `${currentCoords.lat.toFixed(3)},${currentCoords.lng.toFixed(3)}` : locationInput.value.trim();
+  const today = new Date().toISOString().slice(0,10);
+  return `rest_${typeId}_${loc}_${today}`;
+}
+
+const hasCloudStorage = false; // simplified
+async function cacheGet(key){
+  try{ return localStorage.getItem(key); }catch(e){ return null; }
+}
+async function cacheSet(key, val){
+  try{ localStorage.setItem(key, val); }catch(e){}
 }
 
 function renderRestaurants(json){
-  if(!json.restaurants || !json.restaurants.length){
-    restResults.innerHTML = '<div class="error-box">這個地點附近沒有找到合適的店家，請換個地名試試看。</div>';
-  } else {
-    restResults.innerHTML = json.restaurants.map(r=>`
-      <div class="rest-card">
-        <div class="name">${r.name || ''}</div>
-        <div class="area">${r.area || ''}</div>
-        <div class="desc">${r.description || ''}</div>
-        <div class="why">${r.why_suitable || ''}</div>
-      </div>
-    `).join('');
+  const list = json.restaurants || [];
+  if(!list.length){
+    restResults.innerHTML = '<div class="error-box">找不到適合的餐廳，請換個地點試試。</div>';
+    return;
   }
+  let html = '';
+  list.forEach(r => {
+    html += `<div class="rest-card"><div class="name">${r.name || ''}</div><div class="area">${r.area || ''}</div><div class="desc">${r.description || ''}</div>`;
+    if(r.why_suitable) html += `<div class="why">${r.why_suitable}</div>`;
+    html += '</div>';
+  });
+  restResults.innerHTML = html;
 }
 
 async function runRestaurantSearch(forceRefresh){
