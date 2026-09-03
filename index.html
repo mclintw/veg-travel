@@ -248,8 +248,6 @@
     border-radius:12px;
     padding:15px 16px;
     margin-top:14px;
-    display:flex;
-    gap:13px;
   }
   .dish-status{
     flex:0 0 auto;
@@ -369,7 +367,10 @@
     padding:16px 17px;
     margin-top:14px;
   }
-  .rest-card .name{font-size:18.5px; font-weight:700; color:var(--indigo-deep); margin-bottom:3px;}
+  .rest-card .name{font-size:18.5px; font-weight:700; color:var(--indigo-deep); margin-bottom:3px; text-decoration:none;}
+  .rest-card a.name{color:var(--indigo); text-decoration:none;}
+  .rest-card a.name:hover{text-decoration:underline;}
+  .rest-card .maps-link{font-size:14px; color:var(--indigo); margin-top:8px; display:inline-block;}
   .rest-card .area{font-size:14.5px; color:var(--gray-ink); margin-bottom:9px;}
   .rest-card .desc{font-size:16px; margin-bottom:7px;}
   .rest-card .why{
@@ -756,17 +757,10 @@ async function callClaude({content, tools, maxTokens=1000}){
       throw new Error(errText || 'API error');
     }
     const data = await res.json();
-    // Extract text from content blocks
     let text = '';
     for(const block of (data.content || [])){
       if(block.type === 'text') text += block.text;
-      if(block.type === 'tool_use' && block.name === 'web_search'){
-        // tool use results are handled differently, but for simplicity we take the final text
-      }
     }
-    // If there are tool results in subsequent messages, Claude handles them, but for browser we need simpler handling
-    // For web_search tool, the response may include tool_use, we need to handle it properly
-    // Simplified: assume the final text is in the response
     if(!text && data.content){
       text = data.content.map(c => c.text || '').join('');
     }
@@ -786,7 +780,6 @@ function friendlyApiErrorMessage(err){
 }
 
 function extractJSON(text){
-  // Try to find JSON in the response
   const match = text.match(/\{[\s\S]*\}/);
   if(match){
     try{ return JSON.parse(match[0]); }catch(e){}
@@ -1142,7 +1135,7 @@ function buildCacheKey(){
   return `rest_${typeId}_${loc}_${today}`;
 }
 
-const hasCloudStorage = false; // simplified
+const hasCloudStorage = false;
 async function cacheGet(key){
   try{ return localStorage.getItem(key); }catch(e){ return null; }
 }
@@ -1158,8 +1151,14 @@ function renderRestaurants(json){
   }
   let html = '';
   list.forEach(r => {
-    html += `<div class="rest-card"><div class="name">${r.name || ''}</div><div class="area">${r.area || ''}</div><div class="desc">${r.description || ''}</div>`;
+    const query = r.maps_query || ((r.name || '') + ' ' + (r.area || '')).trim();
+    const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
+    html += `<div class="rest-card">
+      <a class="name" href="${mapsUrl}" target="_blank" rel="noopener">${r.name || ''}</a>
+      <div class="area">${r.area || ''}</div>
+      <div class="desc">${r.description || ''}</div>`;
     if(r.why_suitable) html += `<div class="why">${r.why_suitable}</div>`;
+    html += `<a class="maps-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 在 Google Maps 查看</a>`;
     html += '</div>';
   });
   restResults.innerHTML = html;
@@ -1179,7 +1178,6 @@ async function runRestaurantSearch(forceRefresh){
   const cacheKey = buildCacheKey();
 
   try{
-    // Try today's cached result first, unless the person explicitly asked to skip it.
     if(!forceRefresh){
       const cachedValue = await cacheGet(cacheKey);
       if(cachedValue){
@@ -1212,7 +1210,7 @@ async function runRestaurantSearch(forceRefresh){
 請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號，內容請用繁體中文：
 {
   "restaurants": [
-    {"name": "店名（可保留日文）", "area": "所在區域或最近車站", "description": "簡短介紹（繁體中文，一到兩句）", "why_suitable": "為什麼適合這個素食類型（繁體中文，簡短）"}
+    {"name": "店名（可保留日文）", "area": "所在區域或最近車站", "description": "簡短介紹（繁體中文，一到兩句）", "why_suitable": "為什麼適合這個素食類型（繁體中文，簡短）", "maps_query": "適合在 Google Maps 搜尋的關鍵字（店名 + 城市或車站，例如：Ain Soph. Journey 新宿）"}
   ]
 }`;
 
@@ -1224,7 +1222,6 @@ async function runRestaurantSearch(forceRefresh){
     const json = extractJSON(text);
     renderRestaurants(json);
 
-    // Save today's result so later searches (yours or, if shared, other visitors') reuse it for free.
     await cacheSet(cacheKey, JSON.stringify(json));
   }catch(err){
     console.error(err);
