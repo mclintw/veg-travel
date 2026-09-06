@@ -563,6 +563,7 @@
       <div class="conv-actions">
         <button class="btn secondary" id="convMicBtn">🎤 語音輸入</button>
       </div>
+      <p class="hint" style="margin-top:8px;">點擊後請允許麥克風權限，並清楚說出要翻譯的句子。iPhone 請使用 Safari。</p>
     </div>
 
     <button class="btn" id="convTranslateBtn">翻譯</button>
@@ -786,16 +787,12 @@ function friendlyApiErrorMessage(err){
 
 function extractJSON(text){
   if(!text || typeof text !== 'string') throw new Error('無法解析 AI 回傳的內容');
-  // Strip markdown code fences if present
   let cleaned = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-  // Try direct parse
   try{ return JSON.parse(cleaned); }catch(e){}
-  // Find the largest JSON object
   const match = cleaned.match(/\{[\s\S]*\}/);
   if(match){
     try{ return JSON.parse(match[0]); }catch(e){}
   }
-  // Try to find restaurants array specifically
   const arrMatch = cleaned.match(/"restaurants"\s*:\s*(\[[\s\S]*?\])/);
   if(arrMatch){
     try{ return { restaurants: JSON.parse(arrMatch[1]) }; }catch(e){}
@@ -885,21 +882,56 @@ const convOutputText = document.getElementById('convOutputText');
 const convPlayOutputBtn = document.getElementById('convPlayOutputBtn');
 
 let recognition = null;
+const SPEECH_LANG_MAP = {
+  'zh-TW': 'zh-TW',
+  'zh-CN': 'zh-CN',
+  'ja': 'ja-JP',
+  'en': 'en-US',
+  'ko': 'ko-KR'
+};
+
+function speechLangCode(code){
+  return SPEECH_LANG_MAP[code] || code || 'zh-TW';
+}
+
 if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SR();
   recognition.continuous = false;
   recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+
   recognition.onresult = (e)=>{
-    const t = e.results[0][0].transcript;
-    convInputText.value = t;
+    const t = (e.results[0] && e.results[0][0] && e.results[0][0].transcript) || '';
+    if(t){
+      const existing = convInputText.value.trim();
+      convInputText.value = existing ? (existing + ' ' + t) : t;
+    }
     convMicBtn.classList.remove('recording');
     convMicBtn.textContent = '🎤 語音輸入';
   };
-  recognition.onerror = ()=>{
+
+  recognition.onerror = (e)=>{
     convMicBtn.classList.remove('recording');
     convMicBtn.textContent = '🎤 語音輸入';
+    const err = e.error || '';
+    let msg = '';
+    if(err === 'not-allowed' || err === 'service-not-allowed'){
+      msg = '無法使用麥克風。請到手機「設定 → Safari（或瀏覽器）→ 麥克風」允許權限，然後重新整理頁面再試。';
+    } else if(err === 'no-speech'){
+      msg = '沒有偵測到語音，請靠近麥克風再說一次。';
+    } else if(err === 'audio-capture'){
+      msg = '找不到麥克風，請確認裝置麥克風可用。';
+    } else if(err === 'network'){
+      msg = '語音辨識需要網路連線，請確認網路後再試。';
+    } else if(err === 'aborted'){
+      return;
+    } else {
+      msg = '語音輸入失敗（' + err + '），請改用鍵盤輸入，或換瀏覽器再試。';
+    }
+    if(msg) alert(msg);
   };
+
   recognition.onend = ()=>{
     convMicBtn.classList.remove('recording');
     convMicBtn.textContent = '🎤 語音輸入';
@@ -908,17 +940,23 @@ if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
 
 convMicBtn.onclick = ()=>{
   if(!recognition){
-    alert('此瀏覽器不支援語音輸入');
+    alert('此瀏覽器不支援語音輸入。\n\n建議：\n• iPhone 請用 Safari\n• Android 請用 Chrome\n• 或直接用鍵盤輸入文字');
     return;
   }
   if(convMicBtn.classList.contains('recording')){
-    recognition.stop();
+    try{ recognition.stop(); }catch(e){}
     return;
   }
-  recognition.lang = convInputLang.value;
-  recognition.start();
-  convMicBtn.classList.add('recording');
-  convMicBtn.textContent = '⏹ 停止錄音';
+  try{
+    recognition.lang = speechLangCode(convInputLang.value);
+    recognition.start();
+    convMicBtn.classList.add('recording');
+    convMicBtn.textContent = '⏹ 停止錄音';
+  }catch(err){
+    convMicBtn.classList.remove('recording');
+    convMicBtn.textContent = '🎤 語音輸入';
+    alert('無法啟動語音輸入，請確認已允許麥克風權限後再試。');
+  }
 };
 
 convTranslateBtn.onclick = async ()=>{
