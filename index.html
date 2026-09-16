@@ -514,8 +514,8 @@
       </div>
       <div class="modal-body">
         <p>
-          在 Claude 對話裡預覽這個工具時，「檢查食物成分」「照片翻譯」和「找餐廳」不需要填這裡。<br>
-          但如果你把這個網頁架到 GitHub Pages 或其他自己的網站上，就需要貼上你自己的 Anthropic API 金鑰，這些 AI 功能才能運作。
+          若網站已設定 Cloudflare Worker 代理（<code>VEG_PROXY_URL</code>），AI 功能會走伺服器端金鑰，通常不必在這裡填瀏覽器金鑰。<br>
+          若未設定代理，在 GitHub Pages 或其他網站上使用時，請貼上你自己的 Anthropic API 金鑰。
           可以到 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> 申請。
         </p>
         <div class="key-status unset" id="keyStatus">尚未設定金鑰</div>
@@ -627,6 +627,20 @@
 </div>
 
 <script>
+/* ---------- Proxy config ----------
+ * Set to your Cloudflare Worker base URL to keep the Anthropic key server-side.
+ * Leave empty to use localStorage API key + direct Anthropic (fallback).
+ * Example: 'https://veg-travel-proxy.example.workers.dev'
+ * Runtime override: window.VEG_PROXY_URL = 'https://...'
+ */
+const VEG_PROXY_URL = '';
+function getProxyBase(){
+  const fromWindow = (typeof window !== 'undefined' && window.VEG_PROXY_URL) ? String(window.VEG_PROXY_URL).trim() : '';
+  const fromConst = (typeof VEG_PROXY_URL === 'string') ? VEG_PROXY_URL.trim() : '';
+  return (fromWindow || fromConst).replace(/\/+$/, '');
+}
+function usesProxy(){ return !!getProxyBase(); }
+
 /* ---------- vegetarian type data ---------- */
 const VEG_TYPES = [
   {
@@ -688,7 +702,11 @@ function updateKeyUI(){
   const key = getApiKey();
   const status = document.getElementById('keyStatus');
   const iconBtn = document.getElementById('apiKeyIconBtn');
-  if(key){
+  if(usesProxy()){
+    status.className = 'key-status set';
+    status.textContent = '已啟用伺服器代理（不必填瀏覽器金鑰）';
+    iconBtn.classList.add('key-set');
+  } else if(key){
     status.className = 'key-status set';
     status.textContent = '已設定金鑰';
     iconBtn.classList.add('key-set');
@@ -730,31 +748,42 @@ updateKeyUI();
 
 /* ---------- Claude API call ---------- */
 async function callClaude({content, tools, maxTokens=1000}){
-  const apiKey = getApiKey();
-  if(!apiKey){
-    const err = new Error('AUTH_MISSING');
-    throw err;
-  }
+  const proxyBase = getProxyBase();
   const body = {
     model: 'claude-sonnet-4-6',
     max_tokens: maxTokens,
     messages: [{ role: 'user', content }]
   };
   if(tools) body.tools = tools;
+
+  let url;
+  let headers;
+  if(proxyBase){
+    url = proxyBase + '/v1/messages';
+    headers = { 'Content-Type': 'application/json' };
+  } else {
+    const apiKey = getApiKey();
+    if(!apiKey){
+      throw new Error('AUTH_MISSING');
+    }
+    url = 'https://api.anthropic.com/v1/messages';
+    headers = {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    };
+  }
+
   try{
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers,
       body: JSON.stringify(body)
     });
     if(!res.ok){
       const errText = await res.text();
-      if(res.status === 401) throw new Error('AUTH_MISSING');
+      if(res.status === 401 || res.status === 403) throw new Error('AUTH_MISSING');
       throw new Error(errText || 'API error');
     }
     const data = await res.json();
@@ -780,8 +809,16 @@ async function callClaude({content, tools, maxTokens=1000}){
 }
 
 function friendlyApiErrorMessage(err){
-  if(err.message === 'AUTH_MISSING') return '請先設定 API 金鑰（點右上角齒輪圖示）。';
-  if(err.message === 'NETWORK_OR_CORS') return '網路錯誤或瀏覽器限制，請確認金鑰正確，或改用支援的環境。';
+  if(err.message === 'AUTH_MISSING'){
+    return usesProxy()
+      ? '代理認證失敗，請確認 Worker 已設定 ANTHROPIC_API_KEY，或改用本機金鑰後備。'
+      : '請先設定 API 金鑰（點右上角齒輪圖示）。';
+  }
+  if(err.message === 'NETWORK_OR_CORS'){
+    return usesProxy()
+      ? '無法連上代理伺服器，請確認 VEG_PROXY_URL 與 CORS 設定。'
+      : '網路錯誤或瀏覽器限制，請確認金鑰正確，或改用支援的環境。';
+  }
   return err.message || '發生錯誤，請稍後再試。';
 }
 

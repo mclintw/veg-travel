@@ -1,0 +1,9 @@
+name = "veg-travel-proxy"
+main = "src/index.js"
+compatibility_date = "2024-09-01"
+
+# Set the Anthropic key as a secret (do not put the real key in this file):
+#   wrangler secret put ANTHROPIC_API_KEY
+#
+# Optional: bind a custom domain / workers.dev route in the Cloudflare dashboard
+# or with `wrangler deploy`.
