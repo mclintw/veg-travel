@@ -491,6 +491,96 @@
   .key-status.unset{color:var(--gray-ink);}
   .modal-body a{color:var(--indigo); font-weight:600;}
 
+  /* customs check (section 6) */
+  .dish-status.no{background:var(--stamp); color:#fff;}
+  .dish-card.customs{display:flex; gap:12px; align-items:flex-start;}
+  .dish-card.customs .dish-body{flex:1; min-width:0;}
+  .verdict-tag{
+    display:inline-block;
+    font-size:13.5px;
+    font-weight:700;
+    padding:2px 10px;
+    border-radius:10px;
+    margin-bottom:6px;
+  }
+  .verdict-tag.ok{background:var(--matcha-bg); color:var(--matcha);}
+  .verdict-tag.warning{background:var(--kaki-bg); color:var(--kaki);}
+  .verdict-tag.no{background:var(--stamp); color:#fff;}
+  .verdict-tag.unknown{background:var(--gray-bg); color:var(--gray-ink);}
+  .customs-meta{font-size:14.5px; color:var(--ink-soft); margin-top:6px; line-height:1.65;}
+  .customs-meta b{color:var(--indigo-deep);}
+  .customs-meta.veg{color:var(--matcha);}
+  .customs-meta.veg b{color:var(--matcha);}
+  .customs-summary{
+    font-size:16px;
+    font-weight:600;
+    color:var(--indigo-deep);
+    background:#F7FAFB;
+    border:1.5px solid var(--indigo);
+    border-radius:12px;
+    padding:12px 14px;
+    margin-top:14px;
+  }
+  .customs-thumbs{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 4px;}
+  .customs-thumbs figure{margin:0; position:relative; width:calc(33.333% - 7px);}
+  .customs-thumbs img{width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:10px; border:1.5px solid var(--line); display:block;}
+  .customs-thumbs button{
+    position:absolute; top:4px; right:4px;
+    width:26px; height:26px; border-radius:50%;
+    border:none; background:rgba(36,31,23,.72); color:#fff;
+    font-size:14px; line-height:1; cursor:pointer;
+  }
+  .btn-row{display:flex; gap:10px;}
+  .btn-row .btn{flex:1; width:auto; font-size:16px; padding:14px 8px;}
+  .customs-note-input{
+    width:100%;
+    padding:12px 14px;
+    border:1.5px solid var(--line);
+    border-radius:12px;
+    font-size:16px;
+    font-family:inherit;
+    margin-top:12px;
+    background:var(--paper);
+  }
+  .rule-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:18px;
+  }
+  .rule-cell{
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    padding:9px 11px;
+    font-size:14.5px;
+    line-height:1.5;
+    background:var(--paper);
+  }
+  .rule-cell .rc-title{font-weight:700; color:var(--ink);}
+  .rule-cell .rc-tag{font-size:12.5px; font-weight:700; padding:1px 7px; border-radius:8px; margin-left:4px; white-space:nowrap;}
+  .rule-cell .rc-tag.no{background:var(--stamp); color:#fff;}
+  .rule-cell .rc-tag.warning{background:var(--kaki-bg); color:var(--kaki);}
+  .rule-cell .rc-tag.ok{background:var(--matcha-bg); color:var(--matcha);}
+  .rule-cell .rc-desc{color:var(--gray-ink); font-size:13.5px; margin-top:2px;}
+  .penalty-box{
+    font-size:15px;
+    color:var(--stamp);
+    background:#FBEAE6;
+    border:1.5px solid #E7B9AE;
+    border-radius:12px;
+    padding:12px 14px;
+    margin-top:18px;
+    line-height:1.7;
+  }
+  .penalty-box b{font-weight:700;}
+  .disclaimer{
+    font-size:13.5px;
+    color:var(--gray-ink);
+    margin-top:14px;
+    line-height:1.7;
+  }
+  .disclaimer a{color:var(--indigo); font-weight:600;}
+
   [hidden]{display:none !important;}
 </style>
 </head>
@@ -620,8 +710,49 @@
     <div id="restResults"></div>
   </section>
 
+  <!-- SECTION 6: CUSTOMS CHECK (can I bring it back to Taiwan?) -->
+  <section class="card" id="customsSection">
+    <div class="badge">六</div>
+    <h2>能帶回台灣嗎？</h2>
+    <p class="hint" style="margin:0 0 14px;">在日本買的食物、食材、伴手禮，拍下商品<b>正面</b>（品名）和<b>背面</b>（成分標示，原材料名），AI 幫你判斷能不能帶回台灣、要不要申報。</p>
+    <input type="file" accept="image/*" capture="environment" id="customsCameraInput" hidden>
+    <input type="file" accept="image/*" multiple id="customsFileInput" hidden>
+    <div class="btn-row">
+      <button class="btn" id="customsCaptureBtn">📷&nbsp; 拍照</button>
+      <button class="btn secondary" id="customsPickBtn">🖼️&nbsp; 從相簿選</button>
+    </div>
+    <div class="customs-thumbs" id="customsThumbs" hidden></div>
+    <div class="hint" id="customsCountHint" hidden></div>
+    <input type="text" class="customs-note-input" id="customsNote" placeholder="補充說明（選填），例如：藥妝店買的、要冷藏、含肉嗎？">
+    <button class="btn secondary" id="customsAnalyzeBtn" hidden style="margin-top:12px;">判斷能不能帶回台灣</button>
+    <div class="loading" id="customsLoading" hidden><div class="spinner"></div><span id="customsLoadingText">辨識物品中，請稍候…</span></div>
+    <div id="customsError"></div>
+    <div id="customsResults"></div>
+
+    <div class="rule-grid" aria-label="常見入境規定速查">
+      <div class="rule-cell"><span class="rc-title">🥩 肉類製品</span><span class="rc-tag no">禁止</span><div class="rc-desc">肉乾、肉鬆、火腿、含肉便當、含肉液態湯包</div></div>
+      <div class="rule-cell"><span class="rc-title">🍎 新鮮蔬果</span><span class="rc-tag no">禁止</span><div class="rc-desc">新鮮水果、生鮮蔬菜、活植物、土壤</div></div>
+      <div class="rule-cell"><span class="rc-title">🌱 種子、球根</span><span class="rc-tag no">需檢疫</span><div class="rc-desc">無輸出國檢疫證明不能帶</div></div>
+      <div class="rule-cell"><span class="rc-title">🥚 蛋</span><span class="rc-tag warning">看型態</span><div class="rc-desc">生蛋、溫泉蛋禁止；全熟蛋、含蛋餅乾可</div></div>
+      <div class="rule-cell"><span class="rc-title">🍪 餅乾、糕點、泡麵</span><span class="rc-tag ok">不含肉可</span><div class="rc-desc">要看成分有沒有肉、肉萃取</div></div>
+      <div class="rule-cell"><span class="rc-title">🍵 茶葉、乾香菇</span><span class="rc-tag warning">限量</span><div class="rc-desc">各 1 公斤；農產品合計 6 公斤</div></div>
+      <div class="rule-cell"><span class="rc-title">🍶 酒類</span><span class="rc-tag warning">免稅 1.5L</span><div class="rc-desc">限滿 18 歲；超過要申報繳稅</div></div>
+      <div class="rule-cell"><span class="rc-title">🚬 電子煙、國外加熱菸</span><span class="rc-tag no">禁止</span><div class="rc-desc">捲菸免稅 200 支（限滿 20 歲）</div></div>
+    </div>
+
+    <div class="penalty-box">
+      ⚠️ <b>未申報攜帶肉製品等檢疫物，可處新台幣 1 萬至 100 萬元罰鍰</b>（動物傳染病防治條例第 45 條之 1）；從非洲豬瘟發生國家帶豬肉製品，<b>第一次就罰 20 萬元、再犯 100 萬元</b>。不確定能不能帶，入境時請走<b>紅線</b>申報，或在入境前丟進機場的<b>動植物產品棄置箱</b>。
+    </div>
+    <p class="disclaimer">
+      結果僅供參考，以海關與防檢署公告為準。AI 可能看錯或漏看成分，請自行確認最新規定：
+      <a href="https://www.aphia.gov.tw/ws.php?id=4502" target="_blank" rel="noopener">農業部動植物防疫檢疫署・入境旅客須知</a>、
+      <a href="https://web.customs.gov.tw/taipei/singlehtml/3392?cntId=cus2_3392_3392_1351" target="_blank" rel="noopener">財政部關務署・自用農畜水產品及食品</a>、
+      <a href="https://web.customs.gov.tw/taipei/singlehtml/3130?cntId=cus2_177199_3130" target="_blank" rel="noopener">關務署・肉製品與泡麵說明</a>。
+    </p>
+  </section>
+
   <footer class="note">
-    菜單解析與餐廳資訊為 AI 提供之參考資料。<br>
+    菜單解析、餐廳資訊與入境判斷皆為 AI 提供之參考資料。<br>
     若擔心過敏或誤食，仍建議到店後再次向店員確認食材。
   </footer>
 </div>
@@ -747,7 +878,7 @@ document.getElementById('clearKeyLink').onclick = (e)=>{
 updateKeyUI();
 
 /* ---------- Claude API call ---------- */
-async function callClaude({content, tools, maxTokens=1000}){
+async function callClaude({content, tools, maxTokens=1000, system}){
   const proxyBase = getProxyBase();
   const body = {
     model: 'claude-sonnet-4-6',
@@ -755,6 +886,7 @@ async function callClaude({content, tools, maxTokens=1000}){
     messages: [{ role: 'user', content }]
   };
   if(tools) body.tools = tools;
+  if(system) body.system = system;
 
   let url;
   let headers;
@@ -838,6 +970,60 @@ function extractJSON(text){
   }
   console.error('Failed to parse AI response:', text.slice(0, 500));
   throw new Error('無法解析 AI 回傳的內容');
+}
+
+/* ---------- shared image helpers ---------- */
+// Downscale a photo in the browser before sending (keeps requests well under the
+// proxy's 6 MB limit and speeds up uploads). Falls back to the original file if the
+// browser can't decode it (e.g. HEIC on some desktop browsers).
+const IMG_MAX_DIM = 1600;
+const IMG_JPEG_QUALITY = 0.85;
+function readFileAsDataURL(file){
+  return new Promise((resolve, reject)=>{
+    const reader = new FileReader();
+    reader.onload = ()=> resolve(reader.result);
+    reader.onerror = ()=> reject(reader.error || new Error('讀取照片失敗'));
+    reader.readAsDataURL(file);
+  });
+}
+function loadImageFromFile(file){
+  return new Promise((resolve, reject)=>{
+    const url = URL.createObjectURL(file);
+    const img = new Image();
+    img.onload = ()=>{ URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = ()=>{ URL.revokeObjectURL(url); reject(new Error('無法解碼照片')); };
+    img.src = url;
+  });
+}
+async function prepareImage(file, maxDim = IMG_MAX_DIM, quality = IMG_JPEG_QUALITY){
+  try{
+    const img = await loadImageFromFile(file);
+    const w0 = img.naturalWidth || img.width;
+    const h0 = img.naturalHeight || img.height;
+    if(!w0 || !h0) throw new Error('bad size');
+    const scale = Math.min(1, maxDim / Math.max(w0, h0));
+    const w = Math.max(1, Math.round(w0 * scale));
+    const h = Math.max(1, Math.round(h0 * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(0, 0, w, h);
+    ctx.drawImage(img, 0, 0, w, h);
+    const dataUrl = canvas.toDataURL('image/jpeg', quality);
+    if(!dataUrl || !dataUrl.startsWith('data:image/jpeg')) throw new Error('encode failed');
+    return { dataUrl, base64: dataUrl.split(',')[1], mediaType: 'image/jpeg' };
+  }catch(e){
+    const dataUrl = await readFileAsDataURL(file);
+    const m = /^data:([^;,]+)[;,]/.exec(dataUrl || '');
+    const mediaType = (m && m[1]) || file.type || 'image/jpeg';
+    return { dataUrl, base64: dataUrl.split(',')[1], mediaType };
+  }
+}
+function escapeHtml(v){
+  return String(v == null ? '' : v)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 
 /* ---------- SECTION 1: type chips ---------- */
@@ -1052,20 +1238,23 @@ let imageMediaType = null;
 
 captureBtn.onclick = ()=> cameraInput.click();
 
-cameraInput.onchange = (e)=>{
+cameraInput.onchange = async (e)=>{
   const file = e.target.files[0];
   if(!file) return;
-  imageMediaType = file.type || 'image/jpeg';
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    const dataUrl = reader.result;
-    imageBase64 = dataUrl.split(',')[1];
-    preview.src = dataUrl;
+  try{
+    const img = await prepareImage(file);
+    imageBase64 = img.base64;
+    imageMediaType = img.mediaType;
+    preview.src = img.dataUrl;
     preview.hidden = false;
     analyzeBtn.hidden = false;
     scanResults.innerHTML = '';
-  };
-  reader.readAsDataURL(file);
+  }catch(err){
+    console.error(err);
+    scanResults.innerHTML = '<div class="error-box">讀取照片失敗，請換一張照片再試。</div>';
+  }finally{
+    cameraInput.value = '';
+  }
 };
 
 analyzeBtn.onclick = async ()=>{
@@ -1123,21 +1312,24 @@ let translateImageMediaType = null;
 
 translateCaptureBtn.onclick = ()=> translateCameraInput.click();
 
-translateCameraInput.onchange = (e)=>{
+translateCameraInput.onchange = async (e)=>{
   const file = e.target.files[0];
   if(!file) return;
-  translateImageMediaType = file.type || 'image/jpeg';
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    const dataUrl = reader.result;
-    translateImageBase64 = dataUrl.split(',')[1];
-    translatePreview.src = dataUrl;
+  try{
+    const img = await prepareImage(file);
+    translateImageBase64 = img.base64;
+    translateImageMediaType = img.mediaType;
+    translatePreview.src = img.dataUrl;
     translatePreview.hidden = false;
     translateBtn.hidden = false;
     translateError.innerHTML = '';
     translateResults.innerHTML = '';
-  };
-  reader.readAsDataURL(file);
+  }catch(err){
+    console.error(err);
+    translateError.innerHTML = '<div class="error-box">讀取照片失敗，請換一張照片再試。</div>';
+  }finally{
+    translateCameraInput.value = '';
+  }
 };
 
 translateBtn.onclick = async ()=>{
@@ -1329,6 +1521,215 @@ async function runRestaurantSearch(forceRefresh){
 }
 
 searchBtn.onclick = ()=> runRestaurantSearch(false);
+
+/* ---------- SECTION 6: can I bring it back to Taiwan? ---------- */
+// Rule summary grounded in official sources (checked 2026-09):
+// - 農業部動植物防疫檢疫署 入境旅客須知 https://www.aphia.gov.tw/ws.php?id=4502
+// - 關務署臺北關 肉製品/泡麵說明 https://web.customs.gov.tw/taipei/singlehtml/3130?cntId=cus2_177199_3130
+// - 關務署臺北關 農畜水產品及食品限量 https://web.customs.gov.tw/taipei/singlehtml/3392?cntId=cus2_3392_3392_1351
+// - 入境旅客攜帶行李物品報驗稅放辦法 115/2/1 施行版 https://web.customs.gov.tw/singlehtml/40?cntId=2be1648e007e429a929576dd7744ad0b
+// - 違反動物傳染病防治條例第34條第2項裁罰基準（115/6/4 修正）
+const CUSTOMS_SYSTEM_PROMPT = `你是協助台灣旅客判斷「在日本買的物品能不能帶回台灣（入境台灣）」的助理，使用者多為素食者。請依下列台灣官方規定摘要判斷；不確定時寧可判「有條件可帶」或「無法判斷」並建議走紅線申報，絕不可把可能違規的物品說成可以帶。
+
+【動植物檢疫（防檢署）】
+1. 肉類及肉製品（豬、牛、羊、雞、鴨等，含真空包裝）：須申報檢疫，無輸出國檢疫證明不得輸入，旅客實務上等同禁止。常見：肉乾、肉鬆、香腸、火腿、培根、熱狗、肉包、水餃、含肉月餅或糕餅、含肉便當/三明治/飛機餐、含肉液態湯類、含肉夾餡。日本目前非非洲豬瘟疫區，但仍屬豬瘟、禽流感相關管制對象，日本肉品不能帶。
+2. 例外：供人食用之高溫滅菌罐頭（馬口鐵罐或軟式罐頭/殺菌調理包）無須申報動物檢疫。泡麵、速食粥、固態或粉狀湯類：含肉調理包若為高溫滅菌軟罐頭可帶；附未經殺菌的肉包、含肉液態湯包則不可。
+3. 蛋：生鮮蛋、未全熟的蛋（溫泉蛋、溏心蛋）不可；蛋黃蛋白完全凝固的熟蛋製品、含蛋的烘焙餅乾蛋糕可帶。
+4. 乳製品：保久乳、奶粉、起司可帶。不含肉的餅乾、蛋糕、麵包、泡麵、粥、固態湯類可帶。經乾燥、醃漬、調製加工的水產品（柴魚、昆布、海苔、魚乾）可帶。
+5. 植物：新鮮水果（含瓜果）一律禁止；活植物及生鮮產品（生鮮蔬菜、生山葵根等）、附土植物、土壤禁止；種子、球根、苗木須附輸出國植物檢疫證明並申報。乾燥、加工過的植物產品（果乾、梅干、醃漬物、乾燥香草、茶葉）一般可帶，但仍受限量。活昆蟲禁止。
+6. 未申報攜帶檢疫物：依動物傳染病防治條例第45條之1處新台幣1萬至100萬元罰鍰；自非洲豬瘟發生國家帶豬肉製品初犯20萬、再犯100萬。植物產品未申報亦會被罰。誤帶可在入境前丟入機場動植物產品棄置箱，或走紅線向防檢署檢疫櫃檯申報。
+
+【海關限量與免稅（關務署）】
+7. 農畜水產品合計6公斤；食米、熟花生、熟蒜頭、乾金針、乾香菇、茶葉各限1公斤。其他食品總量6公斤。超量須輸入許可。
+8. 酒類免稅1.5公升（限滿18歲）；菸品免稅捲菸200支或雪茄25支或菸絲1磅或經衛福部核定之指定菸品200支（限滿20歲），超過要申報繳稅。電子煙及其組件禁止；國外買的加熱菸（未經衛福部核定）禁止。
+9. 其他自用行李總值完稅價格3萬5千元以下免稅（菸酒、管制品除外）。自用藥品、保健食品有數量限制，處方藥須附處方，超量須申請。
+
+【素食者常見陷阱，請特別檢查成分（原材料名）】
+- 標示「素食/植物性/ヴィーガン」的泡麵或調味包，仍可能含ポークエキス、チキンエキス、ビーフエキス、ラード、牛脂、ゼラチン、肉エキス（肉萃取）；含肉成分者依第1、2點判斷，若為粉狀/殺菌包可能可帶但建議申報。
+- 含蛋餅乾、蛋糕（烘焙過）可帶；生蛋、溫泉蛋不行。
+- 果乾、冷凍乾燥水果可帶；新鮮水果（例如草莓、哈密瓜、蘋果、葡萄）禁止。
+- 柴魚（かつお節）、魚乾屬加工水產品可帶，但不是素食。`;
+
+const CUSTOMS_MAX_PHOTOS = 3;
+const customsCameraInput = document.getElementById('customsCameraInput');
+const customsFileInput = document.getElementById('customsFileInput');
+const customsCaptureBtn = document.getElementById('customsCaptureBtn');
+const customsPickBtn = document.getElementById('customsPickBtn');
+const customsThumbs = document.getElementById('customsThumbs');
+const customsCountHint = document.getElementById('customsCountHint');
+const customsNote = document.getElementById('customsNote');
+const customsAnalyzeBtn = document.getElementById('customsAnalyzeBtn');
+const customsLoading = document.getElementById('customsLoading');
+const customsLoadingText = document.getElementById('customsLoadingText');
+const customsError = document.getElementById('customsError');
+const customsResults = document.getElementById('customsResults');
+
+let customsImages = []; // [{dataUrl, base64, mediaType}]
+
+function renderCustomsThumbs(){
+  customsThumbs.innerHTML = '';
+  customsImages.forEach((img, i) => {
+    const fig = document.createElement('figure');
+    const el = document.createElement('img');
+    el.src = img.dataUrl;
+    el.alt = '照片 ' + (i + 1);
+    const del = document.createElement('button');
+    del.type = 'button';
+    del.textContent = '✕';
+    del.setAttribute('aria-label', '移除照片 ' + (i + 1));
+    del.onclick = ()=>{ customsImages.splice(i, 1); renderCustomsThumbs(); };
+    fig.appendChild(el);
+    fig.appendChild(del);
+    customsThumbs.appendChild(fig);
+  });
+  const n = customsImages.length;
+  customsThumbs.hidden = n === 0;
+  customsAnalyzeBtn.hidden = n === 0;
+  customsCountHint.hidden = n === 0;
+  if(n === 1){
+    customsCountHint.textContent = '已加入 1 張。建議再補一張背面成分標示（原材料名），判斷會更準確。';
+  } else if(n > 1){
+    customsCountHint.textContent = `已加入 ${n} 張（最多 ${CUSTOMS_MAX_PHOTOS} 張）。`;
+  }
+}
+
+async function addCustomsFiles(fileList){
+  const files = Array.from(fileList || []).filter(f => !f.type || f.type.startsWith('image/'));
+  if(!files.length) return;
+  customsError.innerHTML = '';
+  customsResults.innerHTML = '';
+  const room = CUSTOMS_MAX_PHOTOS - customsImages.length;
+  if(room <= 0){
+    customsError.innerHTML = `<div class="error-box">最多 ${CUSTOMS_MAX_PHOTOS} 張照片，請先移除一張再加入。</div>`;
+    return;
+  }
+  if(files.length > room){
+    customsError.innerHTML = `<div class="error-box">最多 ${CUSTOMS_MAX_PHOTOS} 張照片，只加入前 ${room} 張。</div>`;
+  }
+  for(const f of files.slice(0, room)){
+    try{
+      customsImages.push(await prepareImage(f));
+    }catch(err){
+      console.error(err);
+      customsError.innerHTML = '<div class="error-box">有照片讀取失敗，請換一張再試。</div>';
+    }
+  }
+  renderCustomsThumbs();
+}
+
+customsCaptureBtn.onclick = ()=> customsCameraInput.click();
+customsPickBtn.onclick = ()=> customsFileInput.click();
+customsCameraInput.onchange = async (e)=>{ await addCustomsFiles(e.target.files); customsCameraInput.value = ''; };
+customsFileInput.onchange = async (e)=>{ await addCustomsFiles(e.target.files); customsFileInput.value = ''; };
+
+const CUSTOMS_VERDICTS = {
+  allowed:     { cls:'ok',      icon:'✓', label:'可以帶' },
+  conditional: { cls:'warning', icon:'!', label:'有條件可帶' },
+  prohibited:  { cls:'no',      icon:'✕', label:'禁止攜帶' },
+  unknown:     { cls:'unknown', icon:'?', label:'無法判斷' }
+};
+function normalizeVerdict(v){
+  const s = String(v || '').trim().toLowerCase();
+  if(s === 'allowed' || s === 'ok' || s.includes('可以帶')) return 'allowed';
+  if(s === 'conditional' || s === 'warning' || s.includes('有條件')) return 'conditional';
+  if(s === 'prohibited' || s === 'banned' || s === 'no' || s.includes('禁止')) return 'prohibited';
+  return 'unknown';
+}
+
+// Salvage complete item objects if the model's JSON got cut off at the token cap.
+function parseCustomsJSON(text){
+  try{ return extractJSON(text); }catch(e){}
+  const cleaned = String(text || '').replace(/```json\s*/gi, '').replace(/```\s*/g, '');
+  const start = cleaned.indexOf('"items"');
+  if(start < 0) throw new Error('無法解析 AI 回傳的內容');
+  const items = [];
+  const re = /\{[^{}]*\}/g;
+  let m;
+  const tail = cleaned.slice(start);
+  while((m = re.exec(tail))){
+    try{ items.push(JSON.parse(m[0])); }catch(e){}
+  }
+  if(!items.length) throw new Error('無法解析 AI 回傳的內容');
+  const sm = /"summary"\s*:\s*"((?:[^"\\]|\\.)*)"/.exec(cleaned);
+  return { items, summary: sm ? JSON.parse('"' + sm[1] + '"') : '', truncated: true };
+}
+
+function renderCustomsResults(json){
+  const items = Array.isArray(json.items) ? json.items.filter(Boolean) : [];
+  if(!items.length){
+    customsResults.innerHTML = '<div class="error-box">照片中沒有辨識出物品，請拍清楚商品正面與成分標示再試一次。</div>';
+    return;
+  }
+  let html = '';
+  if(json.summary) html += `<div class="customs-summary">${escapeHtml(json.summary)}</div>`;
+  items.forEach(it => {
+    const v = CUSTOMS_VERDICTS[normalizeVerdict(it.verdict)];
+    html += `<div class="dish-card customs"><div class="dish-status ${v.cls}">${v.icon}</div><div class="dish-body">`;
+    html += `<span class="verdict-tag ${v.cls}">${v.label}</span>`;
+    if(it.name_original) html += `<div class="orig">${escapeHtml(it.name_original)}</div>`;
+    html += `<div class="name">${escapeHtml(it.name_zh || it.name || '未命名物品')}</div>`;
+    if(it.reason) html += `<div class="reason">${escapeHtml(it.reason)}</div>`;
+    if(it.rule) html += `<div class="customs-meta"><b>相關規定：</b>${escapeHtml(it.rule)}</div>`;
+    if(it.action) html += `<div class="customs-meta"><b>建議做法：</b>${escapeHtml(it.action)}</div>`;
+    if(it.veg_note) html += `<div class="customs-meta veg"><b>🌿 素食提醒：</b>${escapeHtml(it.veg_note)}</div>`;
+    html += '</div></div>';
+  });
+  if(json.photo_tip) html += `<p class="hint">📷 ${escapeHtml(json.photo_tip)}</p>`;
+  if(json.truncated) html += '<p class="hint">⚠️ 回傳內容過長被截斷，可能有物品沒列出；可以分開拍照再試一次。</p>';
+  html += '<p class="hint">結果僅供參考，以海關與防檢署公告為準；不確定請走紅線申報。</p>';
+  customsResults.innerHTML = html;
+}
+
+customsAnalyzeBtn.onclick = async ()=>{
+  if(!customsImages.length) return;
+  customsError.innerHTML = '';
+  customsResults.innerHTML = '';
+  customsLoading.hidden = false;
+  customsAnalyzeBtn.disabled = true;
+  const steps = ['辨識物品與包裝文字…', '檢查成分（原材料名）…', '比對台灣入境規定…', '整理判斷結果…'];
+  let stepIdx = 0;
+  customsLoadingText.textContent = steps[0];
+  const stepTimer = setInterval(()=>{
+    stepIdx = Math.min(stepIdx + 1, steps.length - 1);
+    customsLoadingText.textContent = steps[stepIdx];
+  }, 3500);
+
+  const note = customsNote.value.trim().slice(0, 200);
+  const promptText = `以上 ${customsImages.length} 張照片是旅客在日本購買、想帶回台灣的物品（可能是同一商品的正面與背面，也可能是多件物品）。
+使用者的素食類型：${currentType.labelZh}。${note ? `\n使用者補充：${note}` : ''}
+
+請辨識照片中的每一件物品（同一商品的多張照片合併成一項，最多 5 項），閱讀品名與成分標示（原材料名），依系統提供的台灣入境規定判斷能否帶回台灣。
+verdict 只能是：allowed（可以帶）、conditional（有條件可帶：限量、需申報、需確認成分或殺菌方式）、prohibited（禁止攜帶）、unknown（照片看不清或資訊不足）。
+若看不到成分表而品項可能含肉、蛋、生鮮成分，請判 conditional 或 unknown，並在 photo_tip 提醒補拍背面。
+
+請務必只回傳以下 JSON，不要加任何說明文字或 markdown 符號，內容用繁體中文（台灣用語），每個欄位簡短：
+{
+  "summary": "一句話總結（20字內）",
+  "items": [
+    {"name_zh":"中文品名", "name_original":"包裝上的日文品名（看得到才填）", "verdict":"allowed|conditional|prohibited|unknown", "reason":"判斷理由（40字內，點出關鍵成分）", "rule":"相關規定（25字內）", "action":"建議做法（20字內，例如：可放行李／走紅線申報／入境前丟棄置箱）", "veg_note":"素食相關提醒（看到動物性成分才填，25字內，否則空字串）"}
+  ],
+  "photo_tip": "若需補拍才填，否則空字串"
+}`;
+
+  try{
+    const content = customsImages.map(img => ({
+      type:'image', source:{ type:'base64', media_type: img.mediaType, data: img.base64 }
+    }));
+    content.push({ type:'text', text: promptText });
+    const text = await callClaude({ content, system: CUSTOMS_SYSTEM_PROMPT, maxTokens: 1500 });
+    renderCustomsResults(parseCustomsJSON(text));
+  }catch(err){
+    console.error(err);
+    customsError.innerHTML = `<div class="error-box">${escapeHtml(friendlyApiErrorMessage(err))}</div>`;
+    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
+      openKeySettings(true);
+    }
+  }finally{
+    clearInterval(stepTimer);
+    customsLoading.hidden = true;
+    customsAnalyzeBtn.disabled = false;
+  }
+};
 </script>
 </body>
 </html>
