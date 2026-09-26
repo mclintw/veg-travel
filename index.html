@@ -633,7 +633,7 @@
  * Example: 'https://veg-travel-proxy.example.workers.dev'
  * Runtime override: window.VEG_PROXY_URL = 'https://...'
  */
-const VEG_PROXY_URL = '';
+const VEG_PROXY_URL = 'https://veg-travel-proxy.mclintw.workers.dev';
 function getProxyBase(){
   const fromWindow = (typeof window !== 'undefined' && window.VEG_PROXY_URL) ? String(window.VEG_PROXY_URL).trim() : '';
   const fromConst = (typeof VEG_PROXY_URL === 'string') ? VEG_PROXY_URL.trim() : '';
