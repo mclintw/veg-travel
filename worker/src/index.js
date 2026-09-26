@@ -1,7 +1,16 @@
 /**
  * Cloudflare Worker: Anthropic Messages API proxy for veg-travel.
  * Secret: ANTHROPIC_API_KEY (never accept client-provided keys).
+ * Abuse protection: allowed-origin required, per-IP + global rate limits
+ * (Workers Rate Limiting bindings in wrangler.toml), fixed model,
+ * capped max_tokens, request size cap.
  */
+
+const ALLOWED_MODELS = new Set(['claude-sonnet-4-6']);
+const DEFAULT_MODEL = 'claude-sonnet-4-6';
+const MAX_TOKENS_CAP = 1500;
+const MAX_MESSAGES = 4;
+const MAX_BODY_BYTES = 6 * 1024 * 1024; // photos are sent as base64
 
 const ALLOWED_ORIGINS = new Set([
   'https://mclintw.github.io',
@@ -49,6 +58,20 @@ function jsonResponse(body, status, origin) {
   });
 }
 
+function rateLimited(origin) {
+  return new Response(JSON.stringify({
+    error: 'rate_limited',
+    message: '使用次數太頻繁，請稍等一分鐘再試。',
+  }), {
+    status: 429,
+    headers: {
+      'Content-Type': 'application/json',
+      'Retry-After': '60',
+      ...corsHeaders(origin),
+    },
+  });
+}
+
 export default {
   async fetch(request, env) {
     const origin = request.headers.get('Origin') || '';
@@ -64,7 +87,7 @@ export default {
       return jsonResponse({ error: 'Method not allowed' }, 405, origin);
     }
 
-    if (origin && !isAllowedOrigin(origin)) {
+    if (!isAllowedOrigin(origin)) {
       return jsonResponse({ error: 'Origin not allowed' }, 403, origin);
     }
 
@@ -79,18 +102,51 @@ export default {
       return jsonResponse({ error: 'Server misconfigured: missing ANTHROPIC_API_KEY' }, 500, origin);
     }
 
-    let body;
+    const len = Number(request.headers.get('Content-Length') || 0);
+    if (len > MAX_BODY_BYTES) {
+      return jsonResponse({ error: 'Request too large' }, 413, origin);
+    }
+
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+    if (env.PER_IP_LIMITER) {
+      const { success } = await env.PER_IP_LIMITER.limit({ key: ip });
+      if (!success) return rateLimited(origin);
+    }
+    if (env.GLOBAL_LIMITER) {
+      const { success } = await env.GLOBAL_LIMITER.limit({ key: 'global' });
+      if (!success) return rateLimited(origin);
+    }
+
+    let raw;
     try {
-      body = await request.json();
+      raw = await request.text();
+    } catch (_) {
+      return jsonResponse({ error: 'Invalid body' }, 400, origin);
+    }
+    if (raw.length > MAX_BODY_BYTES) {
+      return jsonResponse({ error: 'Request too large' }, 413, origin);
+    }
+    let input;
+    try {
+      input = JSON.parse(raw);
     } catch (_) {
       return jsonResponse({ error: 'Invalid JSON body' }, 400, origin);
     }
+    if (!input || typeof input !== 'object' || !Array.isArray(input.messages)
+        || input.messages.length === 0 || input.messages.length > MAX_MESSAGES) {
+      return jsonResponse({ error: 'Invalid messages' }, 400, origin);
+    }
 
-    // Never forward client-supplied upstream keys
-    if (body && typeof body === 'object') {
-      delete body.api_key;
-      delete body.apiKey;
-      delete body['x-api-key'];
+    // Rebuild the upstream body from an allowlist: fixed model, capped tokens,
+    // no tools, no client-supplied keys.
+    const requestedTokens = Number(input.max_tokens) || 1000;
+    const body = {
+      model: ALLOWED_MODELS.has(input.model) ? input.model : DEFAULT_MODEL,
+      max_tokens: Math.max(1, Math.min(requestedTokens, MAX_TOKENS_CAP)),
+      messages: input.messages,
+    };
+    if (typeof input.system === 'string' && input.system.length <= 4000) {
+      body.system = input.system;
     }
 
     try {

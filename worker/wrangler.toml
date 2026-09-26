@@ -7,3 +7,16 @@ compatibility_date = "2024-09-01"
 #
 # Optional: bind a custom domain / workers.dev route in the Cloudflare dashboard
 # or with `wrangler deploy`.
+
+# Abuse protection (Workers Rate Limiting, free). period must be 10 or 60 seconds.
+# Per visitor IP: 10 AI requests per minute.
+[[ratelimits]]
+name = "PER_IP_LIMITER"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
+
+# Whole site: 60 AI requests per minute across all visitors.
+[[ratelimits]]
+name = "GLOBAL_LIMITER"
+namespace_id = "1002"
+simple = { limit = 60, period = 60 }

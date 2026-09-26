@@ -783,6 +783,8 @@ async function callClaude({content, tools, maxTokens=1000}){
     });
     if(!res.ok){
       const errText = await res.text();
+      if(res.status === 429) throw new Error('使用次數太頻繁，請稍等一分鐘再試。');
+      if(res.status === 413) throw new Error('照片檔案太大，請換一張較小的照片再試。');
       if(res.status === 401 || res.status === 403) throw new Error('AUTH_MISSING');
       throw new Error(errText || 'API error');
     }
