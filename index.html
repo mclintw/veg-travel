@@ -582,6 +582,16 @@
   .disclaimer a{color:var(--indigo); font-weight:600;}
 
   [hidden]{display:none !important;}
+  /* link to trip itinerary page */
+  a.itin-link{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    background:var(--indigo-deep); color:#fff; text-decoration:none;
+    border-radius:14px; padding:14px 18px; margin:-6px 0 26px;
+    font-size:17.5px; font-weight:700; box-shadow:0 2px 6px rgba(0,0,0,.12);
+  }
+  a.itin-link small{display:block; font-size:13px; font-weight:400; opacity:.85; margin-top:2px;}
+  a.itin-link .arrow{font-size:22px; line-height:1;}
+  a.itin-link:active{opacity:.88;}
 </style>
 </head>
 <body>
@@ -594,6 +604,11 @@
       <button class="icon-btn" id="apiKeyIconBtn" title="API 金鑰設定" aria-label="API 金鑰設定">⚙️<span class="dot"></span></button>
     </div>
   </header>
+
+  <a class="itin-link" href="itinerary.html">
+    <span>🗾 我的東京行程<small>9/29–10/8・每日景點與餐廳，點名稱開 Google Maps</small></span>
+    <span class="arrow">→</span>
+  </a>
 
   <!-- API KEY SETTINGS (opens as a modal from the gear icon above) -->
   <div class="modal-overlay" id="apiKeyModalOverlay" hidden>
