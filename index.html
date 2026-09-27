@@ -3,1789 +3,528 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>素食旅行小幫手 | 日本旅遊版</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%A5%97%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#0F1F3D">
+<title>2026林家東京旅遊行程</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%97%BE%3C/text%3E%3C/svg%3E">
 <style>
   :root{
-    --paper:#FAF6EC;
-    --card:#FFFFFF;
-    --ink:#241F17;
-    --ink-soft:#3E3B2E;
-    --line:#D9CFB0;
-    --indigo:#1F3A50;
-    --indigo-deep:#16273A;
-    --matcha:#4C6E36;
-    --matcha-bg:#E7EFDD;
-    --kaki:#A24726;
-    --kaki-bg:#F7E4D6;
-    --gray-bg:#EFEDE6;
-    --gray-ink:#5C5A48;
-    --stamp:#A4392C;
+    --bg:#0F1F3D; --card:#172D52; --card2:#1E3862; --line:#2E4C7E;
+    --text:#F4F7FC; --muted:#BAC8DE; --pill:#27437A; --pill-text:#DCE6F5;
+    --amber:#F2B544; --amber-bg:rgba(242,181,68,.16); --sky:#8FCBFF; --mint:#86DCB4;
     --radius:16px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  body{
-    background:var(--paper);
-    color:var(--ink);
+  html{scroll-behavior:smooth; scroll-padding-top:74px;}
+  body{background:var(--bg); color:var(--text);
     font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
-    font-size:17px;
-    line-height:1.75;
-    -webkit-font-smoothing:antialiased;
-  }
-  .app{
-    max-width:520px;
-    margin:0 auto;
-    padding:22px 18px 52px;
-  }
-  header.top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:6px 2px 20px;
-    border-bottom:2px solid var(--line);
-    margin-bottom:24px;
-    gap:10px;
-  }
-  header.top .brand{
-    font-family:"Songti TC","PMingLiU","Noto Serif TC",serif;
-    font-size:27px;
-    letter-spacing:.02em;
-    color:var(--indigo-deep);
-  }
-  header.top .brand small{
-    display:block;
-    font-family:"PingFang TC",sans-serif;
-    font-size:13px;
-    color:var(--gray-ink);
-    margin-top:3px;
-    letter-spacing:.06em;
-  }
-  .lang-tag{
-    font-size:14.5px;
-    color:var(--indigo);
-    border:1.5px solid var(--indigo);
-    border-radius:20px;
-    padding:5px 13px;
-    white-space:nowrap;
-  }
+    font-size:17px; line-height:1.75; -webkit-font-smoothing:antialiased;}
+  .app{max-width:560px; margin:0 auto; padding:14px 16px 52px;}
+  a.back{display:inline-block; font-size:15px; color:var(--sky); text-decoration:underline; text-decoration-color:rgba(143,203,255,.5); text-underline-offset:4px; font-weight:600; padding:6px 0;}
+  header.top{display:flex; align-items:flex-end; justify-content:space-between; padding:6px 2px 16px;
+    border-bottom:1px solid var(--line); margin-bottom:16px; gap:10px;}
+  header.top .brand{font-family:"Songti TC","PMingLiU","Noto Serif TC",serif; font-size:27px; letter-spacing:.02em; color:var(--text); line-height:1.3;}
+  header.top .brand small{display:block; font-family:"PingFang TC",sans-serif; font-size:14px; color:var(--muted); margin-top:6px; letter-spacing:.03em;}
+  .days-tag{font-size:14px; font-weight:700; color:var(--bg); background:var(--amber); border-radius:20px; padding:4px 12px; white-space:nowrap;}
+  .intro{font-size:15px; color:var(--muted); margin:0 2px 18px;}
 
-  section.card{
-    background:var(--card);
-    border:1.5px solid var(--line);
-    border-radius:var(--radius);
-    padding:26px 22px 26px;
-    margin-bottom:22px;
-    position:relative;
-  }
-  .badge{
-    position:absolute;
-    top:-16px;
-    left:22px;
-    width:38px;
-    height:38px;
-    border-radius:8px;
-    background:var(--stamp);
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:"Songti TC","PMingLiU",serif;
-    font-size:20px;
-    transform:rotate(-3deg);
-    box-shadow:0 2px 4px rgba(0,0,0,.18);
-  }
-  section.card h2{
-    font-family:"Songti TC","PMingLiU","Noto Serif TC",serif;
-    font-size:24px;
-    margin:8px 0 18px;
-    color:var(--indigo-deep);
-  }
+  section.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px 18px 18px; margin-bottom:28px; position:relative;}
+  .badge{position:absolute; top:-15px; left:18px; min-width:36px; height:32px; padding:0 8px; border-radius:8px; background:var(--amber); color:var(--bg);
+    display:flex; align-items:center; justify-content:center; font-family:"Songti TC","PMingLiU",serif; font-size:18px; font-weight:700;}
+  section.card h2{font-family:"Songti TC","PMingLiU","Noto Serif TC",serif; font-size:23px; line-height:1.45; margin:2px 0 10px; color:var(--text);}
+  .day-date{font-size:14px; letter-spacing:.05em; color:var(--muted); margin-top:6px; font-weight:600;}
+  .day-pill{display:inline-block; font-size:14px; font-weight:600; padding:3px 12px; border-radius:14px; margin-bottom:12px;}
+  .day-pill.food{background:var(--amber-bg); color:var(--amber);}
+  .day-pill.info{background:var(--pill); color:var(--pill-text);}
+  .day-pill .k{font-weight:400; opacity:.9; margin-right:6px;}
 
-  /* type chips */
-  .type-chips{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    margin-bottom:20px;
-  }
-  .chip{
-    border:1.5px solid var(--line);
-    background:var(--paper);
-    color:var(--ink-soft);
-    font-size:16px;
-    padding:9px 17px;
-    border-radius:22px;
-    cursor:pointer;
-    transition:.15s;
-  }
-  .chip.active{
-    background:var(--indigo);
-    border-color:var(--indigo);
-    color:#fff;
-  }
+  /* hotel */
+  section.hotel{padding-top:18px; background:var(--card2);}
+  .hotel-tag{font-size:13.5px; color:var(--muted); font-weight:600; letter-spacing:.06em;}
+  .hotel-name{font-size:20px; font-weight:700; margin:2px 0 6px;}
+  .legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:14px; color:var(--muted); margin-top:12px; border-top:1px solid var(--line); padding-top:10px;}
+  .legend b{font-weight:700;}
+  .legend .r{color:var(--amber);} .legend .p{color:var(--sky);} .legend .s{color:var(--mint);}
 
-  /* the "show to staff" japanese card */
-  .staff-card{
-    border:2px solid var(--indigo);
-    border-radius:14px;
-    padding:18px 18px 16px;
-    background:#F7FAFB;
-    position:relative;
-    margin-bottom:8px;
-  }
-  .staff-card .jp-tag{
-    position:absolute;
-    top:-12px;
-    left:14px;
-    background:var(--indigo);
-    color:#fff;
-    font-size:13px;
-    padding:3px 11px;
-    border-radius:10px;
-    letter-spacing:.05em;
-  }
-  .diet-row{
-    display:flex;
-    gap:12px;
-    margin-bottom:12px;
-    align-items:flex-start;
-  }
-  .diet-row:first-of-type{margin-top:8px;}
-  .diet-icon{
-    flex:0 0 auto;
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
-    margin-top:2px;
-  }
-  .diet-icon.ok{background:var(--matcha-bg); color:var(--matcha);}
-  .diet-icon.no{background:var(--kaki-bg); color:var(--kaki);}
-  .diet-text{font-size:17px; color:var(--ink); flex:1;}
-  .diet-text .label{font-size:14px; color:var(--gray-ink); display:block; margin-bottom:3px;}
+  /* sticky day nav */
+  nav.daynav{position:sticky; top:0; z-index:10; display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    background:var(--bg); padding:10px 2px 12px; margin:0 -2px 22px; border-bottom:1px solid var(--line); scrollbar-width:none;}
+  nav.daynav::-webkit-scrollbar{display:none;}
+  nav.daynav a{flex:0 0 auto; text-decoration:none; background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:4px 12px; color:var(--text); text-align:center; line-height:1.3;}
+  nav.daynav a b{display:block; font-size:13px; letter-spacing:.03em;}
+  nav.daynav a span{display:block; font-size:12px; color:var(--muted);}
+  nav.daynav a.active{background:var(--amber); border-color:var(--amber); color:var(--bg);}
+  nav.daynav a.active span{color:var(--bg);}
 
-  .zh-gloss{
-    font-size:15px;
-    color:var(--gray-ink);
-    margin:12px 2px 0;
-    line-height:1.7;
-  }
-  .zh-gloss b{color:var(--ink-soft); font-weight:700;}
+  /* slots */
+  .slot{display:flex; gap:12px; padding:14px 0; border-top:1px solid var(--line);}
+  .slot:first-of-type{border-top:none;}
+  .slot-label{flex:0 0 48px; height:26px; border-radius:13px; background:var(--pill); color:var(--pill-text);
+    font-size:13.5px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px;}
+  .slot.meal .slot-label{background:var(--amber-bg); color:var(--amber);}
+  .slot-body{flex:1; min-width:0;}
+  .slot-main{font-size:17px; font-weight:700; line-height:1.6; overflow-wrap:anywhere;}
+  .note{font-size:15px; color:var(--muted); margin:6px 0 0; line-height:1.7; overflow-wrap:anywhere;}
+  .extra{font-size:15px; color:var(--text); background:var(--card2); border-left:3px solid var(--amber); border-radius:8px; padding:8px 11px; margin:10px 0 0; line-height:1.7;}
+  .alts{margin-top:10px; background:var(--card2); border-radius:10px; padding:9px 12px 8px;}
+  .alts-h{display:inline-block; font-size:12.5px; font-weight:700; color:var(--bg); background:var(--amber); border-radius:10px; padding:0 9px; letter-spacing:.08em; line-height:1.7;}
+  .alts-area{font-size:13.5px; font-weight:700; color:var(--pill-text); margin-top:8px;}
+  section.card > .alts-area{font-size:15px; margin-top:16px; color:var(--text);}
+  .alts ul, ul.plain{margin:2px 0 0; padding:0; list-style:none;}
+  .alts li, ul.plain li{font-size:15px; line-height:1.6; padding:4px 0; color:var(--muted); overflow-wrap:anywhere;}
+  .tag{color:var(--muted); font-weight:400; font-size:.88em; margin-left:6px;}
+  .slot-main .tag{font-size:.82em;}
 
-  .play-btn{
-    margin-top:16px;
-    width:100%;
-    background:var(--indigo-deep);
-    color:#fff;
-    border:none;
-    border-radius:12px;
-    padding:16px;
-    font-size:17.5px;
-    font-weight:600;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-  }
-  .play-btn:active{opacity:.85;}
-  .play-btn.playing{background:var(--kaki);}
+  /* links: color + subtle underline */
+  a.lk{text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:4px; font-weight:600;}
+  a.lk.rest{color:var(--amber); text-decoration-color:rgba(242,181,68,.55);}
+  a.lk.place{color:var(--sky); text-decoration-color:rgba(143,203,255,.55);}
+  a.lk.shop{color:var(--mint); text-decoration-color:rgba(134,220,180,.55);}
+  a.lk:active{opacity:.75;}
 
-  /* generic buttons */
-  .btn{
-    background:var(--indigo);
-    color:#fff;
-    border:none;
-    border-radius:12px;
-    padding:15px 16px;
-    font-size:17px;
-    font-weight:600;
-    cursor:pointer;
-    width:100%;
-  }
-  .btn.secondary{
-    background:var(--paper);
-    color:var(--indigo);
-    border:2px solid var(--indigo);
-  }
-  .btn:disabled{opacity:.5; cursor:not-allowed;}
+  footer.note{font-size:14px; color:var(--muted); text-align:center; padding-top:8px; line-height:1.8;}
+  footer.note a{color:var(--sky); font-weight:600;}
 
-  .hint{font-size:15px; color:var(--gray-ink); margin:12px 0 0;}
+  /* button card to the helper tool */
+  a.helper-link{display:block; background:var(--amber); color:var(--bg); text-decoration:none; border-radius:14px;
+    padding:13px 18px; margin:0 0 18px;}
+  a.helper-link b{display:block; font-size:18px; font-weight:700; line-height:1.4;}
+  a.helper-link small{display:block; font-size:14px; line-height:1.5; margin-top:2px;}
+  a.helper-link:active{opacity:.88;}
+  a.helper-link:focus-visible{outline:2px solid var(--sky); outline-offset:2px;}
 
-  /* camera section */
-  #preview, #translatePreview{
-    width:100%;
-    max-width:100%;
-    height:auto;
-    border-radius:12px;
-    margin:16px 0;
-    display:block;
-    border:1.5px solid var(--line);
-  }
-  .loading{
-    display:flex;
-    align-items:center;
-    gap:9px;
-    font-size:16px;
-    color:var(--ink-soft);
-    margin-top:16px;
-  }
-  .spinner{
-    width:16px;height:16px;
-    border:2.5px solid var(--line);
-    border-top-color:var(--indigo);
-    border-radius:50%;
-    animation:spin .8s linear infinite;
-  }
-  @keyframes spin{to{transform:rotate(360deg);}}
-
-  .dish-card{
-    border:1.5px solid var(--line);
-    border-radius:12px;
-    padding:15px 16px;
-    margin-top:14px;
-  }
-  .dish-status{
-    flex:0 0 auto;
-    width:34px;height:34px;
-    border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    font-size:17px;
-  }
-  .dish-status.ok{background:var(--matcha-bg); color:var(--matcha);}
-  .dish-status.warning{background:var(--kaki-bg); color:var(--kaki);}
-  .dish-status.unknown{background:var(--gray-bg); color:var(--gray-ink);}
-  .dish-body .orig{font-size:14.5px; color:var(--gray-ink); margin-bottom:3px;}
-  .dish-body .name{font-size:18px; font-weight:700; margin-bottom:4px;}
-  .dish-body .reason{font-size:15.5px; color:var(--ink-soft);}
-  .dish-body .status-tag{font-size:13.5px; color:var(--gray-ink);}
-
-  .trans-list{
-    border:1.5px solid var(--line);
-    border-radius:12px;
-    margin-top:14px;
-    overflow:hidden;
-  }
-  .trans-row{
-    padding:13px 16px;
-    border-bottom:1.5px solid var(--line);
-    display:flex;
-    align-items:baseline;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .trans-row:last-child{border-bottom:none;}
-  .trans-row .orig{font-size:14.5px; color:var(--gray-ink); flex:0 0 auto;}
-  .trans-row .zh{font-size:17.5px; font-weight:700; color:var(--ink);}
-
-  /* conversation translation */
-  .lang-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:16px;
-  }
-  .lang-row select{
-    flex:1;
-    min-width:0;
-    padding:12px 12px;
-    border:1.5px solid var(--line);
-    border-radius:12px;
-    font-size:16.5px;
-    font-family:inherit;
-    color:var(--ink);
-    background:var(--paper);
-  }
-  .lang-row .arrow{color:var(--gray-ink); font-size:18px; flex:0 0 auto;}
-
-  .conv-box{
-    border:1.5px solid var(--line);
-    border-radius:12px;
-    padding:14px 15px;
-    margin-bottom:12px;
-  }
-  .conv-label{font-size:14.5px; color:var(--gray-ink); margin-bottom:8px;}
-  .conv-box textarea{
-    width:100%;
-    border:none;
-    resize:vertical;
-    min-height:68px;
-    font-size:17.5px;
-    font-family:inherit;
-    color:var(--ink);
-    padding:0;
-    outline:none;
-    background:transparent;
-  }
-  .conv-actions{
-    display:flex;
-    gap:10px;
-    margin-top:12px;
-  }
-  .conv-actions .btn{
-    width:auto;
-    flex:1;
-    font-size:16px;
-    padding:13px 10px;
-  }
-
-  /* location */
-  .location-row{
-    display:flex;
-    gap:10px;
-    margin-bottom:14px;
-  }
-  .location-row input{
-    flex:1;
-    min-width:0;
-    padding:13px 14px;
-    border:1.5px solid var(--line);
-    border-radius:12px;
-    font-size:16.5px;
-    font-family:inherit;
-  }
-  .location-row button{
-    flex:0 0 auto;
-    background:var(--paper);
-    border:2px solid var(--indigo);
-    color:var(--indigo);
-    border-radius:12px;
-    padding:0 16px;
-    font-size:15.5px;
-    font-weight:600;
-    cursor:pointer;
-    white-space:nowrap;
-  }
-
-  .rest-card{
-    border:1.5px solid var(--line);
-    border-radius:12px;
-    padding:16px 17px;
-    margin-top:14px;
-  }
-  .rest-card .name{font-size:18.5px; font-weight:700; color:var(--indigo-deep); margin-bottom:3px; text-decoration:none;}
-  .rest-card a.name{color:var(--indigo); text-decoration:none;}
-  .rest-card a.name:hover{text-decoration:underline;}
-  .rest-card .maps-link{font-size:14px; color:var(--indigo); margin-top:8px; display:inline-block;}
-  .rest-card .area{font-size:14.5px; color:var(--gray-ink); margin-bottom:9px;}
-  .rest-card .desc{font-size:16px; margin-bottom:7px;}
-  .rest-card .why{
-    font-size:14.5px;
-    background:var(--matcha-bg);
-    color:var(--matcha);
-    display:inline-block;
-    padding:5px 11px;
-    border-radius:8px;
-  }
-
-  .error-box{
-    font-size:15.5px;
-    color:var(--kaki);
-    background:var(--kaki-bg);
-    border-radius:10px;
-    padding:12px 14px;
-    margin-top:14px;
-  }
-
-  footer.note{
-    font-size:14px;
-    color:var(--gray-ink);
-    text-align:center;
-    padding-top:12px;
-    line-height:1.7;
-  }
-
-  /* API key settings — small icon button that opens a modal */
-  .icon-btn{
-    position:relative;
-    width:40px;
-    height:40px;
-    border-radius:50%;
-    border:1.5px solid var(--line);
-    background:var(--card);
-    font-size:18px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex:0 0 auto;
-  }
-  .icon-btn .dot{
-    position:absolute;
-    top:2px;
-    right:2px;
-    width:9px;
-    height:9px;
-    border-radius:50%;
-    background:var(--matcha);
-    border:1.5px solid var(--card);
-    display:none;
-  }
-  .icon-btn.key-set .dot{display:block;}
-
-  .modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(30,28,20,.45);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    z-index:50;
-  }
-  .modal{
-    background:var(--card);
-    border-radius:var(--radius);
-    max-width:420px;
-    width:100%;
-    max-height:85vh;
-    overflow-y:auto;
-    padding:20px 22px 22px;
-  }
-  .modal-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    margin-bottom:12px;
-  }
-  .modal-header span{
-    font-family:"Songti TC","PMingLiU","Noto Serif TC",serif;
-    font-size:20px;
-    color:var(--indigo-deep);
-  }
-  .modal-close{
-    border:none;
-    background:none;
-    font-size:20px;
-    color:var(--gray-ink);
-    cursor:pointer;
-    padding:4px;
-  }
-  .modal-body p{
-    font-size:15px;
-    color:var(--ink-soft);
-    margin:12px 0;
-    line-height:1.75;
-  }
-  .modal-body input{
-    width:100%;
-    padding:13px 14px;
-    border:1.5px solid var(--line);
-    border-radius:12px;
-    font-size:16.5px;
-    font-family:inherit;
-    margin:12px 0 8px;
-  }
-  .key-status{
-    font-size:14.5px;
-    display:inline-flex;
-    align-items:center;
-    gap:5px;
-    padding:2px 0;
-  }
-  .key-status.set{color:var(--matcha);}
-  .key-status.unset{color:var(--gray-ink);}
-  .modal-body a{color:var(--indigo); font-weight:600;}
-
-  /* customs check (section 6) */
-  .dish-status.no{background:var(--stamp); color:#fff;}
-  .dish-card.customs{display:flex; gap:12px; align-items:flex-start;}
-  .dish-card.customs .dish-body{flex:1; min-width:0;}
-  .verdict-tag{
-    display:inline-block;
-    font-size:13.5px;
-    font-weight:700;
-    padding:2px 10px;
-    border-radius:10px;
-    margin-bottom:6px;
-  }
-  .verdict-tag.ok{background:var(--matcha-bg); color:var(--matcha);}
-  .verdict-tag.warning{background:var(--kaki-bg); color:var(--kaki);}
-  .verdict-tag.no{background:var(--stamp); color:#fff;}
-  .verdict-tag.unknown{background:var(--gray-bg); color:var(--gray-ink);}
-  .customs-meta{font-size:14.5px; color:var(--ink-soft); margin-top:6px; line-height:1.65;}
-  .customs-meta b{color:var(--indigo-deep);}
-  .customs-meta.veg{color:var(--matcha);}
-  .customs-meta.veg b{color:var(--matcha);}
-  .customs-summary{
-    font-size:16px;
-    font-weight:600;
-    color:var(--indigo-deep);
-    background:#F7FAFB;
-    border:1.5px solid var(--indigo);
-    border-radius:12px;
-    padding:12px 14px;
-    margin-top:14px;
-  }
-  .customs-thumbs{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 4px;}
-  .customs-thumbs figure{margin:0; position:relative; width:calc(33.333% - 7px);}
-  .customs-thumbs img{width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:10px; border:1.5px solid var(--line); display:block;}
-  .customs-thumbs button{
-    position:absolute; top:4px; right:4px;
-    width:26px; height:26px; border-radius:50%;
-    border:none; background:rgba(36,31,23,.72); color:#fff;
-    font-size:14px; line-height:1; cursor:pointer;
-  }
-  .btn-row{display:flex; gap:10px;}
-  .btn-row .btn{flex:1; width:auto; font-size:16px; padding:14px 8px;}
-  .customs-note-input{
-    width:100%;
-    padding:12px 14px;
-    border:1.5px solid var(--line);
-    border-radius:12px;
-    font-size:16px;
-    font-family:inherit;
-    margin-top:12px;
-    background:var(--paper);
-  }
-  .rule-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-top:18px;
-  }
-  .rule-cell{
-    border:1.5px solid var(--line);
-    border-radius:10px;
-    padding:9px 11px;
-    font-size:14.5px;
-    line-height:1.5;
-    background:var(--paper);
-  }
-  .rule-cell .rc-title{font-weight:700; color:var(--ink);}
-  .rule-cell .rc-tag{font-size:12.5px; font-weight:700; padding:1px 7px; border-radius:8px; margin-left:4px; white-space:nowrap;}
-  .rule-cell .rc-tag.no{background:var(--stamp); color:#fff;}
-  .rule-cell .rc-tag.warning{background:var(--kaki-bg); color:var(--kaki);}
-  .rule-cell .rc-tag.ok{background:var(--matcha-bg); color:var(--matcha);}
-  .rule-cell .rc-desc{color:var(--gray-ink); font-size:13.5px; margin-top:2px;}
-  .penalty-box{
-    font-size:15px;
-    color:var(--stamp);
-    background:#FBEAE6;
-    border:1.5px solid #E7B9AE;
-    border-radius:12px;
-    padding:12px 14px;
-    margin-top:18px;
-    line-height:1.7;
-  }
-  .penalty-box b{font-weight:700;}
-  .disclaimer{
-    font-size:13.5px;
-    color:var(--gray-ink);
-    margin-top:14px;
-    line-height:1.7;
-  }
-  .disclaimer a{color:var(--indigo); font-weight:600;}
-
-  [hidden]{display:none !important;}
-  /* link to trip itinerary page */
-  a.itin-link{
-    display:flex; align-items:center; justify-content:space-between; gap:10px;
-    background:var(--indigo-deep); color:#fff; text-decoration:none;
-    border-radius:14px; padding:14px 18px; margin:-6px 0 26px;
-    font-size:17.5px; font-weight:700; box-shadow:0 2px 6px rgba(0,0,0,.12);
-  }
-  a.itin-link small{display:block; font-size:13px; font-weight:400; opacity:.85; margin-top:2px;}
-  a.itin-link .arrow{font-size:22px; line-height:1;}
-  a.itin-link:active{opacity:.88;}
-  /* ===================== Navy theme (matches itinerary.html) ===================== */
-  :root{
-    color-scheme:dark;
-    --paper:#0F1F3D; --card:#172D52; --card2:#1E3862; --ink:#F4F7FC; --ink-soft:#DCE6F5;
-    --line:#2E4C7E; --gray-ink:#BAC8DE; --gray-bg:#27437A; --indigo:#8FCBFF; --indigo-deep:#F4F7FC;
-    --amber:#F2B544; --sky:#8FCBFF; --mint:#86DCB4; --coral:#FF9A8F;
-    --matcha:#86DCB4; --matcha-bg:rgba(134,220,180,.15); --kaki:#F2B544; --kaki-bg:rgba(242,181,68,.15);
-    --stamp:#FF9A8F; --field:#0F1F3D; --field-line:#7C9CCB; --placeholder:#A3B4CF; --on-accent:#0F1F3D;
-  }
-  body{background:var(--paper); color:var(--ink);}
-  header.top{border-bottom:1px solid var(--line);}
-  header.top .brand{color:var(--ink);}
-  header.top .brand small{color:var(--gray-ink);}
-  .lang-tag{color:var(--sky); border-color:var(--sky);}
-  section.card{background:var(--card); border:1px solid var(--line);}
-  .badge{background:var(--amber); color:var(--on-accent); font-weight:700; transform:none; box-shadow:none; height:32px; top:-15px;}
-  section.card h2{color:var(--ink);}
-  a{color:var(--sky);}
-  .hint{color:var(--gray-ink);}
-  .hint b{color:var(--ink);}
-
-  /* section 1 */
-  .chip{background:transparent; border:1.5px solid var(--field-line); color:var(--ink-soft);}
-  .chip.active{background:var(--amber); border-color:var(--amber); color:var(--on-accent); font-weight:700;}
-  .staff-card{background:var(--card2); border:1.5px solid var(--sky);}
-  .staff-card .jp-tag{background:var(--sky); color:var(--on-accent); font-weight:700;}
-  .diet-icon{font-weight:700;}
-  .diet-icon.ok{background:var(--mint); color:var(--on-accent);}
-  .diet-icon.no{background:var(--coral); color:var(--on-accent);}
-  .diet-text{color:var(--ink);}
-  .diet-text .label{color:var(--gray-ink);}
-  .zh-gloss{color:var(--gray-ink);}
-  .zh-gloss b{color:var(--ink);}
-  .play-btn{background:var(--amber); color:var(--on-accent);}
-  .play-btn.playing{background:var(--coral); color:var(--on-accent);}
-
-  /* buttons */
-  .btn{background:var(--amber); color:var(--on-accent); font-weight:700;}
-  .btn.secondary{background:transparent; color:var(--sky); border:1.5px solid var(--sky);}
-  .btn:focus-visible,.play-btn:focus-visible,.chip:focus-visible,.location-row button:focus-visible,.icon-btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
-
-  /* form fields */
-  .lang-row select,.location-row input,.modal-body input,.customs-note-input{
-    background:var(--field); color:var(--ink); border:1.5px solid var(--field-line);}
-  .lang-row .arrow{color:var(--gray-ink); font-size:14.5px;}
-  .conv-box{background:var(--field); border:1.5px solid var(--field-line);}
-  .conv-label{color:var(--gray-ink);}
-  .conv-box textarea{color:var(--ink);}
-  input::placeholder,textarea::placeholder{color:var(--placeholder); opacity:1;}
-  .lang-row select:focus,.location-row input:focus,.modal-body input:focus,.customs-note-input:focus,.conv-box:focus-within{
-    outline:2px solid var(--amber); outline-offset:1px; border-color:var(--amber);}
-  select option{background:var(--card); color:var(--ink);}
-  .location-row button{background:transparent; border:1.5px solid var(--sky); color:var(--sky);}
-
-  /* loading */
-  .loading{color:var(--ink-soft);}
-  .spinner{border-color:var(--line); border-top-color:var(--amber);}
-  #preview,#translatePreview{border-color:var(--line);}
-
-  /* result cards and verdict colours */
-  .dish-card{background:var(--card2); border:1px solid var(--line);}
-  .dish-status{font-weight:700;}
-  .dish-status.ok{background:var(--mint); color:var(--on-accent);}
-  .dish-status.warning{background:var(--amber); color:var(--on-accent);}
-  .dish-status.no{background:var(--coral); color:var(--on-accent);}
-  .dish-status.unknown{background:var(--gray-bg); color:var(--ink-soft);}
-  .dish-body .orig{color:var(--gray-ink);}
-  .dish-body .name{color:var(--ink);}
-  .dish-body .reason{color:var(--ink-soft);}
-  .verdict-tag.ok{background:var(--mint); color:var(--on-accent);}
-  .verdict-tag.warning{background:var(--amber); color:var(--on-accent);}
-  .verdict-tag.no{background:var(--coral); color:var(--on-accent);}
-  .verdict-tag.unknown{background:var(--gray-bg); color:var(--ink-soft);}
-  .dish-card.customs:has(.dish-status.ok){border-left:4px solid var(--mint);}
-  .dish-card.customs:has(.dish-status.warning){border-left:4px solid var(--amber);}
-  .dish-card.customs:has(.dish-status.no){border-left:4px solid var(--coral);}
-  .dish-card.customs:has(.dish-status.unknown){border-left:4px solid var(--field-line);}
-  .customs-meta{color:var(--ink-soft);}
-  .customs-meta b{color:var(--ink);}
-  .customs-meta.veg,.customs-meta.veg b{color:var(--mint);}
-  .customs-summary{background:var(--card2); color:var(--ink); border:1.5px solid var(--sky);}
-  .customs-thumbs img{border-color:var(--line);}
-  .customs-thumbs button{background:rgba(15,31,61,.85); color:#fff;}
-  .trans-list{border:1px solid var(--line); background:var(--card2);}
-  .trans-row{border-bottom:1px solid var(--line);}
-  .trans-row .orig{color:var(--gray-ink);}
-  .trans-row .zh{color:var(--ink);}
-  .rest-card{background:var(--card2); border:1px solid var(--line);}
-  .rest-card .name,.rest-card a.name{color:var(--amber); text-decoration:underline; text-decoration-color:rgba(242,181,68,.55); text-underline-offset:4px; text-decoration-thickness:1px;}
-  .rest-card .area{color:var(--gray-ink);}
-  .rest-card .desc{color:var(--ink);}
-  .rest-card .why{background:var(--matcha-bg); color:var(--mint);}
-  .rest-card .maps-link{color:var(--sky); text-decoration:underline; text-decoration-color:rgba(143,203,255,.55); text-underline-offset:4px;}
-  .error-box{background:rgba(255,154,143,.14); color:#FFC2BA; border:1px solid rgba(255,154,143,.45);}
-
-  /* quick-reference grid and warnings */
-  .rule-cell{background:var(--card2); border:1px solid var(--line);}
-  .rule-cell .rc-title{color:var(--ink);}
-  .rule-cell .rc-desc{color:var(--gray-ink);}
-  .rule-cell .rc-tag.no{background:var(--coral); color:var(--on-accent);}
-  .rule-cell .rc-tag.warning{background:var(--amber); color:var(--on-accent);}
-  .rule-cell .rc-tag.ok{background:var(--mint); color:var(--on-accent);}
-  .penalty-box{background:rgba(255,154,143,.12); color:#FFD2CC; border:1.5px solid rgba(255,154,143,.55);}
-  .penalty-box b{color:#FFFFFF;}
-  .penalty-label{display:inline-block; background:var(--coral); color:var(--on-accent); font-weight:700; font-size:13px; border-radius:8px; padding:0 8px; margin-right:6px;}
-  .disclaimer{color:var(--gray-ink);}
-  .disclaimer a{color:var(--sky);}
-  footer.note{color:var(--gray-ink);}
-
-  /* API key modal */
-  .icon-btn{background:var(--card); border:1px solid var(--field-line);}
-  .icon-btn .dot{background:var(--mint); border-color:var(--card);}
-  .modal-overlay{background:rgba(5,12,28,.72);}
-  .modal{background:var(--card); border:1px solid var(--line); color:var(--ink);}
-  .modal-header span{color:var(--ink);}
-  .modal-close{color:var(--gray-ink);}
-  .modal-body p{color:var(--ink-soft);}
-  .modal-body a{color:var(--sky);}
-  .modal-body code{background:var(--field); color:var(--ink-soft); padding:1px 5px; border-radius:5px;}
-  .key-status.set{color:var(--mint);}
-  .key-status.unset{color:var(--gray-ink);}
-
-  /* home button to the trip page */
-  a.itin-link{background:var(--amber); color:var(--on-accent); box-shadow:none;}
-  a.itin-link small{opacity:1; color:var(--on-accent);}
 </style>
 </head>
 <body>
 <div class="app">
-
   <header class="top">
-    <div class="brand">素食旅行小幫手<small>VEGETARIAN TRAVEL COMPANION</small></div>
-    <div style="display:flex; align-items:center; gap:8px;">
-      <div class="lang-tag">日本旅遊版</div>
-      <button class="icon-btn" id="apiKeyIconBtn" title="API 金鑰設定" aria-label="API 金鑰設定">⚙️<span class="dot"></span></button>
-    </div>
+    <div class="brand">2026林家東京旅遊行程<small>2026年9月29日至10月8日，共 10 天</small></div>
   </header>
-
-  <a class="itin-link" href="itinerary.html">
-    <span>我的東京行程<small>9月29日至10月8日，每日景點與餐廳，點名稱開啟 Google Maps</small></span>
-  </a>
-
-  <!-- API KEY SETTINGS (opens as a modal from the gear icon above) -->
-  <div class="modal-overlay" id="apiKeyModalOverlay" hidden>
-    <div class="modal">
-      <div class="modal-header">
-        <span>API 金鑰設定</span>
-        <button class="modal-close" id="apiKeyModalClose">✕</button>
-      </div>
-      <div class="modal-body">
-        <p>
-          若網站已設定 Cloudflare Worker 代理（<code>VEG_PROXY_URL</code>），AI 功能會走伺服器端金鑰，通常不必在這裡填瀏覽器金鑰。<br>
-          若未設定代理，在 GitHub Pages 或其他網站上使用時，請貼上你自己的 Anthropic API 金鑰。
-          可以到 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">console.anthropic.com</a> 申請。
-        </p>
-        <div class="key-status unset" id="keyStatus">尚未設定金鑰</div>
-        <button class="btn secondary" id="revealKeyInputBtn" style="margin-top:12px;">輸入 / 更改金鑰</button>
-        <div id="keyInputArea" hidden>
-          <input type="password" id="apiKeyInput" placeholder="貼上你的 API 金鑰，例如 sk-ant-...">
-          <p style="margin-top:4px;">
-            金鑰會儲存在你這個瀏覽器的本機儲存空間（localStorage），只留在你自己的裝置上，不會被上傳或送到 Anthropic 以外的任何地方；下次打開網頁不用再貼一次，但換了瀏覽器或裝置就要重新輸入。
-            <a href="#" id="clearKeyLink">清除已儲存的金鑰</a>
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION 1: PROFILE -->
-  <section class="card">
-    <div class="badge">一</div>
-    <h2>你的素食類型</h2>
-    <div class="type-chips" id="typeChips"></div>
-
-    <div class="staff-card">
-      <div class="jp-tag">出示給店員看（日本語）</div>
-      <div id="dietDetailsJa"></div>
-    </div>
-    <div class="zh-gloss" id="dietGlossZh"></div>
-
-    <button class="play-btn" id="playBtn">播放日文語音給店員聽</button>
-    <p class="hint">可以直接把手機畫面拿給店員看，或播放語音唸給對方聽，避免溝通誤會。</p>
-  </section>
-
-  <!-- SECTION 2: CONVERSATION TRANSLATION -->
-  <section class="card">
-    <div class="badge">二</div>
-    <h2>對話翻譯</h2>
-    <div class="lang-row">
-      <select id="convInputLang"></select>
-      <span class="arrow">翻成</span>
-      <select id="convOutputLang"></select>
-    </div>
-
-    <div class="conv-box">
-      <div class="conv-label">原文</div>
-      <textarea id="convInputText" rows="3" placeholder="在這裡輸入要翻譯的文字，也可以用鍵盤的聽寫功能輸入"></textarea>
-    </div>
-
-    <button class="btn" id="convTranslateBtn">翻譯</button>
-    <div class="loading" id="convLoading" hidden><div class="spinner"></div>翻譯中，請稍候…</div>
-    <div id="convError"></div>
-
-    <div class="conv-box" id="convOutputBox" hidden>
-      <div class="conv-label">翻譯結果</div>
-      <textarea id="convOutputText" rows="3"></textarea>
-      <div class="conv-actions">
-        <button class="btn secondary" id="convPlayOutputBtn">播放翻譯</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- SECTION 3: SCAN -->
-  <section class="card">
-    <div class="badge">三</div>
-    <h2>檢查食物成分</h2>
-    <input type="file" accept="image/*" capture="environment" id="cameraInput" hidden>
-    <button class="btn" id="captureBtn">拍照食物成分標籤</button>
-    <img id="preview" hidden>
-    <button class="btn secondary" id="analyzeBtn" hidden style="margin-top:10px;">分析這張照片</button>
-    <div class="loading" id="scanLoading" hidden><div class="spinner"></div>分析中，請稍候…</div>
-    <div id="scanResults"></div>
-    <p class="hint">查看成分，依照你選的素食類型，標示哪些不能吃</p>
-  </section>
-
-  <!-- SECTION 4: PHOTO TRANSLATE -->
-  <section class="card">
-    <div class="badge">四</div>
-    <h2>照片翻譯</h2>
-    <input type="file" accept="image/*" capture="environment" id="translateCameraInput" hidden>
-    <button class="btn" id="translateCaptureBtn">拍照翻譯招牌、公告</button>
-    <img id="translatePreview" hidden>
-    <button class="btn secondary" id="translateBtn" hidden style="margin-top:10px;">翻譯這張照片</button>
-    <div class="loading" id="translateLoading" hidden><div class="spinner"></div>翻譯中，請稍候…</div>
-    <div id="translateError"></div>
-    <div id="translateResults"></div>
-    <p class="hint">會辨識照片中的日文文字，翻譯成中文後以清單列出，方便看懂招牌、公告、標示等內容。</p>
-  </section>
-
-  <!-- SECTION 5: RESTAURANTS -->
-  <section class="card">
-    <div class="badge">五</div>
-    <h2>搜尋素食餐廳</h2>
-    <div class="location-row">
-      <input type="text" id="locationInput" placeholder="例如：新宿駅、京都車站附近">
-      <button id="geoBtn">目前位置</button>
-    </div>
-    <button class="btn" id="searchBtn">搜尋附近餐廳</button>
-    <div class="loading" id="restLoading" hidden><div class="spinner"></div>搜尋中，請稍候…</div>
-    <div id="cacheNote" class="hint" hidden></div>
-    <div id="restResults"></div>
-  </section>
-
-  <!-- SECTION 6: CUSTOMS CHECK (can I bring it back to Taiwan?) -->
-  <section class="card" id="customsSection">
-    <div class="badge">六</div>
-    <h2>能帶回台灣嗎？</h2>
-    <p class="hint" style="margin:0 0 14px;">在日本買的食物、食材、伴手禮，拍下商品<b>正面</b>（品名）和<b>背面</b>（成分標示，原材料名），AI 幫你判斷能不能帶回台灣、要不要申報。</p>
-    <input type="file" accept="image/*" capture="environment" id="customsCameraInput" hidden>
-    <input type="file" accept="image/*" multiple id="customsFileInput" hidden>
-    <div class="btn-row">
-      <button class="btn" id="customsCaptureBtn">拍照</button>
-      <button class="btn secondary" id="customsPickBtn">從相簿選</button>
-    </div>
-    <div class="customs-thumbs" id="customsThumbs" hidden></div>
-    <div class="hint" id="customsCountHint" hidden></div>
-    <input type="text" class="customs-note-input" id="customsNote" placeholder="補充說明（選填），例如：藥妝店買的、要冷藏、含肉嗎？">
-    <button class="btn secondary" id="customsAnalyzeBtn" hidden style="margin-top:12px;">判斷能不能帶回台灣</button>
-    <div class="loading" id="customsLoading" hidden><div class="spinner"></div><span id="customsLoadingText">辨識物品中，請稍候…</span></div>
-    <div id="customsError"></div>
-    <div id="customsResults"></div>
-
-    <div class="rule-grid" aria-label="常見入境規定速查">
-      <div class="rule-cell"><span class="rc-title">肉類製品</span><span class="rc-tag no">禁止</span><div class="rc-desc">肉乾、肉鬆、火腿、含肉便當、含肉液態湯包</div></div>
-      <div class="rule-cell"><span class="rc-title">新鮮蔬果</span><span class="rc-tag no">禁止</span><div class="rc-desc">新鮮水果、生鮮蔬菜、活植物、土壤</div></div>
-      <div class="rule-cell"><span class="rc-title">種子、球根</span><span class="rc-tag no">需檢疫</span><div class="rc-desc">無輸出國檢疫證明不能帶</div></div>
-      <div class="rule-cell"><span class="rc-title">蛋</span><span class="rc-tag warning">看型態</span><div class="rc-desc">生蛋、溫泉蛋禁止；全熟蛋、含蛋餅乾可</div></div>
-      <div class="rule-cell"><span class="rc-title">餅乾、糕點、泡麵</span><span class="rc-tag ok">不含肉可</span><div class="rc-desc">要看成分有沒有肉、肉萃取</div></div>
-      <div class="rule-cell"><span class="rc-title">茶葉、乾香菇</span><span class="rc-tag warning">限量</span><div class="rc-desc">各 1 公斤；農產品合計 6 公斤</div></div>
-      <div class="rule-cell"><span class="rc-title">酒類</span><span class="rc-tag warning">免稅 1.5L</span><div class="rc-desc">限滿 18 歲；超過要申報繳稅</div></div>
-      <div class="rule-cell"><span class="rc-title">電子煙、國外加熱菸</span><span class="rc-tag no">禁止</span><div class="rc-desc">捲菸免稅 200 支（限滿 20 歲）</div></div>
-    </div>
-
-    <div class="penalty-box">
-      <span class="penalty-label">罰則</span><b>未申報攜帶肉製品等檢疫物，可處新台幣 1 萬至 100 萬元罰鍰</b>（動物傳染病防治條例第 45 條之 1）；從非洲豬瘟發生國家帶豬肉製品，<b>第一次就罰 20 萬元、再犯 100 萬元</b>。不確定能不能帶，入境時請走<b>紅線</b>申報，或在入境前丟進機場的<b>動植物產品棄置箱</b>。
-    </div>
-    <p class="disclaimer">
-      結果僅供參考，以海關與防檢署公告為準。AI 可能看錯或漏看成分，請自行確認最新規定：
-      <a href="https://www.aphia.gov.tw/ws.php?id=4502" target="_blank" rel="noopener">農業部動植物防疫檢疫署：入境旅客須知</a>、
-      <a href="https://web.customs.gov.tw/taipei/singlehtml/3392?cntId=cus2_3392_3392_1351" target="_blank" rel="noopener">財政部關務署：自用農畜水產品及食品</a>、
-      <a href="https://web.customs.gov.tw/taipei/singlehtml/3130?cntId=cus2_177199_3130" target="_blank" rel="noopener">關務署：肉製品與泡麵說明</a>。
-    </p>
-  </section>
-
+  <a class="helper-link" href="helper.html"><b>素食小幫手</b><small>成分檢查、翻譯、找素食餐廳、入境檢查</small></a>
+  <p class="intro">每天分成上午、午餐、下午、晚餐。景點和餐廳名稱都可以點，會開啟 Google Maps；iPhone 有安裝 Google Maps App 會直接開 App。</p>
+<section class="card hotel">
+<div class="hotel-tag">住宿，全程同一間</div>
+<div class="hotel-name"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B6%E3%83%BB%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%20%E3%81%95%E3%81%8F%E3%82%89%E3%82%BF%E3%83%AF%E3%83%BC%E6%9D%B1%E4%BA%AC%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">ザ・プリンス さくらタワー東京</a></div>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85%20%E9%AB%98%E8%BC%AA%E5%8F%A3" target="_blank" rel="noopener">品川駅高輪口</a>步行約3分鐘，沿さくら坂緩坡</p><p class="note">機場往返搭 N&#x27;EX 成田到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>約63分鐘（綠色車廂），或搭利木津巴士，飯店有停</p>
+<div class="legend"><span><b class="r">橘色</b>是餐廳</span><span><b class="p">藍色</b>是景點</span><span><b class="s">綠色</b>是商店</span><span>點名稱就會開啟 Google Maps</span></div>
+</section>
+  <nav class="daynav" aria-label="跳到某一天"><a href="#day1"><b>DAY 1</b><span>9/29</span></a><a href="#day2"><b>DAY 2</b><span>9/30</span></a><a href="#day3"><b>DAY 3</b><span>10/1</span></a><a href="#day4"><b>DAY 4</b><span>10/2</span></a><a href="#day5"><b>DAY 5</b><span>10/3</span></a><a href="#day6"><b>DAY 6</b><span>10/4</span></a><a href="#day7"><b>DAY 7</b><span>10/5</span></a><a href="#day8"><b>DAY 8</b><span>10/6</span></a><a href="#day9"><b>DAY 9</b><span>10/7</span></a><a href="#day10"><b>DAY 10</b><span>10/8</span></a><a href="#nearby"><b>飯店</b><span>周邊</span></a></nav>
+<section class="card day" id="day1">
+<div class="badge">一</div>
+<div class="day-date">DAY 1　9月29日（二）</div>
+<h2>抵達品川</h2>
+<div class="day-pill info">輕行程日</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E7%94%B0%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">成田</a>入境，轉往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B6%E3%83%BB%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%20%E3%81%95%E3%81%8F%E3%82%89%E3%82%BF%E3%83%AF%E3%83%BC%E6%9D%B1%E4%BA%AC%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">ザ・プリンス さくらタワー東京</a></div>
+<p class="note">搭 N&#x27;EX 到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>約63分鐘，再步行約3分鐘；或搭利木津巴士到高輪王子區域</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main">機上</div>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%88%90%E7%94%B0%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">機場 T&#x27;s Tantan</a><span class="tag">純素拉麵，第二航廈4F</span></li></ul>
+</div>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main">辦理入住、休息，館內或品川周邊輕逛</div>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85%20%E9%AB%98%E8%BC%AA%E5%8F%A3" target="_blank" rel="noopener">品川駅高輪口</a>步行約3分鐘，沿さくら坂緩坡</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">葷素同行</span></div>
+<p class="note">蔬菜主題的義式串燒餐廳，名物農園蔬菜沾醬（醬含鯷魚）、蔬菜義大利麵；素食者點餐前需確認，葷素同行，可訂位。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">品川</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a><span class="tag">客製沙拉</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a><span class="tag">日式咖哩</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a><span class="tag">全素自然食，品川港南</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a><span class="tag">義式料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">Natural Cafe＆Restaurant 椨の木</a><span class="tag">自然食</span></li></ul>
+<div class="alts-area">東京站或秋葉原站</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%9D%B1%E4%BA%AC%E9%A7%85%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li></ul>
+</div>
+</div></div>
+</section>
+<section class="card day" id="day2">
+<div class="badge">二</div>
+<div class="day-date">DAY 2　9月30日（三）</div>
+<h2>淺草、晴空塔</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>Injoy 悦納</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%20%E9%9B%B7%E9%96%80" target="_blank" rel="noopener">雷門</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BB%B2%E8%A6%8B%E4%B8%96%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">仲見世商店街</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E5%AF%BA" target="_blank" rel="noopener">淺草寺本堂</a></div>
+<p class="note">東京最古老的寺院（628年創建），雷門大燈籠與約250公尺的仲見世老街是看點；參拜免費，本堂需走一段台階。</p>
+<p class="note">淺草寺可選搭人力車，減少步行</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Injoy%20%E6%82%A6%E7%B4%8D%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">Injoy 悦納</a><span class="tag">石鍋拌飯、素麵等</span></div>
+<p class="note">全素精進料理（不用蛋奶、五辛與酒），全員可吃；週二公休，午間常客滿，建議先訂位。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%BE%E7%AB%B9%E5%86%86%E3%82%AB%E3%83%95%E3%82%A7%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">松竹圓カフェ</a><span class="tag">全素漢堡、Pizza、點心</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%BE%E3%82%8B%E3%81%94%E3%81%A8Vegan%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">まるごとVegan 浅草</a><span class="tag">全素食點心</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E3%82%82%E3%82%93%E3%81%98%E3%82%83%20%E9%A6%99%E5%91%B3%E5%AE%B6" target="_blank" rel="noopener">淺草もんじゃ 香味家</a><span class="tag">葷素皆有的文字燒</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Age.3%20ASAKUSA" target="_blank" rel="noopener">Age.3 ASAKUSA</a><span class="tag">炸三明治小吃</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%9B%B7%E4%B8%80%E8%8C%B6%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">雷一茶</a><span class="tag">抹茶</span></li></ul>
+</div>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%B9%E3%82%AB%E3%82%A4%E3%83%84%E3%83%AA%E3%83%BC" target="_blank" rel="noopener">晴空塔</a></div>
+<p class="note">高634公尺的世界最高自立式電波塔，350公尺天望甲板可俯瞰東京；全程搭電梯，建議官網預購日期時段票。</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main">回<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E9%A7%85" target="_blank" rel="noopener">淺草站</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%8A%E9%87%8E%E9%A7%85" target="_blank" rel="noopener">上野站</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">東京車站</a>或<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A7%8B%E8%91%89%E5%8E%9F%E9%A7%85" target="_blank" rel="noopener">秋葉原站</a>吃晚餐</div>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">品川</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a><span class="tag">客製沙拉</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a><span class="tag">日式咖哩</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a><span class="tag">全素自然食，品川港南</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a><span class="tag">義式料理</span></li></ul>
+</div>
+</div></div>
+</section>
+<section class="card day" id="day3">
+<div class="badge">三</div>
+<div class="day-date">DAY 3　10月1日（四）</div>
+<h2>皇居、增上寺、東京鐵塔</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>REVIVE KITCHEN THREE HIBIYA</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%9A%87%E5%B1%85%E6%9D%B1%E5%BE%A1%E8%8B%91" target="_blank" rel="noopener">皇居東御苑</a></div>
+<p class="note">大型造景花園，位在建於 1888 年的宮殿園區內，園中還有幾處江戶時期的城堡遺址。</p>
+<p class="note">免費入園，入口需過安檢；週一、週五休園，10月1日（四）開放，10月開放至16:30；園內多碎石路。</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://maps.app.goo.gl/hPTzcsczjAYR9rY17" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a></div>
+<p class="note">THREE 旗下 Modern Shojin 蔬食餐廳（日比谷中城2F），午餐點季節蔬食拼盤或全素拌飯；蛋奶素、全素皆宜，可訂位。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">新橋、銀座</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a><span class="tag">全素麻婆豆腐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a><span class="tag">印度料理，銀座8-10-8 B1</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a><span class="tag">野菜料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a><span class="tag">蔬食咖啡廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a><span class="tag">全素餐廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%86%8D%E9%86%90%20%E7%B2%BE%E9%80%B2%E6%96%99%E7%90%86%20%E6%84%9B%E5%AE%95%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">醍醐</a><span class="tag">精進午餐，米其林二星</span></li></ul>
+<div class="alts-area">東京站</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a><span class="tag">素食拉麵，東京站拉麵街</span></li></ul>
+</div>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A2%97%E4%B8%8A%E5%AF%BA" target="_blank" rel="noopener">增上寺</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AD" target="_blank" rel="noopener">東京鐵塔大展望台</a></div>
+<p class="note">增上寺為德川將軍家菩提寺，朱紅三解脫門（1622年）可與鐵塔同框；東京鐵塔高333公尺，Main Deck 位於150公尺。</p>
+<p class="note">增上寺與鐵塔同區，可搭計程車接駁</p>
+<p class="note">只上 Main Deck，少排隊、少樓梯</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">銀座</a></div>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">六本木</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%B7%8F%E6%9C%AC%E5%AE%B6%E6%9B%B4%E7%A7%91%E5%A0%80%E4%BA%95%20%E9%BA%BB%E5%B8%83%E5%8D%81%E7%95%AA%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">總本家更科堀井 麻布十番本店</a><span class="tag">蕎麥麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%A4%E3%82%8B%E3%81%A8%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">TsuruTonTan</a><span class="tag">烏龍麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=SOUGO%20%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">Sougo</a><span class="tag">精進料理</span></li></ul>
+<div class="alts-area">新橋、銀座</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a><span class="tag">全素麻婆豆腐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a><span class="tag">印度料理，銀座8-10-8 B1</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a><span class="tag">野菜料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a><span class="tag">蔬食咖啡廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a><span class="tag">全素餐廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a><span class="tag">蔬食餐廳</span></li></ul>
+<div class="alts-area">東京站</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a><span class="tag">素食拉麵，東京站拉麵街</span></li></ul>
+</div>
+</div></div>
+</section>
+<section class="card day" id="day4">
+<div class="badge">四</div>
+<div class="day-date">DAY 4　10月2日（五）</div>
+<h2>鎌倉高德院大佛、長谷寺、小町通り商店街</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>木と季 野菜定食</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main">從<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>搭綠色車廂到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8E%8C%E5%80%89%E9%A7%85" target="_blank" rel="noopener">鎌倉</a>，轉江之島鐵路到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E8%B0%B7%E9%A7%85%20%E7%A5%9E%E5%A5%88%E5%B7%9D" target="_blank" rel="noopener">長谷</a></div>
+<p class="note">參拜<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%AB%98%E5%BE%B3%E9%99%A2%20%E9%8E%8C%E5%80%89%E5%A4%A7%E4%BB%8F" target="_blank" rel="noopener">高德院大佛</a></p>
+<p class="note">高德院露天青銅阿彌陀佛坐像，高約11.3公尺，為國寶；境內平坦，門票300円，另付50円可入佛像內部。</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9C%A8%E3%81%A8%E5%AD%A3%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">木と季</a><span class="tag">野菜定食，高德院大佛旁</span></div>
+<p class="note">自家栽培有機蔬菜的菜食定食「木と季膳」（2,400円），不用動物性食材，全素；完全預約制，需2天前訂，週日休。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%BE%A1%E6%88%90%E6%A8%AA%E4%B8%81%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">御成橫丁</a><span class="tag">鎌倉，壽司、拉麵與應時蔬食</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Cotonoha%20%E9%95%B7%E8%B0%B7" target="_blank" rel="noopener">Cotonoha</a><span class="tag">長谷，野菜飯、茶</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%BF%83%20%E9%95%B7%E8%B0%B7%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">麻心</a><span class="tag">長谷，野菜飯、茶</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Kamakura%20Vegetable%20Shop%20Veggy" target="_blank" rel="noopener">Kamakura Vegetable Shop Veggy</a><span class="tag">長谷，飯糰麵包，只有6個位置</span></li></ul>
+</div>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E8%B0%B7%E5%AF%BA%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">長谷寺</a>，回鎌倉逛<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8E%8C%E5%80%89%20%E5%B0%8F%E7%94%BA%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">小町通り</a>與<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%B6%B4%E5%B2%A1%E5%85%AB%E5%B9%A1%E5%AE%AE" target="_blank" rel="noopener">鶴岡八幡宮</a></div>
+<p class="note">長谷寺疲累時可只走下方庭園</p>
+<p class="note">長谷寺供奉高9.18公尺的木造十一面觀音，見晴台可眺望由比濱，山門至本堂約80級石階；鶴岡八幡宮本宮在61級大石段上。</p>
+<p class="note">備選景點：<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%AD%E6%B4%97%E5%BC%81%E8%B2%A1%E5%A4%A9%E5%AE%87%E8%B3%80%E7%A6%8F%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener">錢洗弁財天宇賀福神社</a>。沿著指標往西北方向步行約20至30分鐘，前半段為一般街道，後半段會經過一段稍微陡峭的上坡路段（弁財天道），最後會穿過著名的崖邊人工隧道入口。</p>
+<p class="extra">下午茶：<a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%80%E7%B4%A0%E8%8C%B6%E5%BA%B5%20%E5%8C%97%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">一素茶庵</a><span class="tag">北鎌倉</span>台灣風全素茶點，台灣茶配豆乳布丁等甜點；10:00 至 16:00，週二、週三休，12席只收現金，15:00前抵達。飯後由北鎌倉搭 JR 橫須賀線直達品川約50分鐘。</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Natural%20Cafe%20%26%20Restaurant%20%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E6%9D%B1%E4%BA%AC%E7%99%82%E9%99%A2%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">Natural Cafe＆Restaurant 椨の木</a><span class="tag">品川高輪口，葷素同行</span></div>
+<p class="note">東京療院新館1F的自然食餐廳，以MOA自然農法蔬菜與天然海鮮入菜，葷素同行，訂位時可要求蛋奶素或全素；週五晚餐 17:30 至 21:00（最後點餐 20:00），僅電話訂位。高輪口步行5分鐘，17:30 入座，約 19:00 前可走回飯店。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">品川</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a><span class="tag">客製沙拉</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a><span class="tag">日式咖哩</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a><span class="tag">全素自然食，品川港南</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a><span class="tag">義式料理</span></li></ul>
+</div>
+</div></div>
+</section>
+<section class="card day" id="day5">
+<div class="badge">五</div>
+<div class="day-date">DAY 5　10月3日（六）</div>
+<h2>上野東京國立博物館、谷中</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>再来宴上野仲町通り</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8" target="_blank" rel="noopener">東京國立博物館</a></div>
+<p class="note">日本歷史最悠久的博物館（1872年創立），週一休館，10月3日（六）開放；館區步道平坦。</p>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8%20%E6%B3%95%E9%9A%86%E5%AF%BA%E5%AE%9D%E7%89%A9%E9%A4%A8" target="_blank" rel="noopener">法隆寺寶物館</a>：獨立建築，展示1400年前飛鳥時代的金銅佛像、光背及皇室獻納寶物，氛圍幽靜神聖。</p>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8%20%E6%9C%AC%E9%A4%A8" target="_blank" rel="noopener">本館（日本畫廊）</a>：2樓為日本美術通史，包含佛教相關的歷史脈絡；1樓（3-1展室等）集中展示從平安、鎌倉到室町時代的佛教雕刻、佛畫與經卷，如重要文化財菩薩立像、日光菩薩坐像等。</p>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8%20%E6%9D%B1%E6%B4%8B%E9%A4%A8" target="_blank" rel="noopener">東洋館</a>：亞洲藝文展區，特別收藏來自中國、印度等地的古代佛教造像與石刻藝術。</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%86%8D%E6%9D%A5%E5%AE%B4%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">再来宴上野仲町通り</a><span class="tag">中式有素</span></div>
+<p class="note">上海、四川中菜館，另有大豆素肉的素食菜單，如麻辣蔬菜「素八仙」；葷素同行，可訂位。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">T&#x27;s たんたん Ecute上野</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegeherb%20Saga%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">Vegeherb Saga</a><span class="tag">全素印度，同行可全素</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%BE%A1%E5%BE%92%E7%94%BA%E6%98%A5%E6%97%A5%E9%80%9A%E3%82%8A%E5%BA%97%20%E4%B8%8A%E9%87%8E%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">CoCo壱</a><span class="tag">客製，葷素同行</span></li></ul>
+</div>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B0%B7%E4%B8%AD%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">谷中銀座</a></div>
+<p class="note">保留昭和下町風情的商店街，全長約170公尺、約60家小店；日暮里側入口「夕やけだんだん」有36級石階。</p>
+<p class="note">緩坡商店街，適合散步</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B0%8F%E7%89%A7%E9%A3%9F%E5%A0%82%20%E9%8E%8C%E5%80%89%E3%81%B5%E3%81%97%E3%81%8D%E5%BA%B5%20%E7%A7%8B%E8%91%89%E5%8E%9F" target="_blank" rel="noopener">Komaki Shokudo Kamakura Fushikian</a><span class="tag">秋葉原</span></div>
+<p class="note">秋葉原站高架下（CHABARA）的精進料理食堂，點季節定食，全素；營業至20:00（最後點餐19:30），訂位優先。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegeherb%20Saga%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">Vegeherb</a><span class="tag">印度菜</span></li></ul>
+</div>
+</div></div>
+</section>
+<section class="card day" id="day6">
+<div class="badge">六</div>
+<div class="day-date">DAY 6　10月4日（日）</div>
+<h2>新宿御苑、明治神宮</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>Vegan Bistro Jangara</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%96%B0%E5%AE%BF%E5%BE%A1%E8%8B%91" target="_blank" rel="noopener">新宿御苑</a>慢走，逛完往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8E%9F%E5%AE%BF%E9%A7%85" target="_blank" rel="noopener">原宿站</a></div>
+<p class="note">融合法式、英式與日式庭園的國民公園；門票500円（65歲以上250円），週一休園，10月開放至16:30。</p>
+<p class="note">園內平坦</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegan%20Bistro%20Jangara%20%E5%8E%9F%E5%AE%BF" target="_blank" rel="noopener">Vegan Bistro Jangara</a><span class="tag">原宿站</span></div>
+<p class="note">九州じゃんがら旗下的全素拉麵店，招牌「ヴィーガンからぼん」，可改無五辛；全素，不接受訂位。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20Journey%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">Ain Soph. Journey 新宿</a><span class="tag">全素餐廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">AFURI新宿</a><span class="tag">葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%A2%E3%83%9F%E3%83%8E%E3%82%AD%E3%83%8F%E3%82%A6%E3%82%B9" target="_blank" rel="noopener">Mominoki House</a><span class="tag">玄米菜食</span></li></ul>
+</div>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%98%8E%E6%B2%BB%E7%A5%9E%E5%AE%AE" target="_blank" rel="noopener">明治神宮</a>參道與本殿，再往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7%E9%A7%85" target="_blank" rel="noopener">澀谷站</a>逛</div>
+<p class="note">1920年創建，供奉明治天皇與昭憲皇太后，約70公頃人造森林環繞；參拜免費，參道為碎石路。</p>
+<p class="note">明治神宮森林平坦、少階梯</p>
+<p class="note">略過竹下通（人擠、步行多）</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=MASAKA%20%E6%B8%8B%E8%B0%B7PARCO" target="_blank" rel="noopener">真さか MASAKA</a><span class="tag">素居酒屋，澀谷PARCO B1</span></div>
+<p class="note">位於澀谷PARCO B1的全素居酒屋，可點全素餃子、炸物與定食；全素，不接受訂位。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20Journey%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">Ain Soph. Journey</a><span class="tag">全素</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=vegan%20veggie%20%E5%AB%A6%E5%A8%A5%20%E5%8D%97%E9%9D%92%E5%B1%B1%20%E8%A1%A8%E5%8F%82%E9%81%93%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">vegan veggie 嫦娥</a><span class="tag">全素藥膳中菜</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI" target="_blank" rel="noopener">AFURI</a><span class="tag">Vegan Ramen 與一般拉麵，葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Brown%20Rice%20by%20Neal%27s%20Yard%20Rem%C3%A8de" target="_blank" rel="noopener">Brown Rice by Neal&#x27;s Yard</a><span class="tag">全素定食</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B9%9D%E5%B7%9E%E3%81%98%E3%82%83%E3%82%93%E3%81%8C%E3%82%89%20%E5%8E%9F%E5%AE%BF" target="_blank" rel="noopener">Kyushu Jangara Ramen Harajuku</a><span class="tag">九州拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=ANANAS%20COFFEE%20VEGAN%20TOKYO" target="_blank" rel="noopener">ANANAS COFFEE VEGAN TOKYO</a><span class="tag">點心</span></li></ul>
+</div>
+</div></div>
+</section>
+<section class="card day" id="day7">
+<div class="badge">七</div>
+<div class="day-date">DAY 7　10月5日（一）</div>
+<h2>築地、濱離宮、銀座</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>AIN SOPH. GINZA</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%AF%89%E5%9C%B0%E6%9C%AC%E9%A1%98%E5%AF%BA" target="_blank" rel="noopener">築地本願寺</a>，再到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%AF%89%E5%9C%B0%E5%A0%B4%E5%A4%96%E5%B8%82%E5%A0%B4" target="_blank" rel="noopener">場外市場</a>逛逛</div>
+<p class="note">築地本願寺本堂是1934年建的古印度風石造建築，可免費入內；場外市場約460家店，週一正常營業，多數店午後打烊。</p>
+<p class="note">築地本願寺為印度風石造建築，少階梯</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA%20%E9%8A%80%E5%BA%A7%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">AIN SOPH. GINZA</a></div>
+<p class="note">2009年創業的全素餐廳，招牌全素鬆餅，1樓甜點店的布丁很受歡迎；全素，建議用 TableCheck 預約。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">新橋、銀座</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a><span class="tag">全素麻婆豆腐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a><span class="tag">印度料理，銀座8-10-8 B1</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a><span class="tag">野菜料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a><span class="tag">蔬食咖啡廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a><span class="tag">蔬食餐廳</span></li></ul>
+<div class="alts-area">東京站</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a><span class="tag">素食拉麵，東京站拉麵街</span></li></ul>
+</div>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">銀座</a>購物，或逛<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%9C%E9%9B%A2%E5%AE%AE%E6%81%A9%E8%B3%9C%E5%BA%AD%E5%9C%92" target="_blank" rel="noopener">濱離宮庭園</a></div>
+<p class="note">江戶時代將軍家庭園，有引海水的「潮入之池」，可在中島御茶屋喝抹茶；門票300円（65歲以上150円）。</p>
+<p class="note">庭園平坦；銀座可坐室內、避雨</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a></div>
+<p class="note">印度料理，素食可點蔬食套餐「ベジターリ」、蔬菜咖哩與烤餅，蛋奶素可、葷素同行；可網路訂位（銀座8-10-8 B1）。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">新橋、銀座</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a><span class="tag">全素麻婆豆腐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a><span class="tag">野菜料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a><span class="tag">蔬食咖啡廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a><span class="tag">全素餐廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a><span class="tag">蔬食餐廳</span></li></ul>
+<div class="alts-area">東京站</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a><span class="tag">素食拉麵，東京站拉麵街</span></li></ul>
+</div>
+</div></div>
+</section>
+<section class="card day" id="day8">
+<div class="badge">八</div>
+<div class="day-date">DAY 8　10月6日（二）</div>
+<h2>川越一日，藏造老街</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>幸すし（幸壽司）</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E4%B8%80%E7%95%AA%E8%A1%97%E5%95%86%E5%BA%97%E8%A1%97" target="_blank" rel="noopener">小江戶川越一番街商店街</a></div>
+<p class="note">保留江戶至明治土藏造建築的老街，地標時之鐘高約16公尺；菓子屋橫丁有30多家傳統糖果點心店。</p>
+<p class="note">平坦商店街，少爬坡，可看<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%99%82%E3%81%AE%E9%90%98%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">時之鐘</a>。可在<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%90%E3%83%83%E3%82%AF%E3%82%B9%20%E5%B7%9D%E8%B6%8A%E9%90%98%E3%81%A4%E3%81%8D%E9%80%9A%E3%82%8A%E5%BA%97%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">星巴克 川越時鐘小路店</a>休息；<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E3%83%99%E3%83%BC%E3%82%AB%E3%83%AA%E3%83%BC%E6%A5%BD%E6%A5%BD%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">川越烘焙坊 樂樂</a>是<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%8F%93%E5%AD%90%E5%B1%8B%E6%A8%AA%E4%B8%81%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">菓子屋橫丁</a>入口附近的麵包烘焙坊</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B9%B8%E3%81%99%E3%81%97%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">幸すし（幸壽司）</a></div>
+<p class="note">素鰻魚飯、素壽喜燒、蔬菜壽司套餐</p>
+<p class="note">明治11年創業的江戶前壽司老店，葷素同行；素鰻魚飯（うなぎの気持ち）與全素套餐需2天前預約，週一休。</p>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%96%9C%E5%A4%9A%E9%99%A2%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">喜多院</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BB%99%E6%B3%A2%E6%9D%B1%E7%85%A7%E5%AE%AE" target="_blank" rel="noopener">仙波東照宮</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E3%81%BE%E3%81%A4%E3%82%8A%E4%BC%9A%E9%A4%A8" target="_blank" rel="noopener">川越祭會館</a>，之後回程</div>
+<p class="note">喜多院客殿有從江戶城移築的「家光誕生之間」，另有538尊表情各異的五百羅漢；共通拜觀券400円。</p>
+<p class="note">其他寺社：<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%93%AE%E9%A6%A8%E5%AF%BA%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">蓮馨寺</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E5%9F%8E%E6%9C%AC%E4%B8%B8%E5%BE%A1%E6%AE%BF" target="_blank" rel="noopener">川越城 本丸御殿</a></p>
+<p class="note">回程從川越搭東武東上線到池袋，轉山手線到品川，傍晚回飯店</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main">回飯店附近吃，也可以去其他區</div>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">品川</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a><span class="tag">客製沙拉</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a><span class="tag">日式咖哩</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a><span class="tag">全素自然食，品川港南</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a><span class="tag">義式料理</span></li></ul>
+</div>
+</div></div>
+</section>
+<section class="card day" id="day9">
+<div class="badge">九</div>
+<div class="day-date">DAY 9　10月7日（三）</div>
+<h2>六本木、麻布台、澀谷</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>vegan veggie 嫦娥</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">六本木</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">麻布台</a>慢遊</div>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%B7%E3%83%86%E3%82%A3%E3%83%93%E3%83%A5%E3%83%BC%20%E5%85%AD%E6%9C%AC%E6%9C%A8%E3%83%92%E3%83%AB%E3%82%BA%E6%A3%AE%E3%82%BF%E3%83%AF%E3%83%BC" target="_blank" rel="noopener">東京City View</a><span class="tag">六本木Hills森タワー52F室內展望台</span>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">麻布台 Hills</a>，再往澀谷散步</p>
+<p class="note">52樓室內展望台，全程搭電梯、免爬樓梯，雨天也可去；10月營業 10:00 至 22:00（最後入場 21:30），一般 2,400円（線上 2,200円），65歲以上 2,100円（線上 1,900円），日時指定制。麻布台Hills為2023年開幕新地標，<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=teamLab%20Borderless%20%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">teamLab無界美術館</a>需預約時段票。</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=vegan%20veggie%20%E5%AB%A6%E5%A8%A5%20%E5%8D%97%E9%9D%92%E5%B1%B1%20%E8%A1%A8%E5%8F%82%E9%81%93%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">vegan veggie 嫦娥</a></div>
+<p class="note">南青山的全素藥膳中菜，以大豆素肉做麻婆豆腐、青椒肉絲等；全素可吃，可網路訂位。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%A4%E3%82%8B%E3%81%A8%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">TsuruTonTan</a><span class="tag">烏龍麵專賣店</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI%20%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">AFURI六本木</a><span class="tag">柚子鹽拉麵</span></li><li><a class="lk rest" href="https://maps.app.goo.gl/rkqbew48URSmbeHSA" target="_blank" rel="noopener">Brown Rice Tokyo Omotesando</a><span class="tag">全素定食</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8F%B0%E6%B9%BE%E6%96%99%E7%90%86%20%E9%BA%97%E9%83%B7%20%E6%B8%8B%E8%B0%B7%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">台灣料理 麗鄉</a><span class="tag">台菜</span></li></ul>
+</div>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%B3%E3%83%96%E3%83%AB%E4%BA%A4%E5%B7%AE%E7%82%B9" target="_blank" rel="noopener">澀谷</a></div>
+<p class="note">澀谷十字路口與忠犬八公像所在地，站前百貨、商場多，逛累可隨時入內休息。</p>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8F%B0%E6%B9%BE%E6%96%99%E7%90%86%20%E9%BA%97%E9%83%B7%20%E6%B8%8B%E8%B0%B7%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">台灣料理 麗鄉</a></div>
+<p class="note">澀谷道玄坂老牌台菜館，招牌腸詰（台式香腸）、炒蜆、米粉；以葷食為主，素食選擇少；10人以上才收訂位，只收現金。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=MASAKA%20%E6%B8%8B%E8%B0%B7PARCO" target="_blank" rel="noopener">真さか MASAKA</a><span class="tag">澀谷PARCO B1，全素居酒屋，12:00 至 22:00</span></li></ul>
+<p class="note">Brown Rice 只營業至 18:00，僅適合午餐。</p>
+</div>
+</div></div>
+</section>
+<section class="card day" id="day10">
+<div class="badge">十</div>
+<div class="day-date">DAY 10　10月8日（四）</div>
+<h2>伴手禮、返程成田</h2>
+<div class="day-pill info">起飛前 3 小時抵達機場</div>
+<div class="slot place">
+<div class="slot-label">上午</div>
+<div class="slot-body">
+<div class="slot-main">在<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>或車站周邊買伴手禮</div>
+</div></div>
+<div class="slot meal">
+<div class="slot-label">午餐</div>
+<div class="slot-body">
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%88%90%E7%94%B0%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">T&#x27;sたんたん</a><span class="tag">成田第二航廈4F，7:30 至 21:00</span></div>
+<p class="note">T&#x27;sたんたん為全素擔擔麵專賣店，品川沒有分店；成田第二航廈店在4F出境前區域（最後點餐 20:30），若從第一航廈出發，改在 N&#x27;EX 沿途的東京站店吃。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%BF%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">T&#x27;sたんたん グランスタ東京</a><span class="tag">東京站B1改札外，10:00 至 22:00</span></li></ul>
+</div>
+</div></div>
+<div class="slot place">
+<div class="slot-label">下午</div>
+<div class="slot-body">
+<div class="slot-main">前往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E7%94%B0%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">成田機場</a></div>
+<p class="note">搭 N&#x27;EX 從品川到成田（綠色車廂），或搭利木津巴士（飯店有停）；預留延誤時間</p>
+</div></div>
+<div class="slot info">
+<div class="slot-label">晚餐</div>
+<div class="slot-body">
+<div class="slot-main">起飛前 3 小時抵達機場</div>
+</div></div>
+</section>
+<section class="card" id="nearby"><div class="badge">宿</div><h2>飯店周邊的零食、超市與便利店</h2><div class="day-date">都在步行範圍內</div><div class="alts-area">最近，幾乎不用出門</div><ul class="plain"><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%BB%E3%83%96%E3%83%B3%E3%82%A4%E3%83%AC%E3%83%96%E3%83%B3%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%E3%83%9B%E3%83%86%E3%83%AB%E6%96%B0%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">セブン‐イレブン グランドプリンスホテル新高輪店</a><span class="tag">園區內，約 7:00 至 1:00，零食飲料便當</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%BB%E3%83%96%E3%83%B3%E3%82%A4%E3%83%AC%E3%83%96%E3%83%B3%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%E3%83%9B%E3%83%86%E3%83%AB%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">セブン‐イレブン グランドプリンスホテル高輪ロビー店</a><span class="tag">園區內，營業時間同上，有 ATM 與影印</span></li></ul><div class="alts-area">車站高輪口，順路</div><ul class="plain"><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%BB%E3%83%96%E3%83%B3%E3%82%A4%E3%83%AC%E3%83%96%E3%83%B3%20%E5%93%81%E5%B7%9D%E9%A7%85%E5%89%8D%E5%BA%97" target="_blank" rel="noopener">セブン‐イレブン 品川駅前店</a><span class="tag">高輪口附近，24 小時便利商店</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=NewDays%20%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">NewDays</a><span class="tag">品川駅構內，零食飲料</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">エキュート品川</a><span class="tag">車站改札內，伴手禮與點心</span></li></ul><div class="alts-area">想多買一點，港南口與アトレ</div><ul class="plain"><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">アトレ品川</a><span class="tag">穿過車站約 8 至 12 分鐘，商場</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=DEAN%20%26%20DELUCA%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">DEAN &amp; DELUCA 品川</a><span class="tag">アトレ 2F，堅果、巧克力、果汁</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E5%9F%8E%E7%9F%B3%E4%BA%95%20%E3%83%AB%E3%83%9F%E3%83%8D%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">成城石井 ルミネ品川</a><span class="tag">精品超市，牛奶、水果、零食</span></li></ul><div class="alts-area">晚餐餓了也可以去（素食備案）</div><ul class="plain"><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">キミタンハウス</a><span class="tag">高輪口約 10 分鐘，全素，建議訂位</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">椨の木</a><span class="tag">高輪口約 5 分鐘，週日休，週六無晚餐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AA%E3%83%BC%E3%83%93%E3%82%AB%20%E3%83%A2%E3%83%83%E3%83%84%E3%82%A1%E3%83%AC%E3%83%A9%E3%83%90%E3%83%BC%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">オービカ 高輪</a><span class="tag">ウィング高輪，義式，有素食選擇</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">アトレ 4F，葷素同行</span></li></ul></section>
   <footer class="note">
-    菜單解析、餐廳資訊與入境判斷皆為 AI 提供之參考資料。<br>
-    若擔心過敏或誤食，仍建議到店後再次向店員確認食材。
+    營業時間、公休日與票價以出發前店家／官網公告為準；素食需求到店後請再向店員確認。<br>
+    地圖連結為 Google Maps 搜尋連結，若出現多個結果請選對應分店。<br>
+    <a href="helper.html">素食小幫手</a>
   </footer>
 </div>
-
 <script>
-/* ---------- Proxy config ----------
- * Set to your Cloudflare Worker base URL to keep the Anthropic key server-side.
- * Leave empty to use localStorage API key + direct Anthropic (fallback).
- * Example: 'https://veg-travel-proxy.example.workers.dev'
- * Runtime override: window.VEG_PROXY_URL = 'https://...'
- */
-const VEG_PROXY_URL = 'https://veg-travel-proxy.mclintw.workers.dev';
-function getProxyBase(){
-  const fromWindow = (typeof window !== 'undefined' && window.VEG_PROXY_URL) ? String(window.VEG_PROXY_URL).trim() : '';
-  const fromConst = (typeof VEG_PROXY_URL === 'string') ? VEG_PROXY_URL.trim() : '';
-  return (fromWindow || fromConst).replace(/\/+$/, '');
-}
-function usesProxy(){ return !!getProxyBase(); }
-
-/* ---------- vegetarian type data ---------- */
-const VEG_TYPES = [
-  {
-    id:'vegan',
-    labelZh:'全素',
-    canJa:['野菜・果物・穀物・豆類・きのこ・海藻'],
-    cannotJa:['肉・魚介類全般','卵・乳製品','はちみつ','動物性だし・ラード・ゼラチン'],
-    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻'],
-    cannotZh:['所有肉類、海鮮','蛋、乳製品','蜂蜜','動物性高湯、豬油、明膠'],
-    speech:'私は完全菜食主義者、ヴィーガンです。肉、魚介類、卵、乳製品、はちみつなど、動物由来のものは一切食べられません。'
-  },
-  {
-    id:'ovo',
-    labelZh:'蛋素',
-    canJa:['野菜・果物・穀物・豆類・きのこ・海藻','卵'],
-    cannotJa:['肉・魚介類全般','乳製品','はちみつ','動物性だし・ラード・ゼラチン'],
-    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻','蛋'],
-    cannotZh:['所有肉類、海鮮','乳製品','蜂蜜','動物性高湯、豬油、明膠'],
-    speech:'私は卵は食べますが、肉、魚介類、乳製品、はちみつなど動物由来のものは食べられません。'
-  },
-  {
-    id:'lacto',
-    labelZh:'奶素',
-    canJa:['野菜・果物・穀物・豆類・きのこ・海藻','乳製品'],
-    cannotJa:['肉・魚介類全般','卵','はちみつ','動物性だし・ラード・ゼラチン'],
-    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻','乳製品'],
-    cannotZh:['所有肉類、海鮮','蛋','蜂蜜','動物性高湯、豬油、明膠'],
-    speech:'私は乳製品は食べますが、肉、魚介類、卵、はちみつなど動物由来のものは食べられません。'
-  },
-  {
-    id:'lactoovo',
-    labelZh:'奶蛋素',
-    canJa:['野菜・果物・穀物・豆類・きのこ・海藻','卵','乳製品'],
-    cannotJa:['肉・魚介類全般','はちみつ','動物性だし・ラード・ゼラチン'],
-    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻','蛋','乳製品'],
-    cannotZh:['所有肉類、海鮮','蜂蜜','動物性高湯、豬油、明膠'],
-    speech:'私は卵と乳製品は食べますが、肉、魚介類、はちみつなど動物由来のものは食べられません。'
-  },
-  {
-    id:'pescatarian',
-    labelZh:'魚素（海鮮可）',
-    canJa:['野菜・果物・穀物・豆類・きのこ・海藻','魚介類'],
-    cannotJa:['肉','卵','乳製品','はちみつ','動物性だし・ラード・ゼラチン'],
-    canZh:['蔬菜、水果、穀類、豆類、菇類、海藻','海鮮'],
-    cannotZh:['肉類','蛋','乳製品','蜂蜜','動物性高湯、豬油、明膠'],
-    speech:'私は魚介類は食べますが、肉、卵、乳製品、はちみつなど動物由来のものは食べられません。'
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav.daynav a'));
+  var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var nav=document.querySelector('nav.daynav');
+  function setActive(id){
+    links.forEach(function(a){a.classList.toggle('active',a===map[id]);});
+    var a=map[id]; if(a&&nav){var l=a.offsetLeft-nav.clientWidth/2+a.clientWidth/2; nav.scrollTo({left:l,behavior:'smooth'});}
   }
-];
-
-let currentType = VEG_TYPES[0];
-
-/* ---------- API key management ---------- */
-const API_KEY_STORAGE = 'anthropic_api_key';
-function getApiKey(){ return localStorage.getItem(API_KEY_STORAGE) || ''; }
-function setApiKey(k){ localStorage.setItem(API_KEY_STORAGE, k); updateKeyUI(); }
-function clearApiKey(){ localStorage.removeItem(API_KEY_STORAGE); updateKeyUI(); }
-
-function updateKeyUI(){
-  const key = getApiKey();
-  const status = document.getElementById('keyStatus');
-  const iconBtn = document.getElementById('apiKeyIconBtn');
-  if(usesProxy()){
-    status.className = 'key-status set';
-    status.textContent = '已啟用伺服器代理（不必填瀏覽器金鑰）';
-    iconBtn.classList.add('key-set');
-  } else if(key){
-    status.className = 'key-status set';
-    status.textContent = '已設定金鑰';
-    iconBtn.classList.add('key-set');
-  } else {
-    status.className = 'key-status unset';
-    status.textContent = '尚未設定金鑰';
-    iconBtn.classList.remove('key-set');
-  }
-}
-
-function openKeySettings(forceReveal){
-  document.getElementById('apiKeyModalOverlay').hidden = false;
-  if(forceReveal){
-    document.getElementById('keyInputArea').hidden = false;
-    document.getElementById('apiKeyInput').focus();
-  }
-}
-
-document.getElementById('apiKeyIconBtn').onclick = ()=> openKeySettings(false);
-document.getElementById('apiKeyModalClose').onclick = ()=> document.getElementById('apiKeyModalOverlay').hidden = true;
-document.getElementById('apiKeyModalOverlay').onclick = (e)=>{
-  if(e.target === document.getElementById('apiKeyModalOverlay')) document.getElementById('apiKeyModalOverlay').hidden = true;
-};
-document.getElementById('revealKeyInputBtn').onclick = ()=>{
-  document.getElementById('keyInputArea').hidden = false;
-  document.getElementById('apiKeyInput').focus();
-};
-document.getElementById('apiKeyInput').onchange = (e)=>{
-  const v = e.target.value.trim();
-  if(v) setApiKey(v);
-};
-document.getElementById('clearKeyLink').onclick = (e)=>{
-  e.preventDefault();
-  clearApiKey();
-  document.getElementById('apiKeyInput').value = '';
-};
-
-updateKeyUI();
-
-/* ---------- Claude API call ---------- */
-async function callClaude({content, tools, maxTokens=1000, system}){
-  const proxyBase = getProxyBase();
-  const body = {
-    model: 'claude-sonnet-4-6',
-    max_tokens: maxTokens,
-    messages: [{ role: 'user', content }]
-  };
-  if(tools) body.tools = tools;
-  if(system) body.system = system;
-
-  let url;
-  let headers;
-  if(proxyBase){
-    url = proxyBase + '/v1/messages';
-    headers = { 'Content-Type': 'application/json' };
-  } else {
-    const apiKey = getApiKey();
-    if(!apiKey){
-      throw new Error('AUTH_MISSING');
-    }
-    url = 'https://api.anthropic.com/v1/messages';
-    headers = {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-access': 'true'
-    };
-  }
-
-  try{
-    const res = await fetch(url, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(body)
-    });
-    if(!res.ok){
-      const errText = await res.text();
-      if(res.status === 429) throw new Error('使用次數太頻繁，請稍等一分鐘再試。');
-      if(res.status === 413) throw new Error('照片檔案太大，請換一張較小的照片再試。');
-      if(res.status === 401 || res.status === 403) throw new Error('AUTH_MISSING');
-      throw new Error(errText || 'API error');
-    }
-    const data = await res.json();
-    let text = '';
-    let hasToolUse = false;
-    for(const block of (data.content || [])){
-      if(block.type === 'text') text += block.text;
-      if(block.type === 'tool_use') hasToolUse = true;
-    }
-    if(!text && data.content){
-      text = data.content.map(c => c.text || '').join('');
-    }
-    if(!text.trim() && hasToolUse){
-      throw new Error('AI 需要額外工具步驟，目前版本暫不支援。請換個地點再試一次。');
-    }
-    return text;
-  }catch(err){
-    if(err.message === 'Failed to fetch' || err.name === 'TypeError'){
-      throw new Error('NETWORK_OR_CORS');
-    }
-    throw err;
-  }
-}
-
-function friendlyApiErrorMessage(err){
-  if(err.message === 'AUTH_MISSING'){
-    return usesProxy()
-      ? '代理認證失敗，請確認 Worker 已設定 ANTHROPIC_API_KEY，或改用本機金鑰後備。'
-      : '請先設定 API 金鑰（點右上角齒輪圖示）。';
-  }
-  if(err.message === 'NETWORK_OR_CORS'){
-    return usesProxy()
-      ? '無法連上代理伺服器，請確認 VEG_PROXY_URL 與 CORS 設定。'
-      : '網路錯誤或瀏覽器限制，請確認金鑰正確，或改用支援的環境。';
-  }
-  return err.message || '發生錯誤，請稍後再試。';
-}
-
-function extractJSON(text){
-  if(!text || typeof text !== 'string') throw new Error('無法解析 AI 回傳的內容');
-  let cleaned = text.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-  try{ return JSON.parse(cleaned); }catch(e){}
-  const match = cleaned.match(/\{[\s\S]*\}/);
-  if(match){
-    try{ return JSON.parse(match[0]); }catch(e){}
-  }
-  const arrMatch = cleaned.match(/"restaurants"\s*:\s*(\[[\s\S]*?\])/);
-  if(arrMatch){
-    try{ return { restaurants: JSON.parse(arrMatch[1]) }; }catch(e){}
-  }
-  console.error('Failed to parse AI response:', text.slice(0, 500));
-  throw new Error('無法解析 AI 回傳的內容');
-}
-
-/* ---------- shared image helpers ---------- */
-// Downscale a photo in the browser before sending (keeps requests well under the
-// proxy's 6 MB limit and speeds up uploads). Falls back to the original file if the
-// browser can't decode it (e.g. HEIC on some desktop browsers).
-const IMG_MAX_DIM = 1600;
-const IMG_JPEG_QUALITY = 0.85;
-function readFileAsDataURL(file){
-  return new Promise((resolve, reject)=>{
-    const reader = new FileReader();
-    reader.onload = ()=> resolve(reader.result);
-    reader.onerror = ()=> reject(reader.error || new Error('讀取照片失敗'));
-    reader.readAsDataURL(file);
-  });
-}
-function loadImageFromFile(file){
-  return new Promise((resolve, reject)=>{
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = ()=>{ URL.revokeObjectURL(url); resolve(img); };
-    img.onerror = ()=>{ URL.revokeObjectURL(url); reject(new Error('無法解碼照片')); };
-    img.src = url;
-  });
-}
-async function prepareImage(file, maxDim = IMG_MAX_DIM, quality = IMG_JPEG_QUALITY){
-  try{
-    const img = await loadImageFromFile(file);
-    const w0 = img.naturalWidth || img.width;
-    const h0 = img.naturalHeight || img.height;
-    if(!w0 || !h0) throw new Error('bad size');
-    const scale = Math.min(1, maxDim / Math.max(w0, h0));
-    const w = Math.max(1, Math.round(w0 * scale));
-    const h = Math.max(1, Math.round(h0 * scale));
-    const canvas = document.createElement('canvas');
-    canvas.width = w; canvas.height = h;
-    const ctx = canvas.getContext('2d');
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0, 0, w, h);
-    ctx.drawImage(img, 0, 0, w, h);
-    const dataUrl = canvas.toDataURL('image/jpeg', quality);
-    if(!dataUrl || !dataUrl.startsWith('data:image/jpeg')) throw new Error('encode failed');
-    return { dataUrl, base64: dataUrl.split(',')[1], mediaType: 'image/jpeg' };
-  }catch(e){
-    const dataUrl = await readFileAsDataURL(file);
-    const m = /^data:([^;,]+)[;,]/.exec(dataUrl || '');
-    const mediaType = (m && m[1]) || file.type || 'image/jpeg';
-    return { dataUrl, base64: dataUrl.split(',')[1], mediaType };
-  }
-}
-function escapeHtml(v){
-  return String(v == null ? '' : v)
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-
-/* ---------- SECTION 1: type chips ---------- */
-const typeChips = document.getElementById('typeChips');
-VEG_TYPES.forEach(t => {
-  const chip = document.createElement('button');
-  chip.className = 'chip' + (t.id === currentType.id ? ' active' : '');
-  chip.textContent = t.labelZh;
-  chip.onclick = ()=>{
-    currentType = t;
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-    renderDiet();
-  };
-  typeChips.appendChild(chip);
-});
-
-function renderDiet(){
-  const ja = document.getElementById('dietDetailsJa');
-  const zh = document.getElementById('dietGlossZh');
-  let html = '';
-  currentType.canJa.forEach(item => {
-    html += `<div class="diet-row"><div class="diet-icon ok">✓</div><div class="diet-text"><span class="label">可吃</span>${item}</div></div>`;
-  });
-  currentType.cannotJa.forEach(item => {
-    html += `<div class="diet-row"><div class="diet-icon no">✕</div><div class="diet-text"><span class="label">不可吃</span>${item}</div></div>`;
-  });
-  ja.innerHTML = html;
-  zh.innerHTML = `<b>中文說明：</b>可吃 ${currentType.canZh.join('、')}；不可吃 ${currentType.cannotZh.join('、')}`;
-}
-renderDiet();
-
-/* ---------- speech ---------- */
-const playBtn = document.getElementById('playBtn');
-playBtn.onclick = ()=>{
-  if(window.speechSynthesis.speaking){
-    window.speechSynthesis.cancel();
-    playBtn.classList.remove('playing');
-    playBtn.innerHTML = '播放日文語音給店員聽';
-    return;
-  }
-  const u = new SpeechSynthesisUtterance(currentType.speech);
-  u.lang = 'ja-JP';
-  u.onend = ()=>{
-    playBtn.classList.remove('playing');
-    playBtn.innerHTML = '播放日文語音給店員聽';
-  };
-  playBtn.classList.add('playing');
-  playBtn.innerHTML = '停止播放';
-  window.speechSynthesis.speak(u);
-};
-
-/* ---------- SECTION 2: conversation translation ---------- */
-const LANGS = [
-  {code:'zh-TW', label:'中文（繁體）'},
-  {code:'ja', label:'日文'},
-  {code:'en', label:'英文'},
-  {code:'ko', label:'韓文'},
-  {code:'zh-CN', label:'中文（簡體）'}
-];
-const convInputLang = document.getElementById('convInputLang');
-const convOutputLang = document.getElementById('convOutputLang');
-LANGS.forEach(l => {
-  const o1 = document.createElement('option');
-  o1.value = l.code; o1.textContent = l.label;
-  convInputLang.appendChild(o1);
-  const o2 = document.createElement('option');
-  o2.value = l.code; o2.textContent = l.label;
-  convOutputLang.appendChild(o2);
-});
-convInputLang.value = 'zh-TW';
-convOutputLang.value = 'ja';
-
-const convInputText = document.getElementById('convInputText');
-const convTranslateBtn = document.getElementById('convTranslateBtn');
-const convLoading = document.getElementById('convLoading');
-const convError = document.getElementById('convError');
-const convOutputBox = document.getElementById('convOutputBox');
-const convOutputText = document.getElementById('convOutputText');
-const convPlayOutputBtn = document.getElementById('convPlayOutputBtn');
-
-convTranslateBtn.onclick = async ()=>{
-  const text = convInputText.value.trim();
-  if(!text){ alert('請先輸入文字'); return; }
-  convError.innerHTML = '';
-  convOutputBox.hidden = true;
-  convLoading.hidden = false;
-  convTranslateBtn.disabled = true;
-  try{
-    const fromLang = LANGS.find(l => l.code === convInputLang.value)?.label || convInputLang.value;
-    const toLang = LANGS.find(l => l.code === convOutputLang.value)?.label || convOutputLang.value;
-    const promptText = `請把以下「${fromLang}」文字翻譯成「${toLang}」。只回傳翻譯結果，不要加任何說明：\n\n${text}`;
-    const result = await callClaude({
-      content: [{ type:"text", text: promptText }],
-      maxTokens: 800
-    });
-    convOutputText.value = result.trim();
-    convOutputBox.hidden = false;
-  }catch(err){
-    console.error(err);
-    convError.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
-    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-      openKeySettings(true);
-    }
-  }finally{
-    convLoading.hidden = true;
-    convTranslateBtn.disabled = false;
-  }
-};
-
-convPlayOutputBtn.onclick = ()=>{
-  const text = convOutputText.value.trim();
-  if(!text) return;
-  if(window.speechSynthesis.speaking){
-    window.speechSynthesis.cancel();
-    return;
-  }
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = convOutputLang.value === 'ja' ? 'ja-JP' : convOutputLang.value === 'zh-TW' || convOutputLang.value === 'zh-CN' ? 'zh-TW' : convOutputLang.value;
-  window.speechSynthesis.speak(u);
-};
-
-/* ---------- SECTION 3: scan food ---------- */
-const cameraInput = document.getElementById('cameraInput');
-const captureBtn = document.getElementById('captureBtn');
-const preview = document.getElementById('preview');
-const analyzeBtn = document.getElementById('analyzeBtn');
-const scanLoading = document.getElementById('scanLoading');
-const scanResults = document.getElementById('scanResults');
-
-let imageBase64 = null;
-let imageMediaType = null;
-
-captureBtn.onclick = ()=> cameraInput.click();
-
-cameraInput.onchange = async (e)=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  try{
-    const img = await prepareImage(file);
-    imageBase64 = img.base64;
-    imageMediaType = img.mediaType;
-    preview.src = img.dataUrl;
-    preview.hidden = false;
-    analyzeBtn.hidden = false;
-    scanResults.innerHTML = '';
-  }catch(err){
-    console.error(err);
-    scanResults.innerHTML = '<div class="error-box">讀取照片失敗，請換一張照片再試。</div>';
-  }finally{
-    cameraInput.value = '';
-  }
-};
-
-analyzeBtn.onclick = async ()=>{
-  if(!imageBase64) return;
-  scanResults.innerHTML = '';
-  scanLoading.hidden = false;
-  analyzeBtn.disabled = true;
-  try{
-    const promptText = `這是一張食物成分標籤的照片。請根據使用者的素食類型（${currentType.labelZh}），分析照片中的成分，標示哪些可以吃、哪些不能吃。\n\n素食類型：${currentType.labelZh}\n可吃：${currentType.canZh.join('、')}\n不可吃：${currentType.cannotZh.join('、')}\n\n請只回傳以下 JSON 格式：\n{\n  "dishes": [\n    {"name": "品名或成分名", "status": "ok|warning|unknown", "reason": "簡短說明（繁體中文）", "original": "原文（如果有）"}\n  ]\n}`;
-    const text = await callClaude({
-      content: [
-        { type:"image", source:{ type:"base64", media_type: imageMediaType, data: imageBase64 } },
-        { type:"text", text: promptText }
-      ],
-      maxTokens: 1500
-    });
-    const json = extractJSON(text);
-    const dishes = json.dishes || [];
-    if(!dishes.length){
-      scanResults.innerHTML = '<div class="error-box">無法辨識成分，請再拍一次試試看。</div>';
-    } else {
-      let html = '';
-      dishes.forEach(d => {
-        const statusClass = d.status === 'ok' ? 'ok' : d.status === 'warning' ? 'warning' : 'unknown';
-        const statusIcon = d.status === 'ok' ? '✓' : d.status === 'warning' ? '!' : '?';
-        html += `<div class="dish-card"><div class="dish-status ${statusClass}">${statusIcon}</div><div class="dish-body">`;
-        if(d.original) html += `<div class="orig">${d.original}</div>`;
-        html += `<div class="name">${d.name || ''}</div><div class="reason">${d.reason || ''}</div></div></div>`;
-      });
-      scanResults.innerHTML = html;
-    }
-  }catch(err){
-    console.error(err);
-    scanResults.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
-    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-      openKeySettings(true);
-    }
-  }finally{
-    scanLoading.hidden = true;
-    analyzeBtn.disabled = false;
-  }
-};
-
-/* ---------- SECTION 4: photo translate ---------- */
-const translateCameraInput = document.getElementById('translateCameraInput');
-const translateCaptureBtn = document.getElementById('translateCaptureBtn');
-const translatePreview = document.getElementById('translatePreview');
-const translateBtn = document.getElementById('translateBtn');
-const translateLoading = document.getElementById('translateLoading');
-const translateError = document.getElementById('translateError');
-const translateResults = document.getElementById('translateResults');
-
-let translateImageBase64 = null;
-let translateImageMediaType = null;
-
-translateCaptureBtn.onclick = ()=> translateCameraInput.click();
-
-translateCameraInput.onchange = async (e)=>{
-  const file = e.target.files[0];
-  if(!file) return;
-  try{
-    const img = await prepareImage(file);
-    translateImageBase64 = img.base64;
-    translateImageMediaType = img.mediaType;
-    translatePreview.src = img.dataUrl;
-    translatePreview.hidden = false;
-    translateBtn.hidden = false;
-    translateError.innerHTML = '';
-    translateResults.innerHTML = '';
-  }catch(err){
-    console.error(err);
-    translateError.innerHTML = '<div class="error-box">讀取照片失敗，請換一張照片再試。</div>';
-  }finally{
-    translateCameraInput.value = '';
-  }
-};
-
-translateBtn.onclick = async ()=>{
-  if(!translateImageBase64) return;
-  translateError.innerHTML = '';
-  translateResults.innerHTML = '';
-  translateLoading.hidden = false;
-  translateBtn.disabled = true;
-
-  const promptText = `這是一張在日本拍攝的照片（招牌、公告、標示、菜單或包裝等），上面可能有日文文字。
-請按照畫面上的閱讀順序（由上到下，直書的話由右到左），找出每一段獨立的日文文字，並翻譯成繁體中文。
-
-請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號：
-{
-  "items": [
-    {"original":"日文原文", "translated_zh":"繁體中文翻譯"}
-  ]
-}`;
-
-  try{
-    const text = await callClaude({
-      content: [
-        { type:"image", source:{ type:"base64", media_type: translateImageMediaType, data: translateImageBase64 } },
-        { type:"text", text: promptText }
-      ],
-      maxTokens: 1500
-    });
-    const json = extractJSON(text);
-    const items = (json.items || []).filter(it => it && it.translated_zh);
-    if(!items.length){
-      translateError.innerHTML = '<div class="error-box">沒有在照片中辨識出日文文字，請再拍一次試試看。</div>';
-    } else {
-      let html = '<div class="trans-list">';
-      items.forEach(it => {
-        html += `<div class="trans-row"><span class="orig">${it.original || ''}</span><span class="zh">${it.translated_zh}</span></div>`;
-      });
-      html += '</div>';
-      translateResults.innerHTML = html;
-    }
-  }catch(err){
-    console.error(err);
-    translateError.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
-    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-      openKeySettings(true);
-    }
-  }finally{
-    translateLoading.hidden = true;
-    translateBtn.disabled = false;
-  }
-};
-
-/* ---------- SECTION 5: restaurants ---------- */
-const locationInput = document.getElementById('locationInput');
-const geoBtn = document.getElementById('geoBtn');
-const searchBtn = document.getElementById('searchBtn');
-const restLoading = document.getElementById('restLoading');
-const cacheNote = document.getElementById('cacheNote');
-const restResults = document.getElementById('restResults');
-
-let currentCoords = null;
-
-geoBtn.onclick = ()=>{
-  if(!navigator.geolocation){
-    alert('此瀏覽器不支援定位');
-    return;
-  }
-  geoBtn.disabled = true;
-  geoBtn.textContent = '定位中…';
-  navigator.geolocation.getCurrentPosition(
-    (pos)=>{
-      currentCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
-      locationInput.value = `目前位置 (${currentCoords.lat.toFixed(4)}, ${currentCoords.lng.toFixed(4)})`;
-      geoBtn.disabled = false;
-      geoBtn.textContent = '目前位置';
-    },
-    (err)=>{
-      alert('無法取得位置：' + err.message);
-      geoBtn.disabled = false;
-      geoBtn.textContent = '目前位置';
-    }
-  );
-};
-
-function buildCacheKey(){
-  const typeId = currentType.id;
-  const loc = currentCoords ? `${currentCoords.lat.toFixed(3)},${currentCoords.lng.toFixed(3)}` : locationInput.value.trim();
-  const today = new Date().toISOString().slice(0,10);
-  return `rest_${typeId}_${loc}_${today}`;
-}
-
-const hasCloudStorage = false;
-async function cacheGet(key){
-  try{ return localStorage.getItem(key); }catch(e){ return null; }
-}
-async function cacheSet(key, val){
-  try{ localStorage.setItem(key, val); }catch(e){}
-}
-
-function renderRestaurants(json){
-  const list = json.restaurants || [];
-  if(!list.length){
-    restResults.innerHTML = '<div class="error-box">找不到適合的餐廳，請換個地點試試。</div>';
-    return;
-  }
-  let html = '';
-  list.forEach(r => {
-    const query = r.maps_query || ((r.name || '') + ' ' + (r.area || '')).trim();
-    const mapsUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(query);
-    html += `<div class="rest-card">
-      <a class="name" href="${mapsUrl}" target="_blank" rel="noopener">${r.name || ''}</a>
-      <div class="area">${r.area || ''}</div>
-      <div class="desc">${r.description || ''}</div>`;
-    if(r.why_suitable) html += `<div class="why">${r.why_suitable}</div>`;
-    html += `<a class="maps-link" href="${mapsUrl}" target="_blank" rel="noopener">在 Google Maps 查看</a>`;
-    html += '</div>';
-  });
-  restResults.innerHTML = html;
-}
-
-async function runRestaurantSearch(forceRefresh){
-  const locText = locationInput.value.trim();
-  if(!locText && !currentCoords){
-    alert('請先取得目前位置，或輸入地名。');
-    return;
-  }
-  restResults.innerHTML = '';
-  cacheNote.hidden = true;
-  restLoading.hidden = false;
-  searchBtn.disabled = true;
-
-  const cacheKey = buildCacheKey();
-
-  try{
-    if(!forceRefresh){
-      const cachedValue = await cacheGet(cacheKey);
-      if(cachedValue){
-        renderRestaurants(JSON.parse(cachedValue));
-        cacheNote.hidden = false;
-        const noteText = hasCloudStorage
-          ? '這是今天稍早查過的結果（共用快取，節省 API 費用）。'
-          : '這是今天稍早在這個裝置查過的結果（本機快取，節省 API 費用）。';
-        cacheNote.innerHTML = noteText + '<a href="#" id="forceRefreshLink">忽略快取、重新搜尋</a>';
-        document.getElementById('forceRefreshLink').onclick = (e)=>{ e.preventDefault(); runRestaurantSearch(true); };
-        restLoading.hidden = true;
-        searchBtn.disabled = false;
-        return;
-      }
-    }
-
-    const locationDesc = currentCoords
-      ? `緯度${currentCoords.lat}, 經度${currentCoords.lng} 附近`
-      : locText;
-
-    const promptText = `你是專門服務台灣旅客的素食餐廳嚮導。
-地點：${locationDesc}
-素食類型：${currentType.labelZh}
-不能吃：${currentType.cannotZh.join('、')}
-可以吃：${currentType.canZh.join('、')}
-
-請找出這個地點附近 3 到 5 間適合這種素食類型安心用餐的餐廳或咖啡店。
-請使用真實存在、你知道的店名（可保留日文原名），並附上地址或所在區域、車站。找不到的話請不要憑空捏造，寧願回傳較少間也不要亂編。
-務必只輸出純 JSON，不要加任何說明、前言或 markdown 標記。
-
-請務必只回傳以下 JSON 格式，不要加任何說明文字或 markdown 符號，內容請用繁體中文：
-{
-  "restaurants": [
-    {"name": "店名（可保留日文）", "area": "所在區域或最近車站", "description": "簡短介紹（繁體中文，一到兩句）", "why_suitable": "為什麼適合這個素食類型（繁體中文，簡短）", "maps_query": "適合在 Google Maps 搜尋的關鍵字（店名 + 城市或車站，例如：Ain Soph. Journey 新宿）"}
-  ]
-}`;
-
-    const text = await callClaude({
-      content: [{ type:"text", text: promptText }],
-      maxTokens: 1500
-    });
-    const json = extractJSON(text);
-    renderRestaurants(json);
-
-    await cacheSet(cacheKey, JSON.stringify(json));
-  }catch(err){
-    console.error(err);
-    restResults.innerHTML = `<div class="error-box">${friendlyApiErrorMessage(err)}</div>`;
-    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-      openKeySettings(true);
-    }
-  }finally{
-    restLoading.hidden = true;
-    searchBtn.disabled = false;
-  }
-}
-
-searchBtn.onclick = ()=> runRestaurantSearch(false);
-
-/* ---------- SECTION 6: can I bring it back to Taiwan? ---------- */
-// Rule summary grounded in official sources (checked 2026-09):
-// - 農業部動植物防疫檢疫署 入境旅客須知 https://www.aphia.gov.tw/ws.php?id=4502
-// - 關務署臺北關 肉製品/泡麵說明 https://web.customs.gov.tw/taipei/singlehtml/3130?cntId=cus2_177199_3130
-// - 關務署臺北關 農畜水產品及食品限量 https://web.customs.gov.tw/taipei/singlehtml/3392?cntId=cus2_3392_3392_1351
-// - 入境旅客攜帶行李物品報驗稅放辦法 115/2/1 施行版 https://web.customs.gov.tw/singlehtml/40?cntId=2be1648e007e429a929576dd7744ad0b
-// - 違反動物傳染病防治條例第34條第2項裁罰基準（115/6/4 修正）
-const CUSTOMS_SYSTEM_PROMPT = `你是協助台灣旅客判斷「在日本買的物品能不能帶回台灣（入境台灣）」的助理，使用者多為素食者。請依下列台灣官方規定摘要判斷；不確定時寧可判「有條件可帶」或「無法判斷」並建議走紅線申報，絕不可把可能違規的物品說成可以帶。
-
-【動植物檢疫（防檢署）】
-1. 肉類及肉製品（豬、牛、羊、雞、鴨等，含真空包裝）：須申報檢疫，無輸出國檢疫證明不得輸入，旅客實務上等同禁止。常見：肉乾、肉鬆、香腸、火腿、培根、熱狗、肉包、水餃、含肉月餅或糕餅、含肉便當/三明治/飛機餐、含肉液態湯類、含肉夾餡。日本目前非非洲豬瘟疫區，但仍屬豬瘟、禽流感相關管制對象，日本肉品不能帶。
-2. 例外：供人食用之高溫滅菌罐頭（馬口鐵罐或軟式罐頭/殺菌調理包）無須申報動物檢疫。泡麵、速食粥、固態或粉狀湯類：含肉調理包若為高溫滅菌軟罐頭可帶；附未經殺菌的肉包、含肉液態湯包則不可。
-3. 蛋：生鮮蛋、未全熟的蛋（溫泉蛋、溏心蛋）不可；蛋黃蛋白完全凝固的熟蛋製品、含蛋的烘焙餅乾蛋糕可帶。
-4. 乳製品：保久乳、奶粉、起司可帶。不含肉的餅乾、蛋糕、麵包、泡麵、粥、固態湯類可帶。經乾燥、醃漬、調製加工的水產品（柴魚、昆布、海苔、魚乾）可帶。
-5. 植物：新鮮水果（含瓜果）一律禁止；活植物及生鮮產品（生鮮蔬菜、生山葵根等）、附土植物、土壤禁止；種子、球根、苗木須附輸出國植物檢疫證明並申報。乾燥、加工過的植物產品（果乾、梅干、醃漬物、乾燥香草、茶葉）一般可帶，但仍受限量。活昆蟲禁止。
-6. 未申報攜帶檢疫物：依動物傳染病防治條例第45條之1處新台幣1萬至100萬元罰鍰；自非洲豬瘟發生國家帶豬肉製品初犯20萬、再犯100萬。植物產品未申報亦會被罰。誤帶可在入境前丟入機場動植物產品棄置箱，或走紅線向防檢署檢疫櫃檯申報。
-
-【海關限量與免稅（關務署）】
-7. 農畜水產品合計6公斤；食米、熟花生、熟蒜頭、乾金針、乾香菇、茶葉各限1公斤。其他食品總量6公斤。超量須輸入許可。
-8. 酒類免稅1.5公升（限滿18歲）；菸品免稅捲菸200支或雪茄25支或菸絲1磅或經衛福部核定之指定菸品200支（限滿20歲），超過要申報繳稅。電子煙及其組件禁止；國外買的加熱菸（未經衛福部核定）禁止。
-9. 其他自用行李總值完稅價格3萬5千元以下免稅（菸酒、管制品除外）。自用藥品、保健食品有數量限制，處方藥須附處方，超量須申請。
-
-【素食者常見陷阱，請特別檢查成分（原材料名）】
-- 標示「素食/植物性/ヴィーガン」的泡麵或調味包，仍可能含ポークエキス、チキンエキス、ビーフエキス、ラード、牛脂、ゼラチン、肉エキス（肉萃取）；含肉成分者依第1、2點判斷，若為粉狀/殺菌包可能可帶但建議申報。
-- 含蛋餅乾、蛋糕（烘焙過）可帶；生蛋、溫泉蛋不行。
-- 果乾、冷凍乾燥水果可帶；新鮮水果（例如草莓、哈密瓜、蘋果、葡萄）禁止。
-- 柴魚（かつお節）、魚乾屬加工水產品可帶，但不是素食。`;
-
-const CUSTOMS_MAX_PHOTOS = 3;
-const customsCameraInput = document.getElementById('customsCameraInput');
-const customsFileInput = document.getElementById('customsFileInput');
-const customsCaptureBtn = document.getElementById('customsCaptureBtn');
-const customsPickBtn = document.getElementById('customsPickBtn');
-const customsThumbs = document.getElementById('customsThumbs');
-const customsCountHint = document.getElementById('customsCountHint');
-const customsNote = document.getElementById('customsNote');
-const customsAnalyzeBtn = document.getElementById('customsAnalyzeBtn');
-const customsLoading = document.getElementById('customsLoading');
-const customsLoadingText = document.getElementById('customsLoadingText');
-const customsError = document.getElementById('customsError');
-const customsResults = document.getElementById('customsResults');
-
-let customsImages = []; // [{dataUrl, base64, mediaType}]
-
-function renderCustomsThumbs(){
-  customsThumbs.innerHTML = '';
-  customsImages.forEach((img, i) => {
-    const fig = document.createElement('figure');
-    const el = document.createElement('img');
-    el.src = img.dataUrl;
-    el.alt = '照片 ' + (i + 1);
-    const del = document.createElement('button');
-    del.type = 'button';
-    del.textContent = '✕';
-    del.setAttribute('aria-label', '移除照片 ' + (i + 1));
-    del.onclick = ()=>{ customsImages.splice(i, 1); renderCustomsThumbs(); };
-    fig.appendChild(el);
-    fig.appendChild(del);
-    customsThumbs.appendChild(fig);
-  });
-  const n = customsImages.length;
-  customsThumbs.hidden = n === 0;
-  customsAnalyzeBtn.hidden = n === 0;
-  customsCountHint.hidden = n === 0;
-  if(n === 1){
-    customsCountHint.textContent = '已加入 1 張。建議再補一張背面成分標示（原材料名），判斷會更準確。';
-  } else if(n > 1){
-    customsCountHint.textContent = `已加入 ${n} 張（最多 ${CUSTOMS_MAX_PHOTOS} 張）。`;
-  }
-}
-
-async function addCustomsFiles(fileList){
-  const files = Array.from(fileList || []).filter(f => !f.type || f.type.startsWith('image/'));
-  if(!files.length) return;
-  customsError.innerHTML = '';
-  customsResults.innerHTML = '';
-  const room = CUSTOMS_MAX_PHOTOS - customsImages.length;
-  if(room <= 0){
-    customsError.innerHTML = `<div class="error-box">最多 ${CUSTOMS_MAX_PHOTOS} 張照片，請先移除一張再加入。</div>`;
-    return;
-  }
-  if(files.length > room){
-    customsError.innerHTML = `<div class="error-box">最多 ${CUSTOMS_MAX_PHOTOS} 張照片，只加入前 ${room} 張。</div>`;
-  }
-  for(const f of files.slice(0, room)){
-    try{
-      customsImages.push(await prepareImage(f));
-    }catch(err){
-      console.error(err);
-      customsError.innerHTML = '<div class="error-box">有照片讀取失敗，請換一張再試。</div>';
-    }
-  }
-  renderCustomsThumbs();
-}
-
-customsCaptureBtn.onclick = ()=> customsCameraInput.click();
-customsPickBtn.onclick = ()=> customsFileInput.click();
-customsCameraInput.onchange = async (e)=>{ await addCustomsFiles(e.target.files); customsCameraInput.value = ''; };
-customsFileInput.onchange = async (e)=>{ await addCustomsFiles(e.target.files); customsFileInput.value = ''; };
-
-const CUSTOMS_VERDICTS = {
-  allowed:     { cls:'ok',      icon:'✓', label:'可以帶' },
-  conditional: { cls:'warning', icon:'!', label:'有條件可帶' },
-  prohibited:  { cls:'no',      icon:'✕', label:'禁止攜帶' },
-  unknown:     { cls:'unknown', icon:'?', label:'無法判斷' }
-};
-function normalizeVerdict(v){
-  const s = String(v || '').trim().toLowerCase();
-  if(s === 'allowed' || s === 'ok' || s.includes('可以帶')) return 'allowed';
-  if(s === 'conditional' || s === 'warning' || s.includes('有條件')) return 'conditional';
-  if(s === 'prohibited' || s === 'banned' || s === 'no' || s.includes('禁止')) return 'prohibited';
-  return 'unknown';
-}
-
-// Salvage complete item objects if the model's JSON got cut off at the token cap.
-function parseCustomsJSON(text){
-  try{ return extractJSON(text); }catch(e){}
-  const cleaned = String(text || '').replace(/```json\s*/gi, '').replace(/```\s*/g, '');
-  const start = cleaned.indexOf('"items"');
-  if(start < 0) throw new Error('無法解析 AI 回傳的內容');
-  const items = [];
-  const re = /\{[^{}]*\}/g;
-  let m;
-  const tail = cleaned.slice(start);
-  while((m = re.exec(tail))){
-    try{ items.push(JSON.parse(m[0])); }catch(e){}
-  }
-  if(!items.length) throw new Error('無法解析 AI 回傳的內容');
-  const sm = /"summary"\s*:\s*"((?:[^"\\]|\\.)*)"/.exec(cleaned);
-  return { items, summary: sm ? JSON.parse('"' + sm[1] + '"') : '', truncated: true };
-}
-
-function renderCustomsResults(json){
-  const items = Array.isArray(json.items) ? json.items.filter(Boolean) : [];
-  if(!items.length){
-    customsResults.innerHTML = '<div class="error-box">照片中沒有辨識出物品，請拍清楚商品正面與成分標示再試一次。</div>';
-    return;
-  }
-  let html = '';
-  if(json.summary) html += `<div class="customs-summary">${escapeHtml(json.summary)}</div>`;
-  items.forEach(it => {
-    const v = CUSTOMS_VERDICTS[normalizeVerdict(it.verdict)];
-    html += `<div class="dish-card customs"><div class="dish-status ${v.cls}">${v.icon}</div><div class="dish-body">`;
-    html += `<span class="verdict-tag ${v.cls}">${v.label}</span>`;
-    if(it.name_original) html += `<div class="orig">${escapeHtml(it.name_original)}</div>`;
-    html += `<div class="name">${escapeHtml(it.name_zh || it.name || '未命名物品')}</div>`;
-    if(it.reason) html += `<div class="reason">${escapeHtml(it.reason)}</div>`;
-    if(it.rule) html += `<div class="customs-meta"><b>相關規定：</b>${escapeHtml(it.rule)}</div>`;
-    if(it.action) html += `<div class="customs-meta"><b>建議做法：</b>${escapeHtml(it.action)}</div>`;
-    if(it.veg_note) html += `<div class="customs-meta veg"><b>素食提醒：</b>${escapeHtml(it.veg_note)}</div>`;
-    html += '</div></div>';
-  });
-  if(json.photo_tip) html += `<p class="hint">拍照建議：${escapeHtml(json.photo_tip)}</p>`;
-  if(json.truncated) html += '<p class="hint">注意：回傳內容過長被截斷，可能有物品沒列出；可以分開拍照再試一次。</p>';
-  html += '<p class="hint">結果僅供參考，以海關與防檢署公告為準；不確定請走紅線申報。</p>';
-  customsResults.innerHTML = html;
-}
-
-customsAnalyzeBtn.onclick = async ()=>{
-  if(!customsImages.length) return;
-  customsError.innerHTML = '';
-  customsResults.innerHTML = '';
-  customsLoading.hidden = false;
-  customsAnalyzeBtn.disabled = true;
-  const steps = ['辨識物品與包裝文字…', '檢查成分（原材料名）…', '比對台灣入境規定…', '整理判斷結果…'];
-  let stepIdx = 0;
-  customsLoadingText.textContent = steps[0];
-  const stepTimer = setInterval(()=>{
-    stepIdx = Math.min(stepIdx + 1, steps.length - 1);
-    customsLoadingText.textContent = steps[stepIdx];
-  }, 3500);
-
-  const note = customsNote.value.trim().slice(0, 200);
-  const promptText = `以上 ${customsImages.length} 張照片是旅客在日本購買、想帶回台灣的物品（可能是同一商品的正面與背面，也可能是多件物品）。
-使用者的素食類型：${currentType.labelZh}。${note ? `\n使用者補充：${note}` : ''}
-
-請辨識照片中的每一件物品（同一商品的多張照片合併成一項，最多 5 項），閱讀品名與成分標示（原材料名），依系統提供的台灣入境規定判斷能否帶回台灣。
-verdict 只能是：allowed（可以帶）、conditional（有條件可帶：限量、需申報、需確認成分或殺菌方式）、prohibited（禁止攜帶）、unknown（照片看不清或資訊不足）。
-若看不到成分表而品項可能含肉、蛋、生鮮成分，請判 conditional 或 unknown，並在 photo_tip 提醒補拍背面。
-
-請務必只回傳以下 JSON，不要加任何說明文字或 markdown 符號，內容用繁體中文（台灣用語），每個欄位簡短：
-{
-  "summary": "一句話總結（20字內）",
-  "items": [
-    {"name_zh":"中文品名", "name_original":"包裝上的日文品名（看得到才填）", "verdict":"allowed|conditional|prohibited|unknown", "reason":"判斷理由（40字內，點出關鍵成分）", "rule":"相關規定（25字內）", "action":"建議做法（20字內，例如：可放行李／走紅線申報／入境前丟棄置箱）", "veg_note":"素食相關提醒（看到動物性成分才填，25字內，否則空字串）"}
-  ],
-  "photo_tip": "若需補拍才填，否則空字串"
-}`;
-
-  try{
-    const content = customsImages.map(img => ({
-      type:'image', source:{ type:'base64', media_type: img.mediaType, data: img.base64 }
-    }));
-    content.push({ type:'text', text: promptText });
-    const text = await callClaude({ content, system: CUSTOMS_SYSTEM_PROMPT, maxTokens: 1500 });
-    renderCustomsResults(parseCustomsJSON(text));
-  }catch(err){
-    console.error(err);
-    customsError.innerHTML = `<div class="error-box">${escapeHtml(friendlyApiErrorMessage(err))}</div>`;
-    if(err && (err.message === 'AUTH_MISSING' || err.message === 'NETWORK_OR_CORS')){
-      openKeySettings(true);
-    }
-  }finally{
-    clearInterval(stepTimer);
-    customsLoading.hidden = true;
-    customsAnalyzeBtn.disabled = false;
-  }
-};
+  if(!('IntersectionObserver' in window)) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting) setActive(e.target.id); });
+  },{rootMargin:'-80px 0px -70% 0px'});
+  Object.keys(map).forEach(function(id){var el=document.getElementById(id); if(el) io.observe(el);});
+})();
 </script>
 </body>
 </html>
