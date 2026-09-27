@@ -592,6 +592,131 @@
   a.itin-link small{display:block; font-size:13px; font-weight:400; opacity:.85; margin-top:2px;}
   a.itin-link .arrow{font-size:22px; line-height:1;}
   a.itin-link:active{opacity:.88;}
+  /* ===================== Navy theme (matches itinerary.html) ===================== */
+  :root{
+    color-scheme:dark;
+    --paper:#0F1F3D; --card:#172D52; --card2:#1E3862; --ink:#F4F7FC; --ink-soft:#DCE6F5;
+    --line:#2E4C7E; --gray-ink:#BAC8DE; --gray-bg:#27437A; --indigo:#8FCBFF; --indigo-deep:#F4F7FC;
+    --amber:#F2B544; --sky:#8FCBFF; --mint:#86DCB4; --coral:#FF9A8F;
+    --matcha:#86DCB4; --matcha-bg:rgba(134,220,180,.15); --kaki:#F2B544; --kaki-bg:rgba(242,181,68,.15);
+    --stamp:#FF9A8F; --field:#0F1F3D; --field-line:#7C9CCB; --placeholder:#A3B4CF; --on-accent:#0F1F3D;
+  }
+  body{background:var(--paper); color:var(--ink);}
+  header.top{border-bottom:1px solid var(--line);}
+  header.top .brand{color:var(--ink);}
+  header.top .brand small{color:var(--gray-ink);}
+  .lang-tag{color:var(--sky); border-color:var(--sky);}
+  section.card{background:var(--card); border:1px solid var(--line);}
+  .badge{background:var(--amber); color:var(--on-accent); font-weight:700; transform:none; box-shadow:none; height:32px; top:-15px;}
+  section.card h2{color:var(--ink);}
+  a{color:var(--sky);}
+  .hint{color:var(--gray-ink);}
+  .hint b{color:var(--ink);}
+
+  /* section 1 */
+  .chip{background:transparent; border:1.5px solid var(--field-line); color:var(--ink-soft);}
+  .chip.active{background:var(--amber); border-color:var(--amber); color:var(--on-accent); font-weight:700;}
+  .staff-card{background:var(--card2); border:1.5px solid var(--sky);}
+  .staff-card .jp-tag{background:var(--sky); color:var(--on-accent); font-weight:700;}
+  .diet-icon{font-weight:700;}
+  .diet-icon.ok{background:var(--mint); color:var(--on-accent);}
+  .diet-icon.no{background:var(--coral); color:var(--on-accent);}
+  .diet-text{color:var(--ink);}
+  .diet-text .label{color:var(--gray-ink);}
+  .zh-gloss{color:var(--gray-ink);}
+  .zh-gloss b{color:var(--ink);}
+  .play-btn{background:var(--amber); color:var(--on-accent);}
+  .play-btn.playing{background:var(--coral); color:var(--on-accent);}
+
+  /* buttons */
+  .btn{background:var(--amber); color:var(--on-accent); font-weight:700;}
+  .btn.secondary{background:transparent; color:var(--sky); border:1.5px solid var(--sky);}
+  .btn:focus-visible,.play-btn:focus-visible,.chip:focus-visible,.location-row button:focus-visible,.icon-btn:focus-visible{outline:2px solid var(--amber); outline-offset:2px;}
+
+  /* form fields */
+  .lang-row select,.location-row input,.modal-body input,.customs-note-input{
+    background:var(--field); color:var(--ink); border:1.5px solid var(--field-line);}
+  .lang-row .arrow{color:var(--gray-ink); font-size:14.5px;}
+  .conv-box{background:var(--field); border:1.5px solid var(--field-line);}
+  .conv-label{color:var(--gray-ink);}
+  .conv-box textarea{color:var(--ink);}
+  input::placeholder,textarea::placeholder{color:var(--placeholder); opacity:1;}
+  .lang-row select:focus,.location-row input:focus,.modal-body input:focus,.customs-note-input:focus,.conv-box:focus-within{
+    outline:2px solid var(--amber); outline-offset:1px; border-color:var(--amber);}
+  select option{background:var(--card); color:var(--ink);}
+  .location-row button{background:transparent; border:1.5px solid var(--sky); color:var(--sky);}
+
+  /* loading */
+  .loading{color:var(--ink-soft);}
+  .spinner{border-color:var(--line); border-top-color:var(--amber);}
+  #preview,#translatePreview{border-color:var(--line);}
+
+  /* result cards and verdict colours */
+  .dish-card{background:var(--card2); border:1px solid var(--line);}
+  .dish-status{font-weight:700;}
+  .dish-status.ok{background:var(--mint); color:var(--on-accent);}
+  .dish-status.warning{background:var(--amber); color:var(--on-accent);}
+  .dish-status.no{background:var(--coral); color:var(--on-accent);}
+  .dish-status.unknown{background:var(--gray-bg); color:var(--ink-soft);}
+  .dish-body .orig{color:var(--gray-ink);}
+  .dish-body .name{color:var(--ink);}
+  .dish-body .reason{color:var(--ink-soft);}
+  .verdict-tag.ok{background:var(--mint); color:var(--on-accent);}
+  .verdict-tag.warning{background:var(--amber); color:var(--on-accent);}
+  .verdict-tag.no{background:var(--coral); color:var(--on-accent);}
+  .verdict-tag.unknown{background:var(--gray-bg); color:var(--ink-soft);}
+  .dish-card.customs:has(.dish-status.ok){border-left:4px solid var(--mint);}
+  .dish-card.customs:has(.dish-status.warning){border-left:4px solid var(--amber);}
+  .dish-card.customs:has(.dish-status.no){border-left:4px solid var(--coral);}
+  .dish-card.customs:has(.dish-status.unknown){border-left:4px solid var(--field-line);}
+  .customs-meta{color:var(--ink-soft);}
+  .customs-meta b{color:var(--ink);}
+  .customs-meta.veg,.customs-meta.veg b{color:var(--mint);}
+  .customs-summary{background:var(--card2); color:var(--ink); border:1.5px solid var(--sky);}
+  .customs-thumbs img{border-color:var(--line);}
+  .customs-thumbs button{background:rgba(15,31,61,.85); color:#fff;}
+  .trans-list{border:1px solid var(--line); background:var(--card2);}
+  .trans-row{border-bottom:1px solid var(--line);}
+  .trans-row .orig{color:var(--gray-ink);}
+  .trans-row .zh{color:var(--ink);}
+  .rest-card{background:var(--card2); border:1px solid var(--line);}
+  .rest-card .name,.rest-card a.name{color:var(--amber); text-decoration:underline; text-decoration-color:rgba(242,181,68,.55); text-underline-offset:4px; text-decoration-thickness:1px;}
+  .rest-card .area{color:var(--gray-ink);}
+  .rest-card .desc{color:var(--ink);}
+  .rest-card .why{background:var(--matcha-bg); color:var(--mint);}
+  .rest-card .maps-link{color:var(--sky); text-decoration:underline; text-decoration-color:rgba(143,203,255,.55); text-underline-offset:4px;}
+  .error-box{background:rgba(255,154,143,.14); color:#FFC2BA; border:1px solid rgba(255,154,143,.45);}
+
+  /* quick-reference grid and warnings */
+  .rule-cell{background:var(--card2); border:1px solid var(--line);}
+  .rule-cell .rc-title{color:var(--ink);}
+  .rule-cell .rc-desc{color:var(--gray-ink);}
+  .rule-cell .rc-tag.no{background:var(--coral); color:var(--on-accent);}
+  .rule-cell .rc-tag.warning{background:var(--amber); color:var(--on-accent);}
+  .rule-cell .rc-tag.ok{background:var(--mint); color:var(--on-accent);}
+  .penalty-box{background:rgba(255,154,143,.12); color:#FFD2CC; border:1.5px solid rgba(255,154,143,.55);}
+  .penalty-box b{color:#FFFFFF;}
+  .penalty-label{display:inline-block; background:var(--coral); color:var(--on-accent); font-weight:700; font-size:13px; border-radius:8px; padding:0 8px; margin-right:6px;}
+  .disclaimer{color:var(--gray-ink);}
+  .disclaimer a{color:var(--sky);}
+  footer.note{color:var(--gray-ink);}
+
+  /* API key modal */
+  .icon-btn{background:var(--card); border:1px solid var(--field-line);}
+  .icon-btn .dot{background:var(--mint); border-color:var(--card);}
+  .modal-overlay{background:rgba(5,12,28,.72);}
+  .modal{background:var(--card); border:1px solid var(--line); color:var(--ink);}
+  .modal-header span{color:var(--ink);}
+  .modal-close{color:var(--gray-ink);}
+  .modal-body p{color:var(--ink-soft);}
+  .modal-body a{color:var(--sky);}
+  .modal-body code{background:var(--field); color:var(--ink-soft); padding:1px 5px; border-radius:5px;}
+  .key-status.set{color:var(--mint);}
+  .key-status.unset{color:var(--gray-ink);}
+
+  /* home button to the trip page */
+  a.itin-link{background:var(--amber); color:var(--on-accent); box-shadow:none;}
+  a.itin-link small{opacity:1; color:var(--on-accent);}
 </style>
 </head>
 <body>
@@ -606,8 +731,7 @@
   </header>
 
   <a class="itin-link" href="itinerary.html">
-    <span>🗾 我的東京行程<small>9/29–10/8・每日景點與餐廳，點名稱開 Google Maps</small></span>
-    <span class="arrow">→</span>
+    <span>我的東京行程<small>9月29日至10月8日，每日景點與餐廳，點名稱開啟 Google Maps</small></span>
   </a>
 
   <!-- API KEY SETTINGS (opens as a modal from the gear icon above) -->
@@ -643,12 +767,12 @@
     <div class="type-chips" id="typeChips"></div>
 
     <div class="staff-card">
-      <div class="jp-tag">出示給店員看 / 日本語</div>
+      <div class="jp-tag">出示給店員看（日本語）</div>
       <div id="dietDetailsJa"></div>
     </div>
     <div class="zh-gloss" id="dietGlossZh"></div>
 
-    <button class="play-btn" id="playBtn">🔊&nbsp; 播放日文語音給店員聽</button>
+    <button class="play-btn" id="playBtn">播放日文語音給店員聽</button>
     <p class="hint">可以直接把手機畫面拿給店員看，或播放語音唸給對方聽，避免溝通誤會。</p>
   </section>
 
@@ -658,13 +782,13 @@
     <h2>對話翻譯</h2>
     <div class="lang-row">
       <select id="convInputLang"></select>
-      <span class="arrow">→</span>
+      <span class="arrow">翻成</span>
       <select id="convOutputLang"></select>
     </div>
 
     <div class="conv-box">
       <div class="conv-label">原文</div>
-      <textarea id="convInputText" rows="3" placeholder="在這裡輸入要翻譯的文字…（也可用鍵盤上的 🎤 聽寫輸入）"></textarea>
+      <textarea id="convInputText" rows="3" placeholder="在這裡輸入要翻譯的文字，也可以用鍵盤的聽寫功能輸入"></textarea>
     </div>
 
     <button class="btn" id="convTranslateBtn">翻譯</button>
@@ -675,7 +799,7 @@
       <div class="conv-label">翻譯結果</div>
       <textarea id="convOutputText" rows="3"></textarea>
       <div class="conv-actions">
-        <button class="btn secondary" id="convPlayOutputBtn">🔊 播放翻譯</button>
+        <button class="btn secondary" id="convPlayOutputBtn">播放翻譯</button>
       </div>
     </div>
   </section>
@@ -685,7 +809,7 @@
     <div class="badge">三</div>
     <h2>檢查食物成分</h2>
     <input type="file" accept="image/*" capture="environment" id="cameraInput" hidden>
-    <button class="btn" id="captureBtn">📷&nbsp; 拍照食物成分標籤</button>
+    <button class="btn" id="captureBtn">拍照食物成分標籤</button>
     <img id="preview" hidden>
     <button class="btn secondary" id="analyzeBtn" hidden style="margin-top:10px;">分析這張照片</button>
     <div class="loading" id="scanLoading" hidden><div class="spinner"></div>分析中，請稍候…</div>
@@ -698,7 +822,7 @@
     <div class="badge">四</div>
     <h2>照片翻譯</h2>
     <input type="file" accept="image/*" capture="environment" id="translateCameraInput" hidden>
-    <button class="btn" id="translateCaptureBtn">📷&nbsp; 拍照翻譯（招牌、公告等）</button>
+    <button class="btn" id="translateCaptureBtn">拍照翻譯招牌、公告</button>
     <img id="translatePreview" hidden>
     <button class="btn secondary" id="translateBtn" hidden style="margin-top:10px;">翻譯這張照片</button>
     <div class="loading" id="translateLoading" hidden><div class="spinner"></div>翻譯中，請稍候…</div>
@@ -713,7 +837,7 @@
     <h2>搜尋素食餐廳</h2>
     <div class="location-row">
       <input type="text" id="locationInput" placeholder="例如：新宿駅、京都車站附近">
-      <button id="geoBtn">📍目前位置</button>
+      <button id="geoBtn">目前位置</button>
     </div>
     <button class="btn" id="searchBtn">搜尋附近餐廳</button>
     <div class="loading" id="restLoading" hidden><div class="spinner"></div>搜尋中，請稍候…</div>
@@ -729,8 +853,8 @@
     <input type="file" accept="image/*" capture="environment" id="customsCameraInput" hidden>
     <input type="file" accept="image/*" multiple id="customsFileInput" hidden>
     <div class="btn-row">
-      <button class="btn" id="customsCaptureBtn">📷&nbsp; 拍照</button>
-      <button class="btn secondary" id="customsPickBtn">🖼️&nbsp; 從相簿選</button>
+      <button class="btn" id="customsCaptureBtn">拍照</button>
+      <button class="btn secondary" id="customsPickBtn">從相簿選</button>
     </div>
     <div class="customs-thumbs" id="customsThumbs" hidden></div>
     <div class="hint" id="customsCountHint" hidden></div>
@@ -741,24 +865,24 @@
     <div id="customsResults"></div>
 
     <div class="rule-grid" aria-label="常見入境規定速查">
-      <div class="rule-cell"><span class="rc-title">🥩 肉類製品</span><span class="rc-tag no">禁止</span><div class="rc-desc">肉乾、肉鬆、火腿、含肉便當、含肉液態湯包</div></div>
-      <div class="rule-cell"><span class="rc-title">🍎 新鮮蔬果</span><span class="rc-tag no">禁止</span><div class="rc-desc">新鮮水果、生鮮蔬菜、活植物、土壤</div></div>
-      <div class="rule-cell"><span class="rc-title">🌱 種子、球根</span><span class="rc-tag no">需檢疫</span><div class="rc-desc">無輸出國檢疫證明不能帶</div></div>
-      <div class="rule-cell"><span class="rc-title">🥚 蛋</span><span class="rc-tag warning">看型態</span><div class="rc-desc">生蛋、溫泉蛋禁止；全熟蛋、含蛋餅乾可</div></div>
-      <div class="rule-cell"><span class="rc-title">🍪 餅乾、糕點、泡麵</span><span class="rc-tag ok">不含肉可</span><div class="rc-desc">要看成分有沒有肉、肉萃取</div></div>
-      <div class="rule-cell"><span class="rc-title">🍵 茶葉、乾香菇</span><span class="rc-tag warning">限量</span><div class="rc-desc">各 1 公斤；農產品合計 6 公斤</div></div>
-      <div class="rule-cell"><span class="rc-title">🍶 酒類</span><span class="rc-tag warning">免稅 1.5L</span><div class="rc-desc">限滿 18 歲；超過要申報繳稅</div></div>
-      <div class="rule-cell"><span class="rc-title">🚬 電子煙、國外加熱菸</span><span class="rc-tag no">禁止</span><div class="rc-desc">捲菸免稅 200 支（限滿 20 歲）</div></div>
+      <div class="rule-cell"><span class="rc-title">肉類製品</span><span class="rc-tag no">禁止</span><div class="rc-desc">肉乾、肉鬆、火腿、含肉便當、含肉液態湯包</div></div>
+      <div class="rule-cell"><span class="rc-title">新鮮蔬果</span><span class="rc-tag no">禁止</span><div class="rc-desc">新鮮水果、生鮮蔬菜、活植物、土壤</div></div>
+      <div class="rule-cell"><span class="rc-title">種子、球根</span><span class="rc-tag no">需檢疫</span><div class="rc-desc">無輸出國檢疫證明不能帶</div></div>
+      <div class="rule-cell"><span class="rc-title">蛋</span><span class="rc-tag warning">看型態</span><div class="rc-desc">生蛋、溫泉蛋禁止；全熟蛋、含蛋餅乾可</div></div>
+      <div class="rule-cell"><span class="rc-title">餅乾、糕點、泡麵</span><span class="rc-tag ok">不含肉可</span><div class="rc-desc">要看成分有沒有肉、肉萃取</div></div>
+      <div class="rule-cell"><span class="rc-title">茶葉、乾香菇</span><span class="rc-tag warning">限量</span><div class="rc-desc">各 1 公斤；農產品合計 6 公斤</div></div>
+      <div class="rule-cell"><span class="rc-title">酒類</span><span class="rc-tag warning">免稅 1.5L</span><div class="rc-desc">限滿 18 歲；超過要申報繳稅</div></div>
+      <div class="rule-cell"><span class="rc-title">電子煙、國外加熱菸</span><span class="rc-tag no">禁止</span><div class="rc-desc">捲菸免稅 200 支（限滿 20 歲）</div></div>
     </div>
 
     <div class="penalty-box">
-      ⚠️ <b>未申報攜帶肉製品等檢疫物，可處新台幣 1 萬至 100 萬元罰鍰</b>（動物傳染病防治條例第 45 條之 1）；從非洲豬瘟發生國家帶豬肉製品，<b>第一次就罰 20 萬元、再犯 100 萬元</b>。不確定能不能帶，入境時請走<b>紅線</b>申報，或在入境前丟進機場的<b>動植物產品棄置箱</b>。
+      <span class="penalty-label">罰則</span><b>未申報攜帶肉製品等檢疫物，可處新台幣 1 萬至 100 萬元罰鍰</b>（動物傳染病防治條例第 45 條之 1）；從非洲豬瘟發生國家帶豬肉製品，<b>第一次就罰 20 萬元、再犯 100 萬元</b>。不確定能不能帶，入境時請走<b>紅線</b>申報，或在入境前丟進機場的<b>動植物產品棄置箱</b>。
     </div>
     <p class="disclaimer">
       結果僅供參考，以海關與防檢署公告為準。AI 可能看錯或漏看成分，請自行確認最新規定：
-      <a href="https://www.aphia.gov.tw/ws.php?id=4502" target="_blank" rel="noopener">農業部動植物防疫檢疫署・入境旅客須知</a>、
-      <a href="https://web.customs.gov.tw/taipei/singlehtml/3392?cntId=cus2_3392_3392_1351" target="_blank" rel="noopener">財政部關務署・自用農畜水產品及食品</a>、
-      <a href="https://web.customs.gov.tw/taipei/singlehtml/3130?cntId=cus2_177199_3130" target="_blank" rel="noopener">關務署・肉製品與泡麵說明</a>。
+      <a href="https://www.aphia.gov.tw/ws.php?id=4502" target="_blank" rel="noopener">農業部動植物防疫檢疫署：入境旅客須知</a>、
+      <a href="https://web.customs.gov.tw/taipei/singlehtml/3392?cntId=cus2_3392_3392_1351" target="_blank" rel="noopener">財政部關務署：自用農畜水產品及食品</a>、
+      <a href="https://web.customs.gov.tw/taipei/singlehtml/3130?cntId=cus2_177199_3130" target="_blank" rel="noopener">關務署：肉製品與泡麵說明</a>。
     </p>
   </section>
 
@@ -1073,17 +1197,17 @@ playBtn.onclick = ()=>{
   if(window.speechSynthesis.speaking){
     window.speechSynthesis.cancel();
     playBtn.classList.remove('playing');
-    playBtn.innerHTML = '🔊&nbsp; 播放日文語音給店員聽';
+    playBtn.innerHTML = '播放日文語音給店員聽';
     return;
   }
   const u = new SpeechSynthesisUtterance(currentType.speech);
   u.lang = 'ja-JP';
   u.onend = ()=>{
     playBtn.classList.remove('playing');
-    playBtn.innerHTML = '🔊&nbsp; 播放日文語音給店員聽';
+    playBtn.innerHTML = '播放日文語音給店員聽';
   };
   playBtn.classList.add('playing');
-  playBtn.innerHTML = '⏹&nbsp; 停止播放';
+  playBtn.innerHTML = '停止播放';
   window.speechSynthesis.speak(u);
 };
 
@@ -1335,12 +1459,12 @@ geoBtn.onclick = ()=>{
       currentCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
       locationInput.value = `目前位置 (${currentCoords.lat.toFixed(4)}, ${currentCoords.lng.toFixed(4)})`;
       geoBtn.disabled = false;
-      geoBtn.textContent = '📍目前位置';
+      geoBtn.textContent = '目前位置';
     },
     (err)=>{
       alert('無法取得位置：' + err.message);
       geoBtn.disabled = false;
-      geoBtn.textContent = '📍目前位置';
+      geoBtn.textContent = '目前位置';
     }
   );
 };
@@ -1375,7 +1499,7 @@ function renderRestaurants(json){
       <div class="area">${r.area || ''}</div>
       <div class="desc">${r.description || ''}</div>`;
     if(r.why_suitable) html += `<div class="why">${r.why_suitable}</div>`;
-    html += `<a class="maps-link" href="${mapsUrl}" target="_blank" rel="noopener">📍 在 Google Maps 查看</a>`;
+    html += `<a class="maps-link" href="${mapsUrl}" target="_blank" rel="noopener">在 Google Maps 查看</a>`;
     html += '</div>';
   });
   restResults.innerHTML = html;
@@ -1603,11 +1727,11 @@ function renderCustomsResults(json){
     if(it.reason) html += `<div class="reason">${escapeHtml(it.reason)}</div>`;
     if(it.rule) html += `<div class="customs-meta"><b>相關規定：</b>${escapeHtml(it.rule)}</div>`;
     if(it.action) html += `<div class="customs-meta"><b>建議做法：</b>${escapeHtml(it.action)}</div>`;
-    if(it.veg_note) html += `<div class="customs-meta veg"><b>🌿 素食提醒：</b>${escapeHtml(it.veg_note)}</div>`;
+    if(it.veg_note) html += `<div class="customs-meta veg"><b>素食提醒：</b>${escapeHtml(it.veg_note)}</div>`;
     html += '</div></div>';
   });
-  if(json.photo_tip) html += `<p class="hint">📷 ${escapeHtml(json.photo_tip)}</p>`;
-  if(json.truncated) html += '<p class="hint">⚠️ 回傳內容過長被截斷，可能有物品沒列出；可以分開拍照再試一次。</p>';
+  if(json.photo_tip) html += `<p class="hint">拍照建議：${escapeHtml(json.photo_tip)}</p>`;
+  if(json.truncated) html += '<p class="hint">注意：回傳內容過長被截斷，可能有物品沒列出；可以分開拍照再試一次。</p>';
   html += '<p class="hint">結果僅供參考，以海關與防檢署公告為準；不確定請走紅線申報。</p>';
   customsResults.innerHTML = html;
 }
