@@ -212,7 +212,6 @@
     color:var(--indigo);
     border:2px solid var(--indigo);
   }
-  .btn.recording{background:var(--kaki); border-color:var(--kaki); color:#fff;}
   .btn:disabled{opacity:.5; cursor:not-allowed;}
 
   .hint{font-size:15px; color:var(--gray-ink); margin:12px 0 0;}
@@ -332,62 +331,6 @@
     flex:1;
     font-size:16px;
     padding:13px 10px;
-  }
-
-  .mic-status{
-    font-size:15.5px;
-    border-radius:10px;
-    padding:11px 13px;
-    margin-top:12px;
-    line-height:1.6;
-    background:var(--gray-bg);
-    color:var(--ink-soft);
-  }
-  .mic-status.listening{background:var(--kaki-bg); color:var(--kaki); font-weight:600;}
-  .mic-status.ok{background:var(--matcha-bg); color:var(--matcha);}
-  .mic-status.error{background:var(--kaki-bg); color:var(--kaki);}
-  .mic-status .live{display:block; font-weight:400; color:var(--ink); margin-top:4px;}
-  .mic-help{
-    font-size:15px;
-    color:var(--ink-soft);
-    background:var(--paper);
-    border:1.5px dashed var(--line);
-    border-radius:10px;
-    padding:11px 13px;
-    margin-top:10px;
-    line-height:1.65;
-  }
-  .mic-help b{color:var(--indigo-deep);}
-  .mic-help a, .inapp-hint a{color:var(--indigo); font-weight:700;}
-  .inapp-hint{
-    font-size:15px;
-    background:#FFF6D8;
-    border:1.5px solid #E8D48A;
-    color:#5A4A12;
-    border-radius:10px;
-    padding:11px 13px;
-    margin-bottom:12px;
-    line-height:1.65;
-  }
-  .inapp-hint .open-ext{
-    display:inline-block;
-    margin-top:6px;
-    padding:8px 14px;
-    background:var(--indigo);
-    color:#fff !important;
-    border-radius:10px;
-    text-decoration:none;
-  }
-  .inapp-hint button{
-    margin-top:6px;
-    padding:7px 12px;
-    font-size:14.5px;
-    font-family:inherit;
-    border:1.5px solid var(--indigo);
-    background:#fff;
-    color:var(--indigo);
-    border-radius:10px;
-    cursor:pointer;
   }
 
   /* location */
@@ -704,24 +647,9 @@
       <select id="convOutputLang"></select>
     </div>
 
-    <div class="inapp-hint" id="inAppHint" hidden></div>
-
     <div class="conv-box">
-      <div class="conv-label">原文（可直接輸入文字，或用語音輸入）</div>
-      <textarea id="convInputText" rows="3" placeholder="在這裡輸入文字，或按下方按鈕用語音輸入…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="done"></textarea>
-      <div class="conv-actions">
-        <button type="button" class="btn secondary" id="convMicBtn">🎤 語音輸入</button>
-      </div>
-      <div class="mic-status" id="convMicStatus" role="status" aria-live="polite" hidden></div>
-      <div class="mic-help" id="convMicHelp" hidden>
-        <b>替代方法：用鍵盤的聽寫功能（每支手機都能用）</b><br>
-        1. 點一下上面的文字框，叫出鍵盤。<br>
-        2. 按鍵盤上的 <b>🎤 麥克風</b> 圖示，直接說話，文字會自動打進框裡。<br>
-        • iPhone：麥克風在鍵盤右下角（或空白鍵旁）。沒看到的話，請到「設定 → 一般 → 鍵盤 → 開啟『啟用聽寫』」。<br>
-        • Android：Gboard 鍵盤右上角的 🎤。<br>
-        3. 說完後按「翻譯」即可。
-      </div>
-      <p class="hint" style="margin-top:8px;">按「語音輸入」後請允許麥克風權限，並清楚說出要翻譯的句子。也可以點文字框，用鍵盤上的 🎤 聽寫輸入。</p>
+      <div class="conv-label">原文</div>
+      <textarea id="convInputText" rows="3" placeholder="在這裡輸入要翻譯的文字…（也可用鍵盤上的 🎤 聽寫輸入）"></textarea>
     </div>
 
     <button class="btn" id="convTranslateBtn">翻譯</button>
@@ -1131,19 +1059,16 @@ playBtn.onclick = ()=>{
     window.speechSynthesis.cancel();
     playBtn.classList.remove('playing');
     playBtn.innerHTML = '🔊&nbsp; 播放日文語音給店員聽';
-    noteTtsEnded();
     return;
   }
   const u = new SpeechSynthesisUtterance(currentType.speech);
   u.lang = 'ja-JP';
-  u.onend = u.onerror = ()=>{
+  u.onend = ()=>{
     playBtn.classList.remove('playing');
     playBtn.innerHTML = '🔊&nbsp; 播放日文語音給店員聽';
-    noteTtsEnded();
   };
   playBtn.classList.add('playing');
   playBtn.innerHTML = '⏹&nbsp; 停止播放';
-  noteTtsStarted();
   window.speechSynthesis.speak(u);
 };
 
@@ -1169,459 +1094,12 @@ convInputLang.value = 'zh-TW';
 convOutputLang.value = 'ja';
 
 const convInputText = document.getElementById('convInputText');
-const convMicBtn = document.getElementById('convMicBtn');
 const convTranslateBtn = document.getElementById('convTranslateBtn');
 const convLoading = document.getElementById('convLoading');
 const convError = document.getElementById('convError');
 const convOutputBox = document.getElementById('convOutputBox');
 const convOutputText = document.getElementById('convOutputText');
 const convPlayOutputBtn = document.getElementById('convPlayOutputBtn');
-
-const convMicStatus = document.getElementById('convMicStatus');
-const convMicHelp = document.getElementById('convMicHelp');
-const inAppHint = document.getElementById('inAppHint');
-
-const SPEECH_LANG_MAP = {
-  'zh-TW': 'zh-TW',
-  'zh-CN': 'zh-CN',
-  'ja': 'ja-JP',
-  'en': 'en-US',
-  'ko': 'ko-KR'
-};
-function speechLangCode(code){
-  return SPEECH_LANG_MAP[code] || code || 'zh-TW';
-}
-
-/* ---- environment detection ---- */
-const UA = navigator.userAgent || '';
-const IS_IOS = /iPad|iPhone|iPod/.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-const IS_ANDROID = /Android/i.test(UA);
-function detectInAppBrowser(){
-  if(/\bLine\//i.test(UA)) return 'LINE';
-  if(/FBAN|FBAV|FB_IAB|FBIOS|FB4A/i.test(UA)) return 'Facebook';
-  if(/Instagram/i.test(UA)) return 'Instagram';
-  if(/MicroMessenger/i.test(UA)) return '微信';
-  if(/Messenger/i.test(UA)) return 'Messenger';
-  if(/Threads|Barcelona/i.test(UA)) return 'Threads';
-  if(/TikTok|musical_ly|BytedanceWebview/i.test(UA)) return 'TikTok';
-  if(/KAKAOTALK/i.test(UA)) return 'KakaoTalk';
-  if(/Twitter/i.test(UA)) return 'X (Twitter)';
-  // Generic Android WebView ("; wv)") — e.g. other apps' built-in browsers
-  if(IS_ANDROID && /; wv\)/.test(UA)) return 'App';
-  return '';
-}
-const IN_APP = detectInAppBrowser();
-const SR_CTOR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
-const RECOMMENDED_BROWSER = IS_IOS ? 'Safari' : (IS_ANDROID ? 'Chrome' : 'Chrome 或 Safari');
-
-function externalBrowserUrl(){
-  try{
-    const u = new URL(location.href);
-    u.searchParams.set('openExternalBrowser', '1');
-    return u.toString();
-  }catch(e){
-    return location.href + (location.search ? '&' : '?') + 'openExternalBrowser=1';
-  }
-}
-function copyPageLink(btn){
-  const url = location.href.replace(/[?&]openExternalBrowser=1/, '');
-  const done = ()=>{ btn.textContent = '✓ 已複製，請貼到 ' + RECOMMENDED_BROWSER + ' 開啟'; };
-  if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(url).then(done, ()=>{ window.prompt('請複製這個網址，貼到 ' + RECOMMENDED_BROWSER + ' 開啟：', url); });
-  }else{
-    window.prompt('請複製這個網址，貼到 ' + RECOMMENDED_BROWSER + ' 開啟：', url);
-  }
-}
-function renderInAppHint(){
-  if(!IN_APP) return;
-  let html = '⚠️ 你正在 <b>' + IN_APP + '</b> 的內建瀏覽器中開啟，這裡通常<b>無法使用語音輸入</b>。' +
-    '建議改用 <b>' + RECOMMENDED_BROWSER + '</b> 開啟本頁；或點文字框，用鍵盤上的 🎤 聽寫輸入。<br>';
-  if(IN_APP === 'LINE'){
-    html += '<a class="open-ext" id="openExtLink" href="' + externalBrowserUrl() + '">用 ' + RECOMMENDED_BROWSER + ' 開啟本頁 ↗</a> ';
-  }else{
-    html += '做法：點右上角（或右下角）「⋯」選單 → 選「用瀏覽器開啟」／「在 ' + RECOMMENDED_BROWSER + ' 中開啟」。<br>';
-  }
-  html += '<button type="button" id="copyLinkBtn">📋 複製網址</button>';
-  inAppHint.innerHTML = html;
-  inAppHint.hidden = false;
-  const cb = document.getElementById('copyLinkBtn');
-  if(cb) cb.onclick = ()=> copyPageLink(cb);
-}
-renderInAppHint();
-
-/* ---- status UI ---- */
-function escapeHtml(t){
-  return String(t).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function setMicStatus(kind, html){
-  if(!html){ convMicStatus.hidden = true; convMicStatus.innerHTML = ''; return; }
-  convMicStatus.className = 'mic-status' + (kind ? ' ' + kind : '');
-  convMicStatus.innerHTML = html;
-  convMicStatus.hidden = false;
-}
-function showDictationHelp(focusField){
-  convMicHelp.hidden = false;
-  if(focusField){
-    // Focusing inside the click handler brings up the keyboard (with its 🎤 key) on phones.
-    try{ convInputText.focus(); }catch(e){}
-  }
-}
-function setMicButton(state){
-  // state: 'idle' | 'listening' | 'preparing'  (true/false accepted for backwards compat)
-  if(state === true) state = 'listening';
-  if(!state) state = 'idle';
-  convMicBtn.classList.toggle('recording', state === 'listening');
-  convMicBtn.disabled = (state === 'preparing');
-  convMicBtn.textContent = state === 'listening' ? '⏹ 停止（聆聽中…）' : state === 'preparing' ? '⏳ 準備中…' : '🎤 語音輸入';
-}
-
-function permissionHelpText(){
-  if(IN_APP){
-    return '這個 App 內建瀏覽器不允許使用麥克風。請改用 ' + RECOMMENDED_BROWSER + ' 開啟本頁（見上方黃色提示）。';
-  }
-  if(IS_IOS){
-    return '麥克風權限被拒，請到設定允許：<br>• 點網址列左側「ᴀA」→「網站設定」→「麥克風」→「允許」；或<br>• 「設定 → Safari → 麥克風」改成「詢問」或「允許」，再重新整理本頁。';
-  }
-  if(IS_ANDROID){
-    return '麥克風權限被拒，請到設定允許：<br>• 點網址列左側的 🔒／設定圖示 →「權限」→「麥克風」→「允許」；或<br>• 手機「設定 → 應用程式 → Chrome → 權限 → 麥克風」允許，再重新整理本頁。';
-  }
-  return '麥克風權限被拒，請點網址列左側的鎖頭圖示，允許此網站使用麥克風，再重新整理本頁。';
-}
-function unsupportedText(){
-  let t = '此瀏覽器不支援語音辨識，請用 Safari 或 Chrome 開啟（LINE 等 App 內建瀏覽器可能不支援）。';
-  if(!IN_APP && /Firefox|FxiOS/i.test(UA)) t = 'Firefox 不支援語音辨識，請用 ' + RECOMMENDED_BROWSER + ' 開啟本頁。';
-  return t + '<br>現在也可以直接用鍵盤上的 🎤 聽寫輸入（見下方說明）。';
-}
-
-/* ---- speech recognition ----
-   iOS Safari notes (WebKit bugs 317741 / 321436, unfixed in stable iOS as of 2026-08):
-   the 2nd start() — especially after any audio/TTS playback — can show "listening" (even the
-   orange mic dot) yet never fire onresult/onerror/onend. Mitigations here:
-   • a fresh instance per attempt; the old one is detached + aborted, and the button stays
-     disabled ("準備中…") until it has really ended (or a short fallback elapses);
-   • every handler is bound to its own session+instance, so late events from an old
-     instance can never touch the new session;
-   • hang detection: if no sound/speech/result arrives within a few seconds after start,
-     silently abort and retry with a fresh instance (300 / 1000 ms back-off);
-   • navigator.audioSession → 'play-and-record' while capturing (from the 2nd use / after TTS),
-     back to 'auto' when idle;
-   • TTS is cancelled and given a short settle window before the mic can start;
-   • if all retries hang, offer a one-tap page reload (keeps the typed text).            */
-let recSession = 0;
-let recState = null;              // active UI session or null
-const liveRecs = new Set();       // recognition instances that have not fired onend yet
-let micCooldownUntil = 0;         // don't start before this time (TTS settle / previous instance)
-let micCooldownTimer = null;
-let micUsedCount = 0;
-let ttsEverPlayed = false;
-const RETRY_DELAYS = [300, 1000];   // up to 2 automatic retries with a fresh instance
-const HANG_MS_FIRST = 8000;       // first-ever attempt may include the permission prompt
-const HANG_MS = 6000;
-
-function setAudioSessionType(t){
-  try{ if(navigator.audioSession && navigator.audioSession.type !== t) navigator.audioSession.type = t; }catch(e){}
-}
-function refreshMicButton(){
-  if(recState){ setMicButton('listening'); return; }
-  const now = Date.now();
-  let speaking = false;
-  try{ speaking = !!(window.speechSynthesis && window.speechSynthesis.speaking); }catch(e){}
-  if(liveRecs.size || now < micCooldownUntil){
-    setMicButton('preparing');
-    clearTimeout(micCooldownTimer);
-    micCooldownTimer = setTimeout(refreshMicButton, Math.max(100, Math.min(micCooldownUntil - now, 400)));
-    return;
-  }
-  setMicButton('idle');
-  if(!speaking) setAudioSessionType('auto');
-}
-function holdMic(ms){
-  micCooldownUntil = Math.max(micCooldownUntil, Date.now() + ms);
-  refreshMicButton();
-}
-function noteTtsStarted(){ ttsEverPlayed = true; }
-function noteTtsEnded(){ holdMic(800); }   // let iOS switch the audio session back before recording
-
-// Stop listening to an instance (it can no longer affect any session) and make sure it ends.
-function retireRec(rec, how){
-  if(!rec || rec._retired) return;
-  rec._retired = true;
-  rec.onstart = rec.onaudiostart = rec.onsoundstart = rec.onspeechstart = rec.onresult = rec.onerror = null;
-  rec.onend = ()=>{ liveRecs.delete(rec); refreshMicButton(); };
-  try{ how === 'stop' ? rec.stop() : rec.abort(); }catch(e){}
-  // Hung iOS instances never fire onend — forget them after a short grace period.
-  setTimeout(()=>{ if(liveRecs.delete(rec)) refreshMicButton(); }, 1500);
-}
-
-// Small diagnostic line so users can report exactly which events fired (start/audio/sound/speech/result).
-function diagLine(st){
-  if(!st || !st.ev) return '';
-  const e = st.ev, f = (k, label)=> label + (e[k] ? '✓' : '–');
-  return '<span style="display:block;font-size:12.5px;font-weight:400;color:var(--gray-ink);margin-top:4px;">診斷：' +
-    [f('start','開始'), f('audiostart','收音'), f('soundstart','聲音'), f('speechstart','說話'), f('result','結果')].join(' ') +
-    (st.attempt ? '（重試 ' + st.attempt + ' 次）' : '') + (e.error ? ' 錯誤:' + escapeHtml(e.error) : '') + '</span>';
-}
-function setListeningStatus(st, html){ setMicStatus('listening', html + diagLine(st)); }
-
-function writeTranscript(st, text){
-  // New speech REPLACES the old input; if nothing was recognised the previous text is restored.
-  const v = text || st.prevText || '';
-  if(convInputText.value !== v){
-    convInputText.value = v;
-    try{ convInputText.dispatchEvent(new Event('input', {bubbles:true})); }catch(e){}
-  }
-}
-
-function clearSessionTimers(st){
-  clearTimeout(st.hangTimer); clearTimeout(st.maxTimer); clearTimeout(st.silenceTimer);
-  clearTimeout(st.retryTimer); clearTimeout(st.stopTimer);
-}
-
-function finishSession(st){
-  if(!st || st.done) return;
-  st.done = true;
-  clearSessionTimers(st);
-  if(st.rec) retireRec(st.rec, 'abort');
-  if(recState === st) recState = null;
-  holdMic(400);
-  const text = ((st.finalText.length >= st.interimText.length ? st.finalText : st.interimText) || '').trim();
-  if(text){
-    writeTranscript(st, text);
-    try{ localStorage.setItem('vtMicOk', '1'); }catch(e){}
-    setMicStatus('ok', '✓ 辨識到：「' + escapeHtml(text) + '」<br>已填入上方文字框，確認沒問題後按「翻譯」。要重說請再按「語音輸入」。');
-    return;
-  }
-  writeTranscript(st, '');
-  if(st.error){ showRecError(st.error, diagLine(st)); return; }
-  if(st.userStopped){ setMicStatus('', '已停止，沒有收到語音。可再按一次「語音輸入」。'); return; }
-  setMicStatus('error', '沒聽到聲音。請再按一次「語音輸入」，靠近麥克風清楚說話。<br>若一直沒反應，請改用鍵盤上的 🎤 聽寫輸入（見下方說明）。');
-  showDictationHelp(false);
-}
-
-function showRecError(err, diag){
-  let msg;
-  if(err === 'not-allowed'){
-    msg = permissionHelpText();
-  }else if(err === 'service-not-allowed'){
-    if(IN_APP) msg = permissionHelpText();
-    else if(IS_IOS) msg = 'iPhone 的語音辨識服務未開啟。請到「設定 → Siri」開啟 Siri（或「設定 → 一般 → 鍵盤 → 啟用聽寫」），並確認「設定 → Safari → 麥克風」為允許，然後重新整理本頁。<br>或直接用鍵盤上的 🎤 聽寫輸入。';
-    else msg = '此瀏覽器不允許使用語音辨識服務。請改用 ' + RECOMMENDED_BROWSER + ' 開啟，或用鍵盤上的 🎤 聽寫輸入。';
-  }else if(err === 'no-speech'){
-    msg = '沒聽到聲音。請再按一次「語音輸入」，靠近麥克風清楚說話。';
-  }else if(err === 'audio-capture'){
-    msg = '找不到可用的麥克風（可能正被其他 App 或通話使用）。請關閉其他使用麥克風的 App 後再試。';
-  }else if(err === 'network'){
-    msg = '語音辨識需要網路連線（辨識是在雲端進行），請確認網路後再試；或用鍵盤上的 🎤 聽寫輸入。';
-  }else if(err === 'language-not-supported'){
-    msg = '此瀏覽器不支援「' + escapeHtml(convInputLang.options[convInputLang.selectedIndex].text) + '」的語音辨識，請換一種語言，或用鍵盤上的 🎤 聽寫輸入。';
-  }else if(err === 'hang'){
-    msg = (IN_APP
-      ? '語音辨識沒有反應（此 App 內建瀏覽器可能不支援）。請改用 ' + RECOMMENDED_BROWSER + ' 開啟本頁，或'
-      : '麥克風已開啟，但一直收不到聲音／辨識結果（iPhone Safari 的已知問題，連續使用或播放語音後偶爾發生）。請按下面按鈕重新整理頁面後再試，或')
-      + '改用鍵盤上的 🎤 聽寫輸入（見下方說明）。' +
-      (IN_APP ? '' : '<br><button type="button" class="btn secondary" id="micReloadBtn" style="margin-top:8px;padding:9px 10px;font-size:15px;">🔄 重新整理頁面（保留已輸入文字）</button>');
-  }else if(err === 'start-timeout'){
-    msg = '語音辨識沒有啟動（此瀏覽器可能不支援）。' + (IN_APP ? '請改用 ' + RECOMMENDED_BROWSER + ' 開啟本頁，' : '請重新整理頁面再試，') + '或改用鍵盤上的 🎤 聽寫輸入（見下方說明）。';
-  }else if(err === 'start-failed'){
-    msg = '無法啟動語音輸入。請重新整理頁面再試，或用鍵盤上的 🎤 聽寫輸入。';
-  }else if(err === 'aborted'){
-    msg = '語音輸入被中斷，請再按一次「語音輸入」。';
-  }else{
-    msg = '語音輸入失敗（' + escapeHtml(err) + '）。請再試一次，或用鍵盤上的 🎤 聽寫輸入。';
-  }
-  setMicStatus('error', msg + (diag || ''));
-  showDictationHelp(false);
-  const rb = document.getElementById('micReloadBtn');
-  if(rb) rb.onclick = ()=>{
-    try{ sessionStorage.setItem('vtConvDraft', JSON.stringify({t: convInputText.value, from: convInputLang.value, to: convOutputLang.value})); }catch(e){}
-    location.reload();
-  };
-}
-
-function startAttempt(st){
-  if(st.done) return;
-  let rec;
-  try{ rec = new SR_CTOR(); }catch(e){ st.error = 'start-failed'; finishSession(st); return; }
-  rec._sid = st.id; rec._attempt = st.attempt;
-  rec.lang = speechLangCode(convInputLang.value);
-  rec.continuous = false;
-  rec.interimResults = true;   // iOS Safari often never delivers a final result when this is false
-  rec.maxAlternatives = 1;
-  const mine = ()=> !st.done && st.rec === rec && !rec._retired;
-
-  const alive = ()=>{         // real evidence the mic pipeline works → no hang
-    if(!mine()) return;
-    st.alive = true;
-    clearTimeout(st.hangTimer);
-  };
-  const LISTEN_MSG = '🎙️ 聆聽中…請說話（說完會自動停止，也可按「停止」）';
-  rec.onstart = ()=>{
-    if(!mine()) return;
-    st.started = true; st.ev.start = 1;
-    if(!st.interimText) setListeningStatus(st, LISTEN_MSG);
-  };
-  // NOTE: onstart/onaudiostart DO fire in the iOS silent-hang state, so they don't count as "alive".
-  rec.onaudiostart = ()=>{
-    if(!mine()) return;
-    st.ev.audiostart = 1;
-    if(!st.interimText) setListeningStatus(st, LISTEN_MSG);
-  };
-  rec.onsoundstart = ()=>{
-    alive();
-    if(!mine()) return;
-    st.ev.soundstart = 1;
-    if(!st.interimText) setListeningStatus(st, '🎙️ 聆聽中…收到聲音');
-  };
-  rec.onspeechstart = ()=>{
-    alive();
-    if(!mine()) return;
-    st.ev.speechstart = 1;
-    if(!st.interimText) setListeningStatus(st, '🎙️ 聆聽中…偵測到說話，辨識中…');
-  };
-  rec.onresult = (e)=>{
-    if(!mine()) return;
-    alive();
-    let fin = '', interim = '';
-    for(let i = 0; i < e.results.length; i++){
-      const r = e.results[i];
-      const t = (r && r[0] && r[0].transcript) || '';
-      if(r.isFinal) fin += t; else interim += t;
-    }
-    st.finalText = fin;
-    st.interimText = fin + interim;
-    st.ev.result = 1;
-    writeTranscript(st, st.interimText.trim());
-    setListeningStatus(st, '🎙️ 聆聽中…辨識到：<span class="live">' + escapeHtml(st.interimText) + '</span>');
-    // Some iOS versions keep listening forever after speech ends — auto-stop after ~2.5s of silence.
-    clearTimeout(st.silenceTimer);
-    st.silenceTimer = setTimeout(()=>{
-      if(!mine()) return;
-      retireRec(rec, 'stop');        // stop (not abort) so pending results can still flush…
-      rec.onresult = null;
-      finishSession(st);             // …but we already have the text, so finish now
-    }, 2500);
-  };
-  rec.onerror = (e)=>{
-    if(!mine()) return;
-    const err = (e && e.error) || 'unknown';
-    st.ev.error = err;
-    if(st.interimText.trim() || st.finalText.trim()){ finishSession(st); return; }
-    if(err === 'aborted' && st.userStopped){ finishSession(st); return; }
-    st.error = err;
-    finishSession(st);
-  };
-  rec.onend = ()=>{
-    liveRecs.delete(rec);
-    if(!mine()){ refreshMicButton(); return; }
-    finishSession(st);
-  };
-
-  st.rec = rec;
-  st.alive = false;
-  st.ev = {};
-  liveRecs.add(rec);
-  if(st.attempt > 0 || micUsedCount > 1 || ttsEverPlayed) setAudioSessionType('play-and-record');
-  try{
-    rec.start();
-  }catch(err){
-    liveRecs.delete(rec);
-    rec._retired = true;
-    if(st.attempt < RETRY_DELAYS.length){ scheduleRetry(st); return; }
-    st.error = 'start-failed';
-    finishSession(st);
-    return;
-  }
-
-  let firstEver = false;
-  try{ firstEver = !localStorage.getItem('vtMicOk'); }catch(e){}
-  st.hangTimer = setTimeout(()=>{
-    if(!mine() || st.alive) return;
-    // No sound/speech/result at all → probably the iOS silent-hang bug (or an unsupported WebView).
-    retireRec(rec, 'abort');
-    if(st.attempt < RETRY_DELAYS.length){ scheduleRetry(st); }
-    else { st.error = (st.ev && (st.ev.start || st.ev.audiostart)) ? 'hang' : 'start-timeout'; finishSession(st); }
-  }, (st.attempt === 0 && firstEver) ? HANG_MS_FIRST : HANG_MS);
-}
-
-function scheduleRetry(st){
-  if(st.done) return;
-  const delay = RETRY_DELAYS[st.attempt];
-  st.attempt++;
-  st.rec = null;
-  setListeningStatus(st, '🎙️ 沒收到聲音，麥克風重新連線中…（第 ' + st.attempt + ' 次）請再說一次');
-  st.retryTimer = setTimeout(()=> startAttempt(st), delay);
-}
-
-function startRecognition(){
-  const st = { id: ++recSession, prevText: convInputText.value, finalText:'', interimText:'', error:null, ev:{},
-               started:false, alive:false, done:false, userStopped:false, attempt:0, rec:null };
-  recState = st;
-  micUsedCount++;
-  convMicHelp.hidden = true;
-  setMicButton('listening');
-  setMicStatus('listening', '正在啟動麥克風…（第一次使用請按「允許」）');
-  startAttempt(st);  // synchronous, still inside the tap gesture
-  if(st.done) return;
-  // Never leave the button stuck in "listening".
-  st.maxTimer = setTimeout(()=>{ if(!st.done) finishSession(st); }, 40000);
-}
-
-function stopRecognition(){
-  const st = recState;
-  if(!st) return;
-  st.userStopped = true;
-  clearTimeout(st.hangTimer); clearTimeout(st.retryTimer);
-  if(!st.rec){ finishSession(st); return; }
-  setMicStatus('listening', '處理中…');
-  try{ st.rec.stop(); }catch(e){}
-  // If the browser never fires onend (seen on iOS), clean up ourselves.
-  st.stopTimer = setTimeout(()=> finishSession(st), 1500);
-}
-
-convMicBtn.addEventListener('click', ()=>{
-  if(recState){ stopRecognition(); return; }
-  if(convMicBtn.disabled) return;
-  if(!SR_CTOR){
-    setMicStatus('error', unsupportedText());
-    showDictationHelp(true);
-    return;
-  }
-  if(window.isSecureContext === false){
-    setMicStatus('error', '語音輸入需要 https 網址，請用 https://mclintw.github.io/veg-travel/ 開啟。');
-    showDictationHelp(true);
-    return;
-  }
-  let speaking = false;
-  try{ speaking = !!(window.speechSynthesis && (window.speechSynthesis.speaking || window.speechSynthesis.pending)); }catch(e){}
-  if(speaking){
-    // Starting the mic while TTS holds the audio session is exactly what breaks iOS — stop TTS first.
-    try{ window.speechSynthesis.cancel(); }catch(e){}
-    try{ playBtn.classList.remove('playing'); playBtn.innerHTML = '🔊&nbsp; 播放日文語音給店員聽'; }catch(e){}
-    holdMic(900);
-    setMicStatus('', '已停止播放語音。等按鈕恢復「🎤 語音輸入」後，再按一次開始說話。');
-    return;
-  }
-  if(liveRecs.size || Date.now() < micCooldownUntil){ refreshMicButton(); return; }
-  startRecognition();
-});
-
-// Clear stale status when the user starts typing / dictating with the keyboard.
-convInputText.addEventListener('input', ()=>{
-  if(!recState && convMicStatus.classList.contains('error')) setMicStatus('', '');
-});
-
-// Restore the draft saved by the "重新整理頁面" button.
-try{
-  const d = sessionStorage.getItem('vtConvDraft');
-  if(d){
-    sessionStorage.removeItem('vtConvDraft');
-    const o = JSON.parse(d);
-    if(o.from) convInputLang.value = o.from;
-    if(o.to) convOutputLang.value = o.to;
-    if(o.t) convInputText.value = o.t;
-    setMicStatus('', '已重新整理，可以再按「🎤 語音輸入」。');
-  }
-}catch(e){}
 
 convTranslateBtn.onclick = async ()=>{
   const text = convInputText.value.trim();
@@ -1657,13 +1135,10 @@ convPlayOutputBtn.onclick = ()=>{
   if(!text) return;
   if(window.speechSynthesis.speaking){
     window.speechSynthesis.cancel();
-    noteTtsEnded();
     return;
   }
   const u = new SpeechSynthesisUtterance(text);
   u.lang = convOutputLang.value === 'ja' ? 'ja-JP' : convOutputLang.value === 'zh-TW' || convOutputLang.value === 'zh-CN' ? 'zh-TW' : convOutputLang.value;
-  u.onend = u.onerror = ()=> noteTtsEnded();
-  noteTtsStarted();
   window.speechSynthesis.speak(u);
 };
 
