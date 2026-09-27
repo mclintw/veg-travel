@@ -3,499 +3,521 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0F1F3D">
 <title>我的東京行程 2026 | 素食旅行小幫手</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%97%BE%3C/text%3E%3C/svg%3E">
 <style>
   :root{
-    --paper:#FAF6EC; --card:#FFFFFF; --ink:#241F17; --ink-soft:#3E3B2E; --line:#D9CFB0;
-    --indigo:#1F3A50; --indigo-deep:#16273A; --matcha:#4C6E36; --matcha-bg:#E7EFDD;
-    --kaki:#A24726; --kaki-bg:#F7E4D6; --gray-bg:#EFEDE6; --gray-ink:#5C5A48; --stamp:#A4392C; --radius:16px;
+    --bg:#0F1F3D; --card:#172D52; --card2:#1E3862; --line:#2E4C7E;
+    --text:#F4F7FC; --muted:#BAC8DE; --pill:#27437A; --pill-text:#DCE6F5;
+    --amber:#F2B544; --amber-bg:rgba(242,181,68,.16); --sky:#8FCBFF; --mint:#86DCB4;
+    --radius:16px;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
-  html{scroll-behavior:smooth; scroll-padding-top:78px;}
-  body{background:var(--paper); color:var(--ink);
+  html{scroll-behavior:smooth; scroll-padding-top:74px;}
+  body{background:var(--bg); color:var(--text);
     font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
     font-size:17px; line-height:1.75; -webkit-font-smoothing:antialiased;}
   .app{max-width:560px; margin:0 auto; padding:14px 16px 52px;}
-  a.back{display:inline-block; font-size:15px; color:var(--indigo); text-decoration:none; font-weight:600; padding:6px 0;}
-  header.top{display:flex; align-items:center; justify-content:space-between; padding:6px 2px 16px;
-    border-bottom:2px solid var(--line); margin-bottom:16px; gap:10px;}
-  header.top .brand{font-family:"Songti TC","PMingLiU","Noto Serif TC",serif; font-size:27px; letter-spacing:.02em; color:var(--indigo-deep);}
-  header.top .brand small{display:block; font-family:"PingFang TC",sans-serif; font-size:13px; color:var(--gray-ink); margin-top:3px; letter-spacing:.06em;}
-  .lang-tag{font-size:14.5px; color:var(--indigo); border:1.5px solid var(--indigo); border-radius:20px; padding:5px 13px; white-space:nowrap;}
-  .intro{font-size:15px; color:var(--ink-soft); margin:0 2px 18px;}
+  a.back{display:inline-block; font-size:15px; color:var(--sky); text-decoration:underline; text-decoration-color:rgba(143,203,255,.5); text-underline-offset:4px; font-weight:600; padding:6px 0;}
+  header.top{display:flex; align-items:flex-end; justify-content:space-between; padding:6px 2px 16px;
+    border-bottom:1px solid var(--line); margin-bottom:16px; gap:10px;}
+  header.top .brand{font-family:"Songti TC","PMingLiU","Noto Serif TC",serif; font-size:28px; letter-spacing:.02em; color:var(--text); line-height:1.3;}
+  header.top .brand small{display:block; font-family:"PingFang TC",sans-serif; font-size:14px; color:var(--muted); margin-top:6px; letter-spacing:.03em;}
+  .days-tag{font-size:14px; font-weight:700; color:var(--bg); background:var(--amber); border-radius:20px; padding:4px 12px; white-space:nowrap;}
+  .intro{font-size:15px; color:var(--muted); margin:0 2px 18px;}
 
-  section.card{background:var(--card); border:1.5px solid var(--line); border-radius:var(--radius);
-    padding:24px 18px 20px; margin-bottom:26px; position:relative;}
-  .badge{position:absolute; top:-16px; left:20px; width:38px; height:38px; border-radius:8px; background:var(--stamp); color:#fff;
-    display:flex; align-items:center; justify-content:center; font-family:"Songti TC","PMingLiU",serif; font-size:20px;
-    transform:rotate(-3deg); box-shadow:0 2px 4px rgba(0,0,0,.18);}
-  section.card h2{font-family:"Songti TC","PMingLiU","Noto Serif TC",serif; font-size:23px; line-height:1.45; margin:2px 0 10px; color:var(--indigo-deep);}
-  .day-date{font-size:13.5px; letter-spacing:.06em; color:var(--gray-ink); margin-top:6px; font-weight:600;}
-  .day-pill{display:inline-block; font-size:14.5px; padding:4px 12px; border-radius:16px; margin-bottom:14px;}
-  .day-pill.food{background:var(--matcha-bg); color:var(--matcha);}
-  .day-pill.info{background:var(--gray-bg); color:var(--gray-ink);}
+  section.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px 18px 18px; margin-bottom:28px; position:relative;}
+  .badge{position:absolute; top:-15px; left:18px; min-width:36px; height:32px; padding:0 8px; border-radius:8px; background:var(--amber); color:var(--bg);
+    display:flex; align-items:center; justify-content:center; font-family:"Songti TC","PMingLiU",serif; font-size:18px; font-weight:700;}
+  section.card h2{font-family:"Songti TC","PMingLiU","Noto Serif TC",serif; font-size:23px; line-height:1.45; margin:2px 0 10px; color:var(--text);}
+  .day-date{font-size:14px; letter-spacing:.05em; color:var(--muted); margin-top:6px; font-weight:600;}
+  .day-pill{display:inline-block; font-size:14px; font-weight:600; padding:3px 12px; border-radius:14px; margin-bottom:12px;}
+  .day-pill.food{background:var(--amber-bg); color:var(--amber);}
+  .day-pill.info{background:var(--pill); color:var(--pill-text);}
+  .day-pill .k{font-weight:400; opacity:.9; margin-right:6px;}
 
   /* hotel */
-  section.hotel{padding-top:18px; background:#F7FAFB; border-color:var(--indigo);}
-  .hotel-tag{font-size:13.5px; color:var(--gray-ink); font-weight:600; letter-spacing:.04em;}
+  section.hotel{padding-top:18px; background:var(--card2);}
+  .hotel-tag{font-size:13.5px; color:var(--muted); font-weight:600; letter-spacing:.06em;}
   .hotel-name{font-size:20px; font-weight:700; margin:2px 0 6px;}
-  .legend{display:flex; flex-wrap:wrap; gap:6px 14px; font-size:13.5px; color:var(--gray-ink); margin-top:10px; border-top:1px dashed var(--line); padding-top:10px;}
+  .legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:14px; color:var(--muted); margin-top:12px; border-top:1px solid var(--line); padding-top:10px;}
+  .legend b{font-weight:700;}
+  .legend .r{color:var(--amber);} .legend .p{color:var(--sky);} .legend .s{color:var(--mint);}
 
   /* sticky day nav */
   nav.daynav{position:sticky; top:0; z-index:10; display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch;
-    background:var(--paper); padding:10px 2px 12px; margin:0 -2px 18px; border-bottom:1.5px solid var(--line); scrollbar-width:none;}
+    background:var(--bg); padding:10px 2px 12px; margin:0 -2px 22px; border-bottom:1px solid var(--line); scrollbar-width:none;}
   nav.daynav::-webkit-scrollbar{display:none;}
-  nav.daynav a{flex:0 0 auto; text-decoration:none; background:var(--card); border:1.5px solid var(--line); border-radius:12px;
-    padding:4px 11px; color:var(--indigo-deep); text-align:center; line-height:1.25;}
+  nav.daynav a{flex:0 0 auto; text-decoration:none; background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:4px 12px; color:var(--text); text-align:center; line-height:1.3;}
   nav.daynav a b{display:block; font-size:13px; letter-spacing:.03em;}
-  nav.daynav a span{display:block; font-size:12px; color:var(--gray-ink);}
-  nav.daynav a:active{background:var(--indigo); color:#fff;}
+  nav.daynav a span{display:block; font-size:12px; color:var(--muted);}
+  nav.daynav a.active{background:var(--amber); border-color:var(--amber); color:var(--bg);}
+  nav.daynav a.active span{color:var(--bg);}
 
   /* slots */
-  .slot{display:flex; gap:10px; padding:12px 0; border-top:1px solid var(--gray-bg);}
+  .slot{display:flex; gap:12px; padding:14px 0; border-top:1px solid var(--line);}
   .slot:first-of-type{border-top:none;}
-  .slot-label{flex:0 0 46px; height:26px; border-radius:13px; background:var(--gray-bg); color:var(--gray-ink);
-    font-size:13.5px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:2px;}
-  .slot.meal .slot-label{background:var(--kaki-bg); color:var(--kaki);}
+  .slot-label{flex:0 0 48px; height:26px; border-radius:13px; background:var(--pill); color:var(--pill-text);
+    font-size:13.5px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px;}
+  .slot.meal .slot-label{background:var(--amber-bg); color:var(--amber);}
   .slot-body{flex:1; min-width:0;}
-  .slot-main{font-size:17px; font-weight:700; line-height:1.55; overflow-wrap:anywhere;}
-  .slot-main .ico{margin-right:5px; font-weight:400;}
-  .note{font-size:14.5px; color:var(--gray-ink); margin:5px 0 0; line-height:1.65; overflow-wrap:anywhere;}
-  .extra{font-size:14.5px; color:var(--ink-soft); background:var(--matcha-bg); border-radius:10px; padding:8px 10px; margin:8px 0 0; line-height:1.65;}
-  .alts{margin-top:9px; background:var(--paper); border:1px dashed var(--line); border-radius:10px; padding:7px 11px 8px;}
-  .alts-h{font-size:12.5px; font-weight:700; color:var(--kaki); letter-spacing:.1em;}
-  .alts-area{font-size:13px; font-weight:700; color:var(--indigo); margin-top:6px;}
-  section.card > .alts-area{font-size:15px; margin-top:14px;}
+  .slot-main{font-size:17px; font-weight:700; line-height:1.6; overflow-wrap:anywhere;}
+  .note{font-size:15px; color:var(--muted); margin:6px 0 0; line-height:1.7; overflow-wrap:anywhere;}
+  .extra{font-size:15px; color:var(--text); background:var(--card2); border-left:3px solid var(--amber); border-radius:8px; padding:8px 11px; margin:10px 0 0; line-height:1.7;}
+  .alts{margin-top:10px; background:var(--card2); border-radius:10px; padding:9px 12px 8px;}
+  .alts-h{display:inline-block; font-size:12.5px; font-weight:700; color:var(--bg); background:var(--amber); border-radius:10px; padding:0 9px; letter-spacing:.08em; line-height:1.7;}
+  .alts-area{font-size:13.5px; font-weight:700; color:var(--pill-text); margin-top:8px;}
+  section.card > .alts-area{font-size:15px; margin-top:16px; color:var(--text);}
   .alts ul, ul.plain{margin:2px 0 0; padding:0; list-style:none;}
-  .alts li, ul.plain li{font-size:14.5px; line-height:1.6; padding:3px 0; color:var(--ink-soft); overflow-wrap:anywhere;}
-  .alts li::before{content:"🌱"; margin-right:5px; font-size:13px;}
+  .alts li, ul.plain li{font-size:15px; line-height:1.6; padding:4px 0; color:var(--muted); overflow-wrap:anywhere;}
+  .tag{color:var(--muted); font-weight:400; font-size:.88em; margin-left:6px;}
+  .slot-main .tag{font-size:.82em;}
 
-  /* links */
-  a.lk{color:var(--indigo); text-decoration:underline; text-decoration-thickness:1.5px; text-underline-offset:3px; font-weight:600;}
-  a.lk.rest{color:var(--kaki);}
-  a.lk.shop{color:var(--matcha);}
-  a.lk::after{content:"↗"; font-size:.72em; margin-left:2px; text-decoration:none; display:inline-block;}
-  .legend i{display:inline-block; width:0; height:0;}
+  /* links: color + subtle underline */
+  a.lk{text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:4px; font-weight:600;}
+  a.lk.rest{color:var(--amber); text-decoration-color:rgba(242,181,68,.55);}
+  a.lk.place{color:var(--sky); text-decoration-color:rgba(143,203,255,.55);}
+  a.lk.shop{color:var(--mint); text-decoration-color:rgba(134,220,180,.55);}
+  a.lk:active{opacity:.75;}
 
-  footer.note{font-size:13.5px; color:var(--gray-ink); text-align:center; padding-top:8px; line-height:1.8;}
-  footer.note a{color:var(--indigo); font-weight:600;}
+  footer.note{font-size:14px; color:var(--muted); text-align:center; padding-top:8px; line-height:1.8;}
+  footer.note a{color:var(--sky); font-weight:600;}
 
 </style>
 </head>
 <body>
 <div class="app">
-  <a class="back" href="./">← 回素食小幫手</a>
+  <a class="back" href="./">回素食小幫手</a>
   <header class="top">
-    <div class="brand">我的東京行程<small>TOKYO AUTUMN TRIP · 2026</small></div>
-    <div class="lang-tag">9/29 – 10/8</div>
+    <div class="brand">我的東京行程<small>2026年9月29日至10月8日</small></div>
+    <div class="days-tag">10 天</div>
   </header>
-  <p class="intro">東京秋日慢遊帖 2026：10 天行程，每天分上午／午餐／下午／晚餐。所有<b>景點與餐廳名稱都可以點</b>，會開啟 Google Maps（iPhone 有裝 Google Maps App 會直接開 App）。</p>
+  <p class="intro">每天分成上午、午餐、下午、晚餐。景點和餐廳名稱都可以點，會開啟 Google Maps；iPhone 有安裝 Google Maps App 會直接開 App。</p>
 <section class="card hotel">
-<div class="hotel-tag">🏨 住宿（10晚同一間）</div>
+<div class="hotel-tag">住宿，全程同一間</div>
 <div class="hotel-name"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B6%E3%83%BB%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%20%E3%81%95%E3%81%8F%E3%82%89%E3%82%BF%E3%83%AF%E3%83%BC%E6%9D%B1%E4%BA%AC%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">ザ・プリンス さくらタワー東京</a></div>
-<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85%20%E9%AB%98%E8%BC%AA%E5%8F%A3" target="_blank" rel="noopener">品川駅高輪口</a>　徒歩約3分（さくら坂緩坡）</p><p class="note">機場往返：N&#x27;EX 成田⇄<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>約63分（綠色車廂）＋徒歩約3分　或　利木津巴士（飯店有停）</p>
-<div class="legend"><span><i class="dot-r"></i>🍽 餐廳</span><span><i class="dot-p"></i>📍 景點</span><span><i class="dot-s"></i>🛒 商店</span><span>底線字＝點擊開 Google Maps</span></div>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85%20%E9%AB%98%E8%BC%AA%E5%8F%A3" target="_blank" rel="noopener">品川駅高輪口</a>步行約3分鐘，沿さくら坂緩坡</p><p class="note">機場往返搭 N&#x27;EX 成田到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>約63分鐘（綠色車廂），或搭利木津巴士，飯店有停</p>
+<div class="legend"><span><b class="r">橘色</b>是餐廳</span><span><b class="p">藍色</b>是景點</span><span><b class="s">綠色</b>是商店</span><span>點名稱就會開啟 Google Maps</span></div>
 </section>
-  <nav class="daynav" aria-label="跳到某一天"><a href="#day1"><b>DAY 1</b><span>9/29</span></a><a href="#day2"><b>DAY 2</b><span>9/30</span></a><a href="#day3"><b>DAY 3</b><span>10/1</span></a><a href="#day4"><b>DAY 4</b><span>10/2</span></a><a href="#day5"><b>DAY 5</b><span>10/3</span></a><a href="#day6"><b>DAY 6</b><span>10/4</span></a><a href="#day7"><b>DAY 7</b><span>10/5</span></a><a href="#day8"><b>DAY 8</b><span>10/6</span></a><a href="#day9"><b>DAY 9</b><span>10/7</span></a><a href="#day10"><b>DAY 10</b><span>10/8</span></a><a href="#nearby"><b>🏨</b><span>周邊</span></a></nav>
+  <nav class="daynav" aria-label="跳到某一天"><a href="#day1"><b>DAY 1</b><span>9/29</span></a><a href="#day2"><b>DAY 2</b><span>9/30</span></a><a href="#day3"><b>DAY 3</b><span>10/1</span></a><a href="#day4"><b>DAY 4</b><span>10/2</span></a><a href="#day5"><b>DAY 5</b><span>10/3</span></a><a href="#day6"><b>DAY 6</b><span>10/4</span></a><a href="#day7"><b>DAY 7</b><span>10/5</span></a><a href="#day8"><b>DAY 8</b><span>10/6</span></a><a href="#day9"><b>DAY 9</b><span>10/7</span></a><a href="#day10"><b>DAY 10</b><span>10/8</span></a><a href="#nearby"><b>飯店</b><span>周邊</span></a></nav>
 <section class="card day" id="day1">
 <div class="badge">一</div>
-<div class="day-date">DAY 01　·　9月29日（二）</div>
-<h2>抵達・品川</h2>
+<div class="day-date">DAY 1　9月29日（二）</div>
+<h2>抵達品川</h2>
 <div class="day-pill info">輕行程日</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E7%94%B0%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">成田</a>入境，轉往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B6%E3%83%BB%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%20%E3%81%95%E3%81%8F%E3%82%89%E3%82%BF%E3%83%AF%E3%83%BC%E6%9D%B1%E4%BA%AC%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">ザ・プリンス さくらタワー東京</a></div>
-<p class="note">N&#x27;EX 至<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>約63分＋徒歩約3分　或　利木津至高輪王子區域</p>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E7%94%B0%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">成田</a>入境，轉往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B6%E3%83%BB%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%20%E3%81%95%E3%81%8F%E3%82%89%E3%82%BF%E3%83%AF%E3%83%BC%E6%9D%B1%E4%BA%AC%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">ザ・プリンス さくらタワー東京</a></div>
+<p class="note">搭 N&#x27;EX 到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>約63分鐘，再步行約3分鐘；或搭利木津巴士到高輪王子區域</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span>機上</div>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%88%90%E7%94%B0%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">機場 T&#x27;s Tantan</a>（純素拉麵・第二航廈4F）</li></ul>
+<div class="slot-main">機上</div>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%88%90%E7%94%B0%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">機場 T&#x27;s Tantan</a><span class="tag">純素拉麵，第二航廈4F</span></li></ul>
 </div>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span>辦理入住　·　休息　·　館內／品川周邊輕逛</div>
-<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85%20%E9%AB%98%E8%BC%AA%E5%8F%A3" target="_blank" rel="noopener">品川駅高輪口</a>　徒歩約3分（さくら坂緩坡）　·　館內／周邊可輕逛</p>
+<div class="slot-main">辦理入住、休息，館內或品川周邊輕逛</div>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85%20%E9%AB%98%E8%BC%AA%E5%8F%A3" target="_blank" rel="noopener">品川駅高輪口</a>步行約3分鐘，沿さくら坂緩坡</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a>（葷素同行）</div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">葷素同行</span></div>
 <p class="note">蔬菜主題的義式串燒餐廳，名物農園蔬菜沾醬（醬含鯷魚）、蔬菜義大利麵；素食者點餐前需確認，葷素同行，可訂位。</p>
-<div class="alts"><div class="alts-h">備案</div>
+<div class="alts"><span class="alts-h">備案</span>
 <div class="alts-area">品川</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a>（客製沙拉）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a>（日式咖哩）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a>（全素自然食）　品川/港南</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a>（義式料理）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">Natural Cafe＆Restaurant 椨の木</a>（自然食）</li></ul>
-<div class="alts-area">東京站 or 秋葉原站</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%9D%B1%E4%BA%AC%E9%A7%85%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">T&#x27;s Tantan</a>（純素拉麵）</li></ul>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a><span class="tag">客製沙拉</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a><span class="tag">日式咖哩</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a><span class="tag">全素自然食，品川港南</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a><span class="tag">義式料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">Natural Cafe＆Restaurant 椨の木</a><span class="tag">自然食</span></li></ul>
+<div class="alts-area">東京站或秋葉原站</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%9D%B1%E4%BA%AC%E9%A7%85%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li></ul>
 </div>
 </div></div>
 </section>
 <section class="card day" id="day2">
 <div class="badge">二</div>
-<div class="day-date">DAY 02　·　9月30日（三）</div>
-<h2>淺草・晴空塔</h2>
-<div class="day-pill food">🌱 Injoy 悦納</div>
+<div class="day-date">DAY 2　9月30日（三）</div>
+<h2>淺草、晴空塔</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>Injoy 悦納</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%20%E9%9B%B7%E9%96%80" target="_blank" rel="noopener">雷門</a> → <a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BB%B2%E8%A6%8B%E4%B8%96%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">仲見世商店街</a> → <a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E5%AF%BA" target="_blank" rel="noopener">淺草寺本堂</a></div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%20%E9%9B%B7%E9%96%80" target="_blank" rel="noopener">雷門</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BB%B2%E8%A6%8B%E4%B8%96%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">仲見世商店街</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E5%AF%BA" target="_blank" rel="noopener">淺草寺本堂</a></div>
 <p class="note">東京最古老的寺院（628年創建），雷門大燈籠與約250公尺的仲見世老街是看點；參拜免費，本堂需走一段台階。</p>
-<p class="note">「寺」淺草寺　可選人力車減步行</p>
+<p class="note">淺草寺可選搭人力車，減少步行</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Injoy%20%E6%82%A6%E7%B4%8D%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">Injoy 悦納</a>（石鍋拌飯、素麵等）</div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Injoy%20%E6%82%A6%E7%B4%8D%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">Injoy 悦納</a><span class="tag">石鍋拌飯、素麵等</span></div>
 <p class="note">全素精進料理（不用蛋奶、五辛與酒），全員可吃；週二公休，午間常客滿，建議先訂位。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%BE%E7%AB%B9%E5%86%86%E3%82%AB%E3%83%95%E3%82%A7%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">松竹圓カフェ</a>（全素漢堡、Pizza、點心）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%BE%E3%82%8B%E3%81%94%E3%81%A8Vegan%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">まるごとVegan 浅草</a>（全素食點心）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E3%82%82%E3%82%93%E3%81%98%E3%82%83%20%E9%A6%99%E5%91%B3%E5%AE%B6" target="_blank" rel="noopener">淺草もんじゃ 香味家</a>（葷、素食文字燒）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Age.3%20ASAKUSA" target="_blank" rel="noopener">Age.3 ASAKUSA</a>（炸三明治小吃）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%9B%B7%E4%B8%80%E8%8C%B6%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">雷一茶</a>（抹茶）</li></ul>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%BE%E7%AB%B9%E5%86%86%E3%82%AB%E3%83%95%E3%82%A7%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">松竹圓カフェ</a><span class="tag">全素漢堡、Pizza、點心</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%BE%E3%82%8B%E3%81%94%E3%81%A8Vegan%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">まるごとVegan 浅草</a><span class="tag">全素食點心</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E3%82%82%E3%82%93%E3%81%98%E3%82%83%20%E9%A6%99%E5%91%B3%E5%AE%B6" target="_blank" rel="noopener">淺草もんじゃ 香味家</a><span class="tag">葷素皆有的文字燒</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Age.3%20ASAKUSA" target="_blank" rel="noopener">Age.3 ASAKUSA</a><span class="tag">炸三明治小吃</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%9B%B7%E4%B8%80%E8%8C%B6%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">雷一茶</a><span class="tag">抹茶</span></li></ul>
 </div>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%B9%E3%82%AB%E3%82%A4%E3%83%84%E3%83%AA%E3%83%BC" target="_blank" rel="noopener">晴空塔</a></div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%B9%E3%82%AB%E3%82%A4%E3%83%84%E3%83%AA%E3%83%BC" target="_blank" rel="noopener">晴空塔</a></div>
 <p class="note">高634公尺的世界最高自立式電波塔，350公尺天望甲板可俯瞰東京；全程搭電梯，建議官網預購日期時段票。</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span>回<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E9%A7%85" target="_blank" rel="noopener">淺草站</a> or <a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%8A%E9%87%8E%E9%A7%85" target="_blank" rel="noopener">上野站</a> or <a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">東京車站</a> or <a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A7%8B%E8%91%89%E5%8E%9F%E9%A7%85" target="_blank" rel="noopener">秋葉原站</a> 吃晚餐</div>
-<div class="alts"><div class="alts-h">備案</div>
+<div class="slot-main">回<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E9%A7%85" target="_blank" rel="noopener">淺草站</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%8A%E9%87%8E%E9%A7%85" target="_blank" rel="noopener">上野站</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">東京車站</a>或<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A7%8B%E8%91%89%E5%8E%9F%E9%A7%85" target="_blank" rel="noopener">秋葉原站</a>吃晚餐</div>
+<div class="alts"><span class="alts-h">備案</span>
 <div class="alts-area">品川</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a>（葷素同行）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a>（客製沙拉）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a>（日式咖哩）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a>（全素自然食）　品川/港南</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a>（義式料理）</li></ul>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a><span class="tag">客製沙拉</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a><span class="tag">日式咖哩</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a><span class="tag">全素自然食，品川港南</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a><span class="tag">義式料理</span></li></ul>
 </div>
 </div></div>
 </section>
 <section class="card day" id="day3">
 <div class="badge">三</div>
-<div class="day-date">DAY 03　·　10月1日（四）</div>
+<div class="day-date">DAY 3　10月1日（四）</div>
 <h2>皇居、增上寺、東京鐵塔</h2>
-<div class="day-pill food">🌱 REVIVE KITCHEN THREE HIBIYA</div>
+<div class="day-pill food"><span class="k">今日主餐</span>REVIVE KITCHEN THREE HIBIYA</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%9A%87%E5%B1%85%E6%9D%B1%E5%BE%A1%E8%8B%91" target="_blank" rel="noopener">皇居東御苑</a></div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%9A%87%E5%B1%85%E6%9D%B1%E5%BE%A1%E8%8B%91" target="_blank" rel="noopener">皇居東御苑</a></div>
 <p class="note">大型造景花園，位在建於 1888 年的宮殿園區內，園中還有幾處江戶時期的城堡遺址。</p>
-<p class="note">免費入園，入口需過安檢；週一、五休園，10/1（四）開放，10月開放至16:30；園內多碎石路。</p>
+<p class="note">免費入園，入口需過安檢；週一、週五休園，10月1日（四）開放，10月開放至16:30；園內多碎石路。</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://maps.app.goo.gl/hPTzcsczjAYR9rY17" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a></div>
-<p class="note">THREE旗下「Modern Shojin」蔬食餐廳（日比谷中城2F），午餐點季節蔬食拼盤或全素拌飯；蛋奶素、全素皆宜，可訂位。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<div class="alts-area">新橋/銀座</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a>（全素麻婆豆腐）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a>（印度料理・銀座8-10-8 B1）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a>（野菜料理）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a>（蔬食咖啡廳）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a>（全素餐廳）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%86%8D%E9%86%90%20%E7%B2%BE%E9%80%B2%E6%96%99%E7%90%86%20%E6%84%9B%E5%AE%95%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">醍醐</a>　精進午餐（米其林二星）</li></ul>
+<div class="slot-main"><a class="lk rest" href="https://maps.app.goo.gl/hPTzcsczjAYR9rY17" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a></div>
+<p class="note">THREE 旗下 Modern Shojin 蔬食餐廳（日比谷中城2F），午餐點季節蔬食拼盤或全素拌飯；蛋奶素、全素皆宜，可訂位。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">新橋、銀座</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a><span class="tag">全素麻婆豆腐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a><span class="tag">印度料理，銀座8-10-8 B1</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a><span class="tag">野菜料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a><span class="tag">蔬食咖啡廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a><span class="tag">全素餐廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%86%8D%E9%86%90%20%E7%B2%BE%E9%80%B2%E6%96%99%E7%90%86%20%E6%84%9B%E5%AE%95%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">醍醐</a><span class="tag">精進午餐，米其林二星</span></li></ul>
 <div class="alts-area">東京站</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a>（純素拉麵）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a>（素食拉麵・東京站拉麵街）</li></ul>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a><span class="tag">素食拉麵，東京站拉麵街</span></li></ul>
 </div>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A2%97%E4%B8%8A%E5%AF%BA" target="_blank" rel="noopener">增上寺</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AD" target="_blank" rel="noopener">東京鐵塔大展望台</a></div>
-<p class="note">增上寺為德川將軍家菩提寺，朱紅三解脫門（1622年）可與鐵塔同框；東京鐵塔高333公尺，Main Deck位於150公尺。</p>
-<p class="note">增上寺與鐵塔同區、計程車接駁</p>
-<p class="note">只上 Main Deck　·　少排隊少樓梯</p>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A2%97%E4%B8%8A%E5%AF%BA" target="_blank" rel="noopener">增上寺</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%BF%E3%83%AF%E3%83%BC%20%E3%83%A1%E3%82%A4%E3%83%B3%E3%83%87%E3%83%83%E3%82%AD" target="_blank" rel="noopener">東京鐵塔大展望台</a></div>
+<p class="note">增上寺為德川將軍家菩提寺，朱紅三解脫門（1622年）可與鐵塔同框；東京鐵塔高333公尺，Main Deck 位於150公尺。</p>
+<p class="note">增上寺與鐵塔同區，可搭計程車接駁</p>
+<p class="note">只上 Main Deck，少排隊、少樓梯</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">銀座</a></div>
-<div class="alts"><div class="alts-h">備案</div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">銀座</a></div>
+<div class="alts"><span class="alts-h">備案</span>
 <div class="alts-area">六本木</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%B7%8F%E6%9C%AC%E5%AE%B6%E6%9B%B4%E7%A7%91%E5%A0%80%E4%BA%95%20%E9%BA%BB%E5%B8%83%E5%8D%81%E7%95%AA%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">總本家更科堀井 麻布十番本店</a>（蕎麥麵）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%A4%E3%82%8B%E3%81%A8%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">TsuruTonTan</a>（烏龍麵）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=SOUGO%20%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">Sougo</a>（精進料理）</li></ul>
-<div class="alts-area">新橋/銀座</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a>（全素麻婆豆腐）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a>（印度料理・銀座8-10-8 B1）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a>（野菜料理）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a>（蔬食咖啡廳）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a>（全素餐廳）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a>（蔬食餐廳）</li></ul>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%B7%8F%E6%9C%AC%E5%AE%B6%E6%9B%B4%E7%A7%91%E5%A0%80%E4%BA%95%20%E9%BA%BB%E5%B8%83%E5%8D%81%E7%95%AA%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">總本家更科堀井 麻布十番本店</a><span class="tag">蕎麥麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%A4%E3%82%8B%E3%81%A8%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">TsuruTonTan</a><span class="tag">烏龍麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=SOUGO%20%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">Sougo</a><span class="tag">精進料理</span></li></ul>
+<div class="alts-area">新橋、銀座</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a><span class="tag">全素麻婆豆腐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a><span class="tag">印度料理，銀座8-10-8 B1</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a><span class="tag">野菜料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a><span class="tag">蔬食咖啡廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a><span class="tag">全素餐廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a><span class="tag">蔬食餐廳</span></li></ul>
 <div class="alts-area">東京站</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a>（純素拉麵）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a>（素食拉麵・東京站拉麵街）</li></ul>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a><span class="tag">素食拉麵，東京站拉麵街</span></li></ul>
 </div>
 </div></div>
 </section>
 <section class="card day" id="day4">
 <div class="badge">四</div>
-<div class="day-date">DAY 04　·　10月2日（五）</div>
+<div class="day-date">DAY 4　10月2日（五）</div>
 <h2>鎌倉高德院大佛、長谷寺、小町通り商店街</h2>
-<div class="day-pill food">🌱 木と季「野菜定食」</div>
+<div class="day-pill food"><span class="k">今日主餐</span>木と季 野菜定食</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a> → 綠色車廂 → <a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8E%8C%E5%80%89%E9%A7%85" target="_blank" rel="noopener">鎌倉</a> → 江之島鐵路 → <a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E8%B0%B7%E9%A7%85%20%E7%A5%9E%E5%A5%88%E5%B7%9D" target="_blank" rel="noopener">長谷</a></div>
-<p class="note">「寺」<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%AB%98%E5%BE%B3%E9%99%A2%20%E9%8E%8C%E5%80%89%E5%A4%A7%E4%BB%8F" target="_blank" rel="noopener">高德院大佛</a></p>
-<p class="note">高德院露天青銅阿彌陀佛坐像，高約11.3公尺、為國寶；境內平坦，門票300円，另付50円可入佛像內部。</p>
+<div class="slot-main">從<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>搭綠色車廂到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8E%8C%E5%80%89%E9%A7%85" target="_blank" rel="noopener">鎌倉</a>，轉江之島鐵路到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E8%B0%B7%E9%A7%85%20%E7%A5%9E%E5%A5%88%E5%B7%9D" target="_blank" rel="noopener">長谷</a></div>
+<p class="note">參拜<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%AB%98%E5%BE%B3%E9%99%A2%20%E9%8E%8C%E5%80%89%E5%A4%A7%E4%BB%8F" target="_blank" rel="noopener">高德院大佛</a></p>
+<p class="note">高德院露天青銅阿彌陀佛坐像，高約11.3公尺，為國寶；境內平坦，門票300円，另付50円可入佛像內部。</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9C%A8%E3%81%A8%E5%AD%A3%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">木と季</a>「野菜定食」（高德院大佛旁）</div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9C%A8%E3%81%A8%E5%AD%A3%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">木と季</a><span class="tag">野菜定食，高德院大佛旁</span></div>
 <p class="note">自家栽培有機蔬菜的菜食定食「木と季膳」（2,400円），不用動物性食材，全素；完全預約制，需2天前訂，週日休。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%BE%A1%E6%88%90%E6%A8%AA%E4%B8%81%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">御成橫丁</a>（鎌倉）壽司和拉麵、應時蔬食</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Cotonoha%20%E9%95%B7%E8%B0%B7" target="_blank" rel="noopener">Cotonoha</a>（長谷）野菜飯、茶</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%BF%83%20%E9%95%B7%E8%B0%B7%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">麻心</a>（長谷）野菜飯、茶</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Kamakura%20Vegetable%20Shop%20Veggy" target="_blank" rel="noopener">Kamakura Vegetable Shop Veggy</a>（長谷）飯糰麵包等等 只有6個位置</li></ul>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%BE%A1%E6%88%90%E6%A8%AA%E4%B8%81%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">御成橫丁</a><span class="tag">鎌倉，壽司、拉麵與應時蔬食</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Cotonoha%20%E9%95%B7%E8%B0%B7" target="_blank" rel="noopener">Cotonoha</a><span class="tag">長谷，野菜飯、茶</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%BF%83%20%E9%95%B7%E8%B0%B7%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">麻心</a><span class="tag">長谷，野菜飯、茶</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Kamakura%20Vegetable%20Shop%20Veggy" target="_blank" rel="noopener">Kamakura Vegetable Shop Veggy</a><span class="tag">長谷，飯糰麵包，只有6個位置</span></li></ul>
 </div>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E8%B0%B7%E5%AF%BA%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">長谷寺</a>：疲累可只走下庭園、（鎌倉）逛<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8E%8C%E5%80%89%20%E5%B0%8F%E7%94%BA%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">小町通り</a>＋<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%B6%B4%E5%B2%A1%E5%85%AB%E5%B9%A1%E5%AE%AE" target="_blank" rel="noopener">鶴岡八幡宮</a>（備案：<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%AD%E6%B4%97%E5%BC%81%E8%B2%A1%E5%A4%A9%E5%AE%87%E8%B3%80%E7%A6%8F%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener">錢洗弁財天宇賀福神社</a>）</div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E8%B0%B7%E5%AF%BA%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">長谷寺</a>，回鎌倉逛<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8E%8C%E5%80%89%20%E5%B0%8F%E7%94%BA%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">小町通り</a>與<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%B6%B4%E5%B2%A1%E5%85%AB%E5%B9%A1%E5%AE%AE" target="_blank" rel="noopener">鶴岡八幡宮</a></div>
+<p class="note">長谷寺疲累時可只走下方庭園</p>
 <p class="note">長谷寺供奉高9.18公尺的木造十一面觀音，見晴台可眺望由比濱，山門至本堂約80級石階；鶴岡八幡宮本宮在61級大石段上。</p>
-<p class="note">沿著指標往西北方向步行約 20-30 分鐘。前半段為一般街道，後半段會經過一段稍微陡峭的上坡路段（弁財天道），最後會穿過著名的崖邊人工隧道入口</p>
-<p class="extra">☕ 下午茶：<a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%80%E7%B4%A0%E8%8C%B6%E5%BA%B5%20%E5%8C%97%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">一素茶庵</a>（北鎌倉）台灣風全素茶點，台灣茶配豆乳布丁等甜點；10:00–16:00、週二三休、12席只收現金，15:00前抵達，飯後由北鎌倉搭JR橫須賀線直達品川約50分。</p>
+<p class="note">備選景點：<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%AD%E6%B4%97%E5%BC%81%E8%B2%A1%E5%A4%A9%E5%AE%87%E8%B3%80%E7%A6%8F%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener">錢洗弁財天宇賀福神社</a>。沿著指標往西北方向步行約20至30分鐘，前半段為一般街道，後半段會經過一段稍微陡峭的上坡路段（弁財天道），最後會穿過著名的崖邊人工隧道入口。</p>
+<p class="extra">下午茶：<a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%80%E7%B4%A0%E8%8C%B6%E5%BA%B5%20%E5%8C%97%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">一素茶庵</a><span class="tag">北鎌倉</span>台灣風全素茶點，台灣茶配豆乳布丁等甜點；10:00 至 16:00，週二、週三休，12席只收現金，15:00前抵達。飯後由北鎌倉搭 JR 橫須賀線直達品川約50分鐘。</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Natural%20Cafe%20%26%20Restaurant%20%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E6%9D%B1%E4%BA%AC%E7%99%82%E9%99%A2%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">Natural Cafe＆Restaurant 椨の木</a>（品川高輪口・葷素同行）</div>
-<p class="note">東京療院新館1F的自然食餐廳，以MOA自然農法蔬菜與天然海鮮入菜，葷素同行，訂位時可要求蛋奶素／全素；週五晚餐17:30–21:00（L.O. 20:00），僅電話訂位，高輪口徒步5分，17:30入座約19:00前可走回飯店。</p>
-<div class="alts"><div class="alts-h">備案</div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Natural%20Cafe%20%26%20Restaurant%20%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E6%9D%B1%E4%BA%AC%E7%99%82%E9%99%A2%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">Natural Cafe＆Restaurant 椨の木</a><span class="tag">品川高輪口，葷素同行</span></div>
+<p class="note">東京療院新館1F的自然食餐廳，以MOA自然農法蔬菜與天然海鮮入菜，葷素同行，訂位時可要求蛋奶素或全素；週五晚餐 17:30 至 21:00（最後點餐 20:00），僅電話訂位。高輪口步行5分鐘，17:30 入座，約 19:00 前可走回飯店。</p>
+<div class="alts"><span class="alts-h">備案</span>
 <div class="alts-area">品川</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a>（葷素同行）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a>（客製沙拉）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a>（日式咖哩）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a>（全素自然食）　品川/港南</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a>（義式料理）</li></ul>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a><span class="tag">客製沙拉</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a><span class="tag">日式咖哩</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a><span class="tag">全素自然食，品川港南</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a><span class="tag">義式料理</span></li></ul>
 </div>
 </div></div>
 </section>
 <section class="card day" id="day5">
 <div class="badge">五</div>
-<div class="day-date">DAY 05　·　10月3日（六）</div>
+<div class="day-date">DAY 5　10月3日（六）</div>
 <h2>上野東京國立博物館、谷中</h2>
-<div class="day-pill food">🌱 再来宴上野仲町通り</div>
+<div class="day-pill food"><span class="k">今日主餐</span>再来宴上野仲町通り</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8" target="_blank" rel="noopener">東京國立博物館</a></div>
-<p class="note">日本歷史最悠久的博物館（1872年創立），週一休館，10/3（六）開放；館區步道平坦。</p>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8" target="_blank" rel="noopener">東京國立博物館</a></div>
+<p class="note">日本歷史最悠久的博物館（1872年創立），週一休館，10月3日（六）開放；館區步道平坦。</p>
 <p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8%20%E6%B3%95%E9%9A%86%E5%AF%BA%E5%AE%9D%E7%89%A9%E9%A4%A8" target="_blank" rel="noopener">法隆寺寶物館</a>：獨立建築，展示1400年前飛鳥時代的金銅佛像、光背及皇室獻納寶物，氛圍幽靜神聖。</p>
-<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8%20%E6%9C%AC%E9%A4%A8" target="_blank" rel="noopener">本館（日本畫廊）</a>：2樓：日本美術通史，包含佛教相關的歷史脈絡。1樓（3-1展室等）：集中展示從平安、鎌倉到室町時代的佛教雕刻、佛畫與經卷（如重要文化財菩薩立像、日光菩薩坐像等）。</p>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8%20%E6%9C%AC%E9%A4%A8" target="_blank" rel="noopener">本館（日本畫廊）</a>：2樓為日本美術通史，包含佛教相關的歷史脈絡；1樓（3-1展室等）集中展示從平安、鎌倉到室町時代的佛教雕刻、佛畫與經卷，如重要文化財菩薩立像、日光菩薩坐像等。</p>
 <p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8%20%E6%9D%B1%E6%B4%8B%E9%A4%A8" target="_blank" rel="noopener">東洋館</a>：亞洲藝文展區，特別收藏來自中國、印度等地的古代佛教造像與石刻藝術。</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%86%8D%E6%9D%A5%E5%AE%B4%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">再来宴上野仲町通り</a>（中式有素）</div>
-<p class="note">上海・四川中菜館，另有大豆素肉的素食菜單（如麻辣蔬菜「素八仙」）；葷素同行，可訂位。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">T&#x27;s たんたん Ecute上野</a>（純素拉麵）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegeherb%20Saga%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">Vegeherb Saga</a>（全素印度・同行可全素）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%BE%A1%E5%BE%92%E7%94%BA%E6%98%A5%E6%97%A5%E9%80%9A%E3%82%8A%E5%BA%97%20%E4%B8%8A%E9%87%8E%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">CoCo壱</a>（客製・葷素同行）</li></ul>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%86%8D%E6%9D%A5%E5%AE%B4%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">再来宴上野仲町通り</a><span class="tag">中式有素</span></div>
+<p class="note">上海、四川中菜館，另有大豆素肉的素食菜單，如麻辣蔬菜「素八仙」；葷素同行，可訂位。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">T&#x27;s たんたん Ecute上野</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegeherb%20Saga%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">Vegeherb Saga</a><span class="tag">全素印度，同行可全素</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%BE%A1%E5%BE%92%E7%94%BA%E6%98%A5%E6%97%A5%E9%80%9A%E3%82%8A%E5%BA%97%20%E4%B8%8A%E9%87%8E%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">CoCo壱</a><span class="tag">客製，葷素同行</span></li></ul>
 </div>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B0%B7%E4%B8%AD%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">谷中銀座</a></div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B0%B7%E4%B8%AD%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">谷中銀座</a></div>
 <p class="note">保留昭和下町風情的商店街，全長約170公尺、約60家小店；日暮里側入口「夕やけだんだん」有36級石階。</p>
-<p class="note">散步 緩坡商店街</p>
+<p class="note">緩坡商店街，適合散步</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B0%8F%E7%89%A7%E9%A3%9F%E5%A0%82%20%E9%8E%8C%E5%80%89%E3%81%B5%E3%81%97%E3%81%8D%E5%BA%B5%20%E7%A7%8B%E8%91%89%E5%8E%9F" target="_blank" rel="noopener">Komaki Shokudo Kamakura Fushikian</a>（秋葉原）</div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B0%8F%E7%89%A7%E9%A3%9F%E5%A0%82%20%E9%8E%8C%E5%80%89%E3%81%B5%E3%81%97%E3%81%8D%E5%BA%B5%20%E7%A7%8B%E8%91%89%E5%8E%9F" target="_blank" rel="noopener">Komaki Shokudo Kamakura Fushikian</a><span class="tag">秋葉原</span></div>
 <p class="note">秋葉原站高架下（CHABARA）的精進料理食堂，點季節定食，全素；營業至20:00（最後點餐19:30），訂位優先。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegeherb%20Saga%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">Vegeherb</a>（印度菜）</li></ul>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegeherb%20Saga%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">Vegeherb</a><span class="tag">印度菜</span></li></ul>
 </div>
 </div></div>
 </section>
 <section class="card day" id="day6">
 <div class="badge">六</div>
-<div class="day-date">DAY 06　·　10月4日（日）</div>
+<div class="day-date">DAY 6　10月4日（日）</div>
 <h2>新宿御苑、明治神宮</h2>
-<div class="day-pill food">🌱 Vegan Bistro Jangara</div>
+<div class="day-pill food"><span class="k">今日主餐</span>Vegan Bistro Jangara</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%96%B0%E5%AE%BF%E5%BE%A1%E8%8B%91" target="_blank" rel="noopener">新宿御苑</a>慢走 （新宿）逛完往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8E%9F%E5%AE%BF%E9%A7%85" target="_blank" rel="noopener">原宿站</a></div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%96%B0%E5%AE%BF%E5%BE%A1%E8%8B%91" target="_blank" rel="noopener">新宿御苑</a>慢走，逛完往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8E%9F%E5%AE%BF%E9%A7%85" target="_blank" rel="noopener">原宿站</a></div>
 <p class="note">融合法式、英式與日式庭園的國民公園；門票500円（65歲以上250円），週一休園，10月開放至16:30。</p>
 <p class="note">園內平坦</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegan%20Bistro%20Jangara%20%E5%8E%9F%E5%AE%BF" target="_blank" rel="noopener">Vegan Bistro Jangara</a> 原宿站</div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegan%20Bistro%20Jangara%20%E5%8E%9F%E5%AE%BF" target="_blank" rel="noopener">Vegan Bistro Jangara</a><span class="tag">原宿站</span></div>
 <p class="note">九州じゃんがら旗下的全素拉麵店，招牌「ヴィーガンからぼん」，可改無五辛；全素，不接受訂位。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20Journey%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">Ain Soph. Journey 新宿</a>（全素餐廳）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">AFURI新宿</a>（葷素同行）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%A2%E3%83%9F%E3%83%8E%E3%82%AD%E3%83%8F%E3%82%A6%E3%82%B9" target="_blank" rel="noopener">Mominoki House</a>（玄米菜食）</li></ul>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20Journey%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">Ain Soph. Journey 新宿</a><span class="tag">全素餐廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">AFURI新宿</a><span class="tag">葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%A2%E3%83%9F%E3%83%8E%E3%82%AD%E3%83%8F%E3%82%A6%E3%82%B9" target="_blank" rel="noopener">Mominoki House</a><span class="tag">玄米菜食</span></li></ul>
 </div>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%98%8E%E6%B2%BB%E7%A5%9E%E5%AE%AE" target="_blank" rel="noopener">明治神宮</a>參道與本殿 往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7%E9%A7%85" target="_blank" rel="noopener">澀谷站</a>逛</div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%98%8E%E6%B2%BB%E7%A5%9E%E5%AE%AE" target="_blank" rel="noopener">明治神宮</a>參道與本殿，再往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7%E9%A7%85" target="_blank" rel="noopener">澀谷站</a>逛</div>
 <p class="note">1920年創建，供奉明治天皇與昭憲皇太后，約70公頃人造森林環繞；參拜免費，參道為碎石路。</p>
-<p class="note">「神社」明治神宮　森林平坦、少階梯</p>
+<p class="note">明治神宮森林平坦、少階梯</p>
 <p class="note">略過竹下通（人擠、步行多）</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=MASAKA%20%E6%B8%8B%E8%B0%B7PARCO" target="_blank" rel="noopener">真さか MASAKA</a> 素居酒屋（澀谷PARCO B1）</div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=MASAKA%20%E6%B8%8B%E8%B0%B7PARCO" target="_blank" rel="noopener">真さか MASAKA</a><span class="tag">素居酒屋，澀谷PARCO B1</span></div>
 <p class="note">位於澀谷PARCO B1的全素居酒屋，可點全素餃子、炸物與定食；全素，不接受訂位。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20Journey%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">Ain Soph. Journey</a>（全素）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=vegan%20veggie%20%E5%AB%A6%E5%A8%A5%20%E5%8D%97%E9%9D%92%E5%B1%B1%20%E8%A1%A8%E5%8F%82%E9%81%93%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">vegan veggie 嫦娥</a>（全素藥膳中菜）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI" target="_blank" rel="noopener">AFURI</a>（Vegan Ramen＋一般＝葷素同行）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Brown%20Rice%20by%20Neal%27s%20Yard%20Rem%C3%A8de" target="_blank" rel="noopener">Brown Rice by Neal&#x27;s Yard</a>（全素定食）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B9%9D%E5%B7%9E%E3%81%98%E3%82%83%E3%82%93%E3%81%8C%E3%82%89%20%E5%8E%9F%E5%AE%BF" target="_blank" rel="noopener">Kyushu Jangara Ramen Harajuku</a>（九州拉麵）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=ANANAS%20COFFEE%20VEGAN%20TOKYO" target="_blank" rel="noopener">ANANAS COFFEE VEGAN TOKYO</a> 點心</li></ul>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20Journey%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">Ain Soph. Journey</a><span class="tag">全素</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=vegan%20veggie%20%E5%AB%A6%E5%A8%A5%20%E5%8D%97%E9%9D%92%E5%B1%B1%20%E8%A1%A8%E5%8F%82%E9%81%93%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">vegan veggie 嫦娥</a><span class="tag">全素藥膳中菜</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI" target="_blank" rel="noopener">AFURI</a><span class="tag">Vegan Ramen 與一般拉麵，葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Brown%20Rice%20by%20Neal%27s%20Yard%20Rem%C3%A8de" target="_blank" rel="noopener">Brown Rice by Neal&#x27;s Yard</a><span class="tag">全素定食</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B9%9D%E5%B7%9E%E3%81%98%E3%82%83%E3%82%93%E3%81%8C%E3%82%89%20%E5%8E%9F%E5%AE%BF" target="_blank" rel="noopener">Kyushu Jangara Ramen Harajuku</a><span class="tag">九州拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=ANANAS%20COFFEE%20VEGAN%20TOKYO" target="_blank" rel="noopener">ANANAS COFFEE VEGAN TOKYO</a><span class="tag">點心</span></li></ul>
 </div>
 </div></div>
 </section>
 <section class="card day" id="day7">
 <div class="badge">七</div>
-<div class="day-date">DAY 07　·　10月5日（一）</div>
-<h2>築地・濱離宮・銀座</h2>
-<div class="day-pill food">🌱 AIN SOPH. GINZA</div>
+<div class="day-date">DAY 7　10月5日（一）</div>
+<h2>築地、濱離宮、銀座</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>AIN SOPH. GINZA</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%AF%89%E5%9C%B0%E6%9C%AC%E9%A1%98%E5%AF%BA" target="_blank" rel="noopener">築地本願寺</a>　→　<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%AF%89%E5%9C%B0%E5%A0%B4%E5%A4%96%E5%B8%82%E5%A0%B4" target="_blank" rel="noopener">場外市場</a>逛逛</div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%AF%89%E5%9C%B0%E6%9C%AC%E9%A1%98%E5%AF%BA" target="_blank" rel="noopener">築地本願寺</a>，再到<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%AF%89%E5%9C%B0%E5%A0%B4%E5%A4%96%E5%B8%82%E5%A0%B4" target="_blank" rel="noopener">場外市場</a>逛逛</div>
 <p class="note">築地本願寺本堂是1934年建的古印度風石造建築，可免費入內；場外市場約460家店，週一正常營業，多數店午後打烊。</p>
-<p class="note">「寺」築地本願寺　印度風石造、少階梯</p>
+<p class="note">築地本願寺為印度風石造建築，少階梯</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA%20%E9%8A%80%E5%BA%A7%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">AIN SOPH. GINZA</a></div>
-<p class="note">2009年創業的全素餐廳，招牌全素鬆餅，1樓甜點店的布丁很受歡迎；全素，建議TableCheck預約。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<div class="alts-area">新橋/銀座</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a>（全素麻婆豆腐）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a>（印度料理・銀座8-10-8 B1）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a>（野菜料理）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a>（蔬食咖啡廳）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a>（蔬食餐廳）</li></ul>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA%20%E9%8A%80%E5%BA%A7%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">AIN SOPH. GINZA</a></div>
+<p class="note">2009年創業的全素餐廳，招牌全素鬆餅，1樓甜點店的布丁很受歡迎；全素，建議用 TableCheck 預約。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">新橋、銀座</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a><span class="tag">全素麻婆豆腐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a><span class="tag">印度料理，銀座8-10-8 B1</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a><span class="tag">野菜料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a><span class="tag">蔬食咖啡廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a><span class="tag">蔬食餐廳</span></li></ul>
 <div class="alts-area">東京站</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a>（純素拉麵）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a>（素食拉麵・東京站拉麵街）</li></ul>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a><span class="tag">素食拉麵，東京站拉麵街</span></li></ul>
 </div>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">銀座</a>購物 or（<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%9C%E9%9B%A2%E5%AE%AE%E6%81%A9%E8%B3%9C%E5%BA%AD%E5%9C%92" target="_blank" rel="noopener">濱離宮庭園</a>）</div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">銀座</a>購物，或逛<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%9C%E9%9B%A2%E5%AE%AE%E6%81%A9%E8%B3%9C%E5%BA%AD%E5%9C%92" target="_blank" rel="noopener">濱離宮庭園</a></div>
 <p class="note">江戶時代將軍家庭園，有引海水的「潮入之池」，可在中島御茶屋喝抹茶；門票300円（65歲以上150円）。</p>
-<p class="note">庭園平坦　·　銀座可坐室內、避雨</p>
+<p class="note">庭園平坦；銀座可坐室內、避雨</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a></div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza Tokyo</a></div>
 <p class="note">印度料理，素食可點蔬食套餐「ベジターリ」、蔬菜咖哩與烤餅，蛋奶素可、葷素同行；可網路訂位（銀座8-10-8 B1）。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<div class="alts-area">新橋/銀座</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a>（全素麻婆豆腐）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a>（野菜料理）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a>（蔬食咖啡廳）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a>（全素餐廳）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a>（蔬食餐廳）</li></ul>
+<div class="alts"><span class="alts-h">備案</span>
+<div class="alts-area">新橋、銀座</div>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90" target="_blank" rel="noopener">罪無き麻婆豆腐</a><span class="tag">全素麻婆豆腐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%87%8E%E8%8F%9C%E3%81%AE%E7%8E%8B%E6%A7%98" target="_blank" rel="noopener">蔬菜的王者</a><span class="tag">野菜料理</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is</a><span class="tag">蔬食咖啡廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a><span class="tag">全素餐廳</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a><span class="tag">蔬食餐廳</span></li></ul>
 <div class="alts-area">東京站</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a>（純素拉麵）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a>（素食拉麵・東京站拉麵街）</li></ul>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">T&#x27;s Tantan</a><span class="tag">純素拉麵</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A9%BA%E3%81%AE%E8%89%B2%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%20%E6%9D%B1%E4%BA%AC%E9%A7%85" target="_blank" rel="noopener">空之色拉麵</a><span class="tag">素食拉麵，東京站拉麵街</span></li></ul>
 </div>
 </div></div>
 </section>
 <section class="card day" id="day8">
 <div class="badge">八</div>
-<div class="day-date">DAY 08　·　10月6日（二）</div>
-<h2>川越一日 藏造街</h2>
-<div class="day-pill food">🌱 幸すし（幸壽司）</div>
+<div class="day-date">DAY 8　10月6日（二）</div>
+<h2>川越一日，藏造老街</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>幸すし（幸壽司）</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E4%B8%80%E7%95%AA%E8%A1%97%E5%95%86%E5%BA%97%E8%A1%97" target="_blank" rel="noopener">小江戶川越一番街商店街</a></div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E4%B8%80%E7%95%AA%E8%A1%97%E5%95%86%E5%BA%97%E8%A1%97" target="_blank" rel="noopener">小江戶川越一番街商店街</a></div>
 <p class="note">保留江戶至明治土藏造建築的老街，地標時之鐘高約16公尺；菓子屋橫丁有30多家傳統糖果點心店。</p>
-<p class="note">平坦商店街、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%99%82%E3%81%AE%E9%90%98%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">時之鐘</a>　·　少爬坡　·　<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%90%E3%83%83%E3%82%AF%E3%82%B9%20%E5%B7%9D%E8%B6%8A%E9%90%98%E3%81%A4%E3%81%8D%E9%80%9A%E3%82%8A%E5%BA%97%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">星巴克 川越時鐘小路店</a>休息、<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E3%83%99%E3%83%BC%E3%82%AB%E3%83%AA%E3%83%BC%E6%A5%BD%E6%A5%BD%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">川越烘焙坊 樂樂</a>「<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%8F%93%E5%AD%90%E5%B1%8B%E6%A8%AA%E4%B8%81%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">菓子屋橫丁</a>」入口附近的麵包烘焙坊</p>
+<p class="note">平坦商店街，少爬坡，可看<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%99%82%E3%81%AE%E9%90%98%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">時之鐘</a>。可在<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B9%E3%82%BF%E3%83%BC%E3%83%90%E3%83%83%E3%82%AF%E3%82%B9%20%E5%B7%9D%E8%B6%8A%E9%90%98%E3%81%A4%E3%81%8D%E9%80%9A%E3%82%8A%E5%BA%97%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">星巴克 川越時鐘小路店</a>休息；<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E3%83%99%E3%83%BC%E3%82%AB%E3%83%AA%E3%83%BC%E6%A5%BD%E6%A5%BD%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">川越烘焙坊 樂樂</a>是<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%8F%93%E5%AD%90%E5%B1%8B%E6%A8%AA%E4%B8%81%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">菓子屋橫丁</a>入口附近的麵包烘焙坊</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B9%B8%E3%81%99%E3%81%97%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">幸すし（幸壽司）</a></div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B9%B8%E3%81%99%E3%81%97%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">幸すし（幸壽司）</a></div>
 <p class="note">素鰻魚飯、素壽喜燒、蔬菜壽司套餐</p>
 <p class="note">明治11年創業的江戶前壽司老店，葷素同行；素鰻魚飯（うなぎの気持ち）與全素套餐需2天前預約，週一休。</p>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%96%9C%E5%A4%9A%E9%99%A2%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">喜多院</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BB%99%E6%B3%A2%E6%9D%B1%E7%85%A7%E5%AE%AE" target="_blank" rel="noopener">仙波東照宮</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E3%81%BE%E3%81%A4%E3%82%8A%E4%BC%9A%E9%A4%A8" target="_blank" rel="noopener">川越祭會館</a> →　回程</div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%96%9C%E5%A4%9A%E9%99%A2%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">喜多院</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BB%99%E6%B3%A2%E6%9D%B1%E7%85%A7%E5%AE%AE" target="_blank" rel="noopener">仙波東照宮</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E3%81%BE%E3%81%A4%E3%82%8A%E4%BC%9A%E9%A4%A8" target="_blank" rel="noopener">川越祭會館</a>，之後回程</div>
 <p class="note">喜多院客殿有從江戶城移築的「家光誕生之間」，另有538尊表情各異的五百羅漢；共通拜觀券400円。</p>
-<p class="note">「寺／神社」<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%93%AE%E9%A6%A8%E5%AF%BA%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">蓮馨寺</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E5%9F%8E%E6%9C%AC%E4%B8%B8%E5%BE%A1%E6%AE%BF" target="_blank" rel="noopener">川越城 本丸御殿</a></p>
-<p class="note">回程：川越→池袋（東武東上）→山手線→品川　·　傍晚回櫻花塔</p>
+<p class="note">其他寺社：<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%93%AE%E9%A6%A8%E5%AF%BA%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">蓮馨寺</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E5%9F%8E%E6%9C%AC%E4%B8%B8%E5%BE%A1%E6%AE%BF" target="_blank" rel="noopener">川越城 本丸御殿</a></p>
+<p class="note">回程從川越搭東武東上線到池袋，轉山手線到品川，傍晚回飯店</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span>回飯店附近（備案：去其他區吃）</div>
-<div class="alts"><div class="alts-h">備案</div>
+<div class="slot-main">回飯店附近吃，也可以去其他區</div>
+<div class="alts"><span class="alts-h">備案</span>
 <div class="alts-area">品川</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a>（葷素同行）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a>（客製沙拉）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a>（日式咖哩）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a>（全素自然食）　品川/港南</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a>（義式料理）</li></ul>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">葷素同行</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie 3F</a><span class="tag">客製沙拉</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=CoCo%E5%A3%B1%E7%95%AA%E5%B1%8B%20%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">CoCo壱</a><span class="tag">日式咖哩</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">自然食サロン キミタンハウス</a><span class="tag">全素自然食，品川港南</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=OBICA%20Mozzarella%20Bar%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">OBICA Mozzarella Bar 高輪店</a><span class="tag">義式料理</span></li></ul>
 </div>
 </div></div>
 </section>
 <section class="card day" id="day9">
 <div class="badge">九</div>
-<div class="day-date">DAY 09　·　10月7日（三）</div>
-<h2>六本木/麻布台、澀谷</h2>
-<div class="day-pill food">🌱 vegan veggie 嫦娥</div>
+<div class="day-date">DAY 9　10月7日（三）</div>
+<h2>六本木、麻布台、澀谷</h2>
+<div class="day-pill food"><span class="k">今日主餐</span>vegan veggie 嫦娥</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">六本木</a>／<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">麻布台</a>　慢遊</div>
-<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%B7%E3%83%86%E3%82%A3%E3%83%93%E3%83%A5%E3%83%BC%20%E5%85%AD%E6%9C%AC%E6%9C%A8%E3%83%92%E3%83%AB%E3%82%BA%E6%A3%AE%E3%82%BF%E3%83%AF%E3%83%BC" target="_blank" rel="noopener">東京City View</a>（六本木Hills森タワー52F室內展望台）、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">麻布台 Hills</a>、往澀谷散步</p>
-<p class="note">52樓室內展望台，全程搭電梯、免爬樓梯，雨天也可去；10月營業10:00–22:00（最後入場21:30），一般¥2,400（線上¥2,200）、65歲以上¥2,100（線上¥1,900），日時指定制；麻布台Hills為2023年開幕新地標，<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=teamLab%20Borderless%20%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">teamLab無界美術館</a>需預約時段票。</p>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">六本木</a>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">麻布台</a>慢遊</div>
+<p class="note"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%B7%E3%83%86%E3%82%A3%E3%83%93%E3%83%A5%E3%83%BC%20%E5%85%AD%E6%9C%AC%E6%9C%A8%E3%83%92%E3%83%AB%E3%82%BA%E6%A3%AE%E3%82%BF%E3%83%AF%E3%83%BC" target="_blank" rel="noopener">東京City View</a><span class="tag">六本木Hills森タワー52F室內展望台</span>、<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">麻布台 Hills</a>，再往澀谷散步</p>
+<p class="note">52樓室內展望台，全程搭電梯、免爬樓梯，雨天也可去；10月營業 10:00 至 22:00（最後入場 21:30），一般 2,400円（線上 2,200円），65歲以上 2,100円（線上 1,900円），日時指定制。麻布台Hills為2023年開幕新地標，<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=teamLab%20Borderless%20%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">teamLab無界美術館</a>需預約時段票。</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=vegan%20veggie%20%E5%AB%A6%E5%A8%A5%20%E5%8D%97%E9%9D%92%E5%B1%B1%20%E8%A1%A8%E5%8F%82%E9%81%93%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">vegan veggie 嫦娥</a></div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=vegan%20veggie%20%E5%AB%A6%E5%A8%A5%20%E5%8D%97%E9%9D%92%E5%B1%B1%20%E8%A1%A8%E5%8F%82%E9%81%93%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">vegan veggie 嫦娥</a></div>
 <p class="note">南青山的全素藥膳中菜，以大豆素肉做麻婆豆腐、青椒肉絲等；全素可吃，可網路訂位。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%A4%E3%82%8B%E3%81%A8%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">TsuruTonTan</a> 烏龍麵專賣店</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI%20%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">AFURI六本木</a>（柚子鹽拉麵）</li><li><a class="lk rest" href="https://maps.app.goo.gl/rkqbew48URSmbeHSA" target="_blank" rel="noopener">Brown Rice Tokyo Omotesando</a>（全素定食）</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8F%B0%E6%B9%BE%E6%96%99%E7%90%86%20%E9%BA%97%E9%83%B7%20%E6%B8%8B%E8%B0%B7%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">台灣料理 麗鄉</a>（台菜）</li></ul>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%A4%E3%82%8B%E3%81%A8%E3%82%93%E3%81%9F%E3%82%93" target="_blank" rel="noopener">TsuruTonTan</a><span class="tag">烏龍麵專賣店</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI%20%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">AFURI六本木</a><span class="tag">柚子鹽拉麵</span></li><li><a class="lk rest" href="https://maps.app.goo.gl/rkqbew48URSmbeHSA" target="_blank" rel="noopener">Brown Rice Tokyo Omotesando</a><span class="tag">全素定食</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8F%B0%E6%B9%BE%E6%96%99%E7%90%86%20%E9%BA%97%E9%83%B7%20%E6%B8%8B%E8%B0%B7%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">台灣料理 麗鄉</a><span class="tag">台菜</span></li></ul>
 </div>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%B3%E3%83%96%E3%83%AB%E4%BA%A4%E5%B7%AE%E7%82%B9" target="_blank" rel="noopener">澀谷</a></div>
+<div class="slot-main"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%B3%E3%83%96%E3%83%AB%E4%BA%A4%E5%B7%AE%E7%82%B9" target="_blank" rel="noopener">澀谷</a></div>
 <p class="note">澀谷十字路口與忠犬八公像所在地，站前百貨、商場多，逛累可隨時入內休息。</p>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8F%B0%E6%B9%BE%E6%96%99%E7%90%86%20%E9%BA%97%E9%83%B7%20%E6%B8%8B%E8%B0%B7%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">台灣料理 麗鄉</a></div>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%8F%B0%E6%B9%BE%E6%96%99%E7%90%86%20%E9%BA%97%E9%83%B7%20%E6%B8%8B%E8%B0%B7%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">台灣料理 麗鄉</a></div>
 <p class="note">澀谷道玄坂老牌台菜館，招牌腸詰（台式香腸）、炒蜆、米粉；以葷食為主，素食選擇少；10人以上才收訂位，只收現金。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=MASAKA%20%E6%B8%8B%E8%B0%B7PARCO" target="_blank" rel="noopener">真さか MASAKA</a>（澀谷PARCO B1・全素居酒屋，12:00–22:00）</li></ul>
-<p class="note">Brown Rice只營業至18:00，僅適合午餐。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=MASAKA%20%E6%B8%8B%E8%B0%B7PARCO" target="_blank" rel="noopener">真さか MASAKA</a><span class="tag">澀谷PARCO B1，全素居酒屋，12:00 至 22:00</span></li></ul>
+<p class="note">Brown Rice 只營業至 18:00，僅適合午餐。</p>
 </div>
 </div></div>
 </section>
 <section class="card day" id="day10">
 <div class="badge">十</div>
-<div class="day-date">DAY 10　·　10月8日（四）</div>
-<h2>伴手禮・返程成田</h2>
+<div class="day-date">DAY 10　10月8日（四）</div>
+<h2>伴手禮、返程成田</h2>
 <div class="day-pill info">起飛前 3 小時抵達機場</div>
 <div class="slot place">
 <div class="slot-label">上午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>／車站周邊買伴手禮</div>
+<div class="slot-main">在<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">品川</a>或車站周邊買伴手禮</div>
 </div></div>
 <div class="slot meal">
 <div class="slot-label">午餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">🍽</span>成田T2 4F <a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%88%90%E7%94%B0%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">T&#x27;sたんたん</a>（7:30–21:00）</div>
-<p class="note">T&#x27;sたんたん為全素擔擔麵專賣店，品川沒有分店；成田T2店在4F出境前區域（L.O. 20:30），若從T1出發改在N&#x27;EX沿途的東京站店吃。</p>
-<div class="alts"><div class="alts-h">備案</div>
-<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%BF%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">T&#x27;sたんたん グランスタ東京</a>（東京站B1改札外，10:00–22:00）</li></ul>
+<div class="slot-main"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%88%90%E7%94%B0%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">T&#x27;sたんたん</a><span class="tag">成田第二航廈4F，7:30 至 21:00</span></div>
+<p class="note">T&#x27;sたんたん為全素擔擔麵專賣店，品川沒有分店；成田第二航廈店在4F出境前區域（最後點餐 20:30），若從第一航廈出發，改在 N&#x27;EX 沿途的東京站店吃。</p>
+<div class="alts"><span class="alts-h">備案</span>
+<ul><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%BF%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">T&#x27;sたんたん グランスタ東京</a><span class="tag">東京站B1改札外，10:00 至 22:00</span></li></ul>
 </div>
 </div></div>
 <div class="slot place">
 <div class="slot-label">下午</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">📍</span>前往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E7%94%B0%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">成田機場</a></div>
-<p class="note">N&#x27;EX 品川→成田　綠色車廂　或　利木津（飯店有停）　·　預留延誤</p>
+<div class="slot-main">前往<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E7%94%B0%E5%9B%BD%E9%9A%9B%E7%A9%BA%E6%B8%AF" target="_blank" rel="noopener">成田機場</a></div>
+<p class="note">搭 N&#x27;EX 從品川到成田（綠色車廂），或搭利木津巴士（飯店有停）；預留延誤時間</p>
 </div></div>
 <div class="slot info">
 <div class="slot-label">晚餐</div>
 <div class="slot-body">
-<div class="slot-main"><span class="ico" aria-hidden="true">⏰</span>起飛前 3 小時抵達</div>
+<div class="slot-main">起飛前 3 小時抵達機場</div>
 </div></div>
 </section>
-<section class="card" id="nearby"><div class="badge">宿</div><h2>飯店周邊・零食／超市／便利店</h2><div class="day-date">步行可達</div><div class="alts-area">最近・幾乎不出街</div><ul class="plain"><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%BB%E3%83%96%E3%83%B3%E3%82%A4%E3%83%AC%E3%83%96%E3%83%B3%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%E3%83%9B%E3%83%86%E3%83%AB%E6%96%B0%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">セブン‐イレブン グランドプリンスホテル新高輪店</a>　園區內｜約 7:00–1:00｜零食飲料便當</li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%BB%E3%83%96%E3%83%B3%E3%82%A4%E3%83%AC%E3%83%96%E3%83%B3%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%E3%83%9B%E3%83%86%E3%83%AB%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">セブン‐イレブン グランドプリンスホテル高輪ロビー店</a>　園區內｜同上｜ATM／複印</li></ul><div class="alts-area">車站高輪口・順路</div><ul class="plain"><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%BB%E3%83%96%E3%83%B3%E3%82%A4%E3%83%AC%E3%83%96%E3%83%B3%20%E5%93%81%E5%B7%9D%E9%A7%85%E5%89%8D%E5%BA%97" target="_blank" rel="noopener">セブン‐イレブン 品川駅前店</a>　高輪口附近｜24 小時｜便利商店</li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=NewDays%20%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">NewDays</a>　品川駅構內｜零食飲料</li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">エキュート品川</a>　車站改札內｜伴手禮・點心</li></ul><div class="alts-area">想多買一點（港南口／アトレ）</div><ul class="plain"><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">アトレ品川</a>　過站約 8–12 分｜商場</li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=DEAN%20%26%20DELUCA%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">DEAN &amp; DELUCA 品川</a>　アトレ 2F｜堅果巧克力果汁</li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E5%9F%8E%E7%9F%B3%E4%BA%95%20%E3%83%AB%E3%83%9F%E3%83%8D%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">成城石井 ルミネ品川</a>　精品超市｜牛奶水果零食</li></ul><div class="alts-area">晚餐餓了也可（素食備案）</div><ul class="plain"><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">キミタンハウス</a>　高輪口約 10 分｜全素・訂位佳</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">椨の木</a>　高輪口約 5 分｜日一休・週六無晚餐</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AA%E3%83%BC%E3%83%93%E3%82%AB%20%E3%83%A2%E3%83%83%E3%83%84%E3%82%A1%E3%83%AC%E3%83%A9%E3%83%90%E3%83%BC%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">オービカ 高輪</a>　ウィング高輪｜義式有素選</li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a>　アトレ 4F｜葷素同行</li></ul></section>
+<section class="card" id="nearby"><div class="badge">宿</div><h2>飯店周邊的零食、超市與便利店</h2><div class="day-date">都在步行範圍內</div><div class="alts-area">最近，幾乎不用出門</div><ul class="plain"><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%BB%E3%83%96%E3%83%B3%E3%82%A4%E3%83%AC%E3%83%96%E3%83%B3%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%E3%83%9B%E3%83%86%E3%83%AB%E6%96%B0%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">セブン‐イレブン グランドプリンスホテル新高輪店</a><span class="tag">園區內，約 7:00 至 1:00，零食飲料便當</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%BB%E3%83%96%E3%83%B3%E3%82%A4%E3%83%AC%E3%83%96%E3%83%B3%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%E3%83%9B%E3%83%86%E3%83%AB%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">セブン‐イレブン グランドプリンスホテル高輪ロビー店</a><span class="tag">園區內，營業時間同上，有 ATM 與影印</span></li></ul><div class="alts-area">車站高輪口，順路</div><ul class="plain"><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%BB%E3%83%96%E3%83%B3%E3%82%A4%E3%83%AC%E3%83%96%E3%83%B3%20%E5%93%81%E5%B7%9D%E9%A7%85%E5%89%8D%E5%BA%97" target="_blank" rel="noopener">セブン‐イレブン 品川駅前店</a><span class="tag">高輪口附近，24 小時便利商店</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=NewDays%20%E5%93%81%E5%B7%9D%E9%A7%85" target="_blank" rel="noopener">NewDays</a><span class="tag">品川駅構內，零食飲料</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">エキュート品川</a><span class="tag">車站改札內，伴手禮與點心</span></li></ul><div class="alts-area">想多買一點，港南口與アトレ</div><ul class="plain"><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">アトレ品川</a><span class="tag">穿過車站約 8 至 12 分鐘，商場</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=DEAN%20%26%20DELUCA%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">DEAN &amp; DELUCA 品川</a><span class="tag">アトレ 2F，堅果、巧克力、果汁</span></li><li><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%88%90%E5%9F%8E%E7%9F%B3%E4%BA%95%20%E3%83%AB%E3%83%9F%E3%83%8D%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">成城石井 ルミネ品川</a><span class="tag">精品超市，牛奶、水果、零食</span></li></ul><div class="alts-area">晚餐餓了也可以去（素食備案）</div><ul class="plain"><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">キミタンハウス</a><span class="tag">高輪口約 10 分鐘，全素，建議訂位</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">椨の木</a><span class="tag">高輪口約 5 分鐘，週日休，週六無晚餐</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AA%E3%83%BC%E3%83%93%E3%82%AB%20%E3%83%A2%E3%83%83%E3%83%84%E3%82%A1%E3%83%AC%E3%83%A9%E3%83%90%E3%83%BC%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">オービカ 高輪</a><span class="tag">ウィング高輪，義式，有素食選擇</span></li><li><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 Atre品川</a><span class="tag">アトレ 4F，葷素同行</span></li></ul></section>
   <footer class="note">
     營業時間、公休日與票價以出發前店家／官網公告為準；素食需求到店後請再向店員確認。<br>
     地圖連結為 Google Maps 搜尋連結，若出現多個結果請選對應分店。<br>
-    <a href="./">← 回素食小幫手</a>
+    <a href="./">回素食小幫手</a>
   </footer>
 </div>
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav.daynav a'));
+  var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var nav=document.querySelector('nav.daynav');
+  function setActive(id){
+    links.forEach(function(a){a.classList.toggle('active',a===map[id]);});
+    var a=map[id]; if(a&&nav){var l=a.offsetLeft-nav.clientWidth/2+a.clientWidth/2; nav.scrollTo({left:l,behavior:'smooth'});}
+  }
+  if(!('IntersectionObserver' in window)) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting) setActive(e.target.id); });
+  },{rootMargin:'-80px 0px -70% 0px'});
+  Object.keys(map).forEach(function(id){var el=document.getElementById(id); if(el) io.observe(el);});
+})();
+</script>
 </body>
 </html>
