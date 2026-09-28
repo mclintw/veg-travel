@@ -822,13 +822,17 @@
     <div class="badge">四</div>
     <h2>照片翻譯</h2>
     <input type="file" accept="image/*" capture="environment" id="translateCameraInput" hidden>
-    <button class="btn" id="translateCaptureBtn">拍照翻譯招牌、公告</button>
+    <input type="file" accept="image/*" id="translateFileInput" hidden>
+    <div class="btn-row">
+      <button class="btn" id="translateCaptureBtn">拍照</button>
+      <button class="btn secondary" id="translatePickBtn">從相簿選擇</button>
+    </div>
     <img id="translatePreview" hidden>
     <button class="btn secondary" id="translateBtn" hidden style="margin-top:10px;">翻譯這張照片</button>
     <div class="loading" id="translateLoading" hidden><div class="spinner"></div>翻譯中，請稍候…</div>
     <div id="translateError"></div>
     <div id="translateResults"></div>
-    <p class="hint">會辨識照片中的日文文字，翻譯成中文後以清單列出，方便看懂招牌、公告、標示等內容。</p>
+    <p class="hint">可現場拍照，或從相簿選擇已拍好的照片、截圖。會辨識照片中的日文文字，翻譯成中文後以清單列出，方便看懂招牌、公告、標示等內容。</p>
   </section>
 
   <!-- SECTION 5: RESTAURANTS -->
@@ -1366,10 +1370,16 @@ const translateResults = document.getElementById('translateResults');
 let translateImageBase64 = null;
 let translateImageMediaType = null;
 
-translateCaptureBtn.onclick = ()=> translateCameraInput.click();
+const translateFileInput = document.getElementById('translateFileInput');
+const translatePickBtn = document.getElementById('translatePickBtn');
 
-translateCameraInput.onchange = async (e)=>{
-  const file = e.target.files[0];
+translateCaptureBtn.onclick = ()=> translateCameraInput.click();
+translatePickBtn.onclick = ()=> translateFileInput.click();
+
+// Shared handler for both the camera input and the photo-library input
+async function handleTranslateFile(e){
+  const input = e.target;
+  const file = input.files[0];
   if(!file) return;
   try{
     const img = await prepareImage(file);
@@ -1384,9 +1394,11 @@ translateCameraInput.onchange = async (e)=>{
     console.error(err);
     translateError.innerHTML = '<div class="error-box">讀取照片失敗，請換一張照片再試。</div>';
   }finally{
-    translateCameraInput.value = '';
+    input.value = '';
   }
-};
+}
+translateCameraInput.onchange = handleTranslateFile;
+translateFileInput.onchange = handleTranslateFile;
 
 translateBtn.onclick = async ()=>{
   if(!translateImageBase64) return;
