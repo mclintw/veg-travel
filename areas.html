@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0F1F3D">
+<title>東京分區景點指南</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ctext y=%22.9em%22 font-size=%2290%22%3E%F0%9F%97%BE%3C/text%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0F1F3D; --card:#172D52; --card2:#1E3862; --line:#2E4C7E;
+    --text:#F4F7FC; --muted:#BAC8DE; --pill:#27437A; --pill-text:#DCE6F5;
+    --amber:#F2B544; --amber-bg:rgba(242,181,68,.16); --sky:#8FCBFF; --mint:#86DCB4;
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  html{scroll-behavior:smooth; scroll-padding-top:74px;}
+  body{background:var(--bg); color:var(--text);
+    font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;
+    font-size:17px; line-height:1.75; -webkit-font-smoothing:antialiased;}
+  .app{max-width:560px; margin:0 auto; padding:14px 16px 52px;}
+  a.back{display:inline-block; font-size:15px; color:var(--sky); text-decoration:underline; text-decoration-color:rgba(143,203,255,.5); text-underline-offset:4px; font-weight:600; padding:6px 0;}
+  header.top{display:flex; align-items:flex-end; justify-content:space-between; padding:6px 2px 16px;
+    border-bottom:1px solid var(--line); margin-bottom:16px; gap:10px;}
+  header.top .brand{font-family:"Songti TC","PMingLiU","Noto Serif TC",serif; font-size:27px; letter-spacing:.02em; color:var(--text); line-height:1.3;}
+  header.top .brand small{display:block; font-family:"PingFang TC",sans-serif; font-size:14px; color:var(--muted); margin-top:6px; letter-spacing:.03em;}
+  .days-tag{font-size:14px; font-weight:700; color:var(--bg); background:var(--amber); border-radius:20px; padding:4px 12px; white-space:nowrap;}
+  .intro{font-size:15px; color:var(--muted); margin:0 2px 18px;}
+
+  section.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:24px 18px 18px; margin-bottom:28px; position:relative;}
+  .badge{position:absolute; top:-15px; left:18px; min-width:36px; height:32px; padding:0 8px; border-radius:8px; background:var(--amber); color:var(--bg);
+    display:flex; align-items:center; justify-content:center; font-family:"Songti TC","PMingLiU",serif; font-size:18px; font-weight:700;}
+  section.card h2{font-family:"Songti TC","PMingLiU","Noto Serif TC",serif; font-size:23px; line-height:1.45; margin:2px 0 10px; color:var(--text);}
+  .day-date{font-size:14px; letter-spacing:.05em; color:var(--muted); margin-top:6px; font-weight:600;}
+  .day-pill{display:inline-block; font-size:14px; font-weight:600; padding:3px 12px; border-radius:14px; margin-bottom:12px;}
+  .day-pill.food{background:var(--amber-bg); color:var(--amber);}
+  .day-pill.info{background:var(--pill); color:var(--pill-text);}
+  .day-pill .k{font-weight:400; opacity:.9; margin-right:6px;}
+
+  /* hotel */
+  section.hotel{padding-top:18px; background:var(--card2);}
+  .hotel-tag{font-size:13.5px; color:var(--muted); font-weight:600; letter-spacing:.06em;}
+  .hotel-name{font-size:20px; font-weight:700; margin:2px 0 6px;}
+  .legend{display:flex; flex-wrap:wrap; gap:4px 16px; font-size:14px; color:var(--muted); margin-top:12px; border-top:1px solid var(--line); padding-top:10px;}
+  .legend b{font-weight:700;}
+  .legend .r{color:var(--amber);} .legend .p{color:var(--sky);} .legend .s{color:var(--mint);}
+
+  /* sticky day nav */
+  nav.daynav{position:sticky; top:0; z-index:10; display:flex; gap:8px; overflow-x:auto; -webkit-overflow-scrolling:touch;
+    background:var(--bg); padding:10px 2px 12px; margin:0 -2px 22px; border-bottom:1px solid var(--line); scrollbar-width:none;}
+  nav.daynav::-webkit-scrollbar{display:none;}
+  nav.daynav a{flex:0 0 auto; text-decoration:none; background:var(--card); border:1px solid var(--line); border-radius:12px;
+    padding:4px 12px; color:var(--text); text-align:center; line-height:1.3;}
+  nav.daynav a b{display:block; font-size:13px; letter-spacing:.03em;}
+  nav.daynav a span{display:block; font-size:12px; color:var(--muted);}
+  nav.daynav a.active{background:var(--amber); border-color:var(--amber); color:var(--bg);}
+  nav.daynav a.active span{color:var(--bg);}
+
+  /* slots */
+  .slot{display:flex; gap:12px; padding:14px 0; border-top:1px solid var(--line);}
+  .slot:first-of-type{border-top:none;}
+  .slot-label{flex:0 0 48px; height:26px; border-radius:13px; background:var(--pill); color:var(--pill-text);
+    font-size:13.5px; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px;}
+  .slot.meal .slot-label{background:var(--amber-bg); color:var(--amber);}
+  .slot-body{flex:1; min-width:0;}
+  .slot-main{font-size:17px; font-weight:700; line-height:1.6; overflow-wrap:anywhere;}
+  .note{font-size:15px; color:var(--muted); margin:6px 0 0; line-height:1.7; overflow-wrap:anywhere;}
+  .extra{font-size:15px; color:var(--text); background:var(--card2); border-left:3px solid var(--amber); border-radius:8px; padding:8px 11px; margin:10px 0 0; line-height:1.7;}
+  .alts{margin-top:10px; background:var(--card2); border-radius:10px; padding:9px 12px 8px;}
+  .alts-h{display:inline-block; font-size:12.5px; font-weight:700; color:var(--bg); background:var(--amber); border-radius:10px; padding:0 9px; letter-spacing:.08em; line-height:1.7;}
+  .alts-area{font-size:13.5px; font-weight:700; color:var(--pill-text); margin-top:8px;}
+  section.card > .alts-area{font-size:15px; margin-top:16px; color:var(--text);}
+  .alts ul, ul.plain{margin:2px 0 0; padding:0; list-style:none;}
+  .alts li, ul.plain li{font-size:15px; line-height:1.6; padding:4px 0; color:var(--muted); overflow-wrap:anywhere;}
+  .tag{color:var(--muted); font-weight:400; font-size:.88em; margin-left:6px;}
+  .slot-main .tag{font-size:.82em;}
+
+  /* links: color + subtle underline */
+  a.lk{text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:4px; font-weight:600;}
+  a.lk.rest{color:var(--amber); text-decoration-color:rgba(242,181,68,.55);}
+  a.lk.place{color:var(--sky); text-decoration-color:rgba(143,203,255,.55);}
+  a.lk.shop{color:var(--mint); text-decoration-color:rgba(134,220,180,.55);}
+  a.lk:active{opacity:.75;}
+
+  footer.note{font-size:14px; color:var(--muted); text-align:center; padding-top:8px; line-height:1.8;}
+  footer.note a{color:var(--sky); font-weight:600;}
+
+  /* button card to the helper tool */
+  a.helper-link{display:block; background:var(--amber); color:var(--bg); text-decoration:none; border-radius:14px;
+    padding:13px 18px; margin:0 0 18px;}
+  a.helper-link b{display:block; font-size:18px; font-weight:700; line-height:1.4;}
+  a.helper-link small{display:block; font-size:14px; line-height:1.5; margin-top:2px;}
+  a.helper-link:active{opacity:.88;}
+  a.helper-link:focus-visible{outline:2px solid var(--sky); outline-offset:2px;}
+
+  /* day subtitle (travel time) */
+  .day-sub{font-size:14.5px; color:var(--sky); font-weight:600; margin:-6px 0 10px; line-height:1.55;}
+
+  /* flights */
+  section.flight .fl{padding:10px 0 4px; border-top:1px solid var(--line);}
+  section.flight .fl:first-of-type{border-top:none;}
+  section.flight .hotel-tag + .fl{border-top:none;}
+  .fl-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:4px;}
+  .fl-dir{font-size:13.5px; font-weight:700; background:var(--pill); color:var(--pill-text); border-radius:13px; padding:1px 11px;}
+  .fl-date{font-size:16px; font-weight:700;}
+  .fl-no{font-size:15px; font-weight:700; color:var(--amber); letter-spacing:.04em;}
+  .fl-leg{display:flex; gap:12px; align-items:baseline; font-size:15.5px; line-height:1.7;}
+  .fl-time{flex:0 0 52px; font-size:17px; font-weight:700; font-variant-numeric:tabular-nums; color:var(--text);}
+  .fl-where{color:var(--muted); overflow-wrap:anywhere;}
+
+  /* rain backup */
+  .rain{margin-top:16px; border:1px solid rgba(143,203,255,.42); border-radius:12px; background:rgba(143,203,255,.06); padding:10px 12px 9px;}
+  .rain-h{display:inline-block; font-size:12.5px; font-weight:700; color:var(--sky); border:1px solid rgba(143,203,255,.7); border-radius:10px; padding:0 9px; letter-spacing:.08em; line-height:1.7;}
+  .rain-in{font-size:15px; color:var(--text); font-weight:600; margin:8px 0 0; line-height:1.65;}
+  .rain-rep{font-size:15px; color:var(--pill-text); margin:8px 0 0; line-height:1.65; overflow-wrap:anywhere;}
+  .rain ul{margin:4px 0 0; padding:0; list-style:none;}
+  .rain li{font-size:15px; line-height:1.6; padding:4px 0; color:var(--muted); overflow-wrap:anywhere;}
+  .rain-note{font-size:14.5px; color:var(--muted); margin:4px 0 0; line-height:1.65; overflow-wrap:anywhere;}
+  .rain-tip{font-size:14.5px; color:var(--muted); margin:-6px 2px 18px; line-height:1.65; border-left:3px solid rgba(143,203,255,.6); padding-left:10px;}
+  .rain-tip b{color:var(--sky); margin-right:8px;}
+
+  /* home + day card links to areas */
+  .area-links{margin-top:14px; font-size:14.5px; color:var(--muted); line-height:1.65;}
+  .area-links b{color:var(--pill-text); margin-right:8px; font-weight:700;}
+  .area-links a{color:var(--sky); font-weight:600; text-decoration:underline; text-decoration-color:rgba(143,203,255,.5); text-underline-offset:4px; margin-right:12px;}
+  /* areas page */
+  .toplinks{display:flex; gap:10px; margin:0 0 16px;}
+  .toplinks a{flex:1 1 0; display:block; text-align:center; text-decoration:none; border-radius:12px; padding:9px 10px; font-size:15px; font-weight:700; line-height:1.4;}
+  .toplinks a.home{background:var(--amber); color:var(--bg);}
+  .toplinks a.tool{background:var(--card); color:var(--sky); border:1px solid var(--line);}
+  .toplinks a:active{opacity:.85;}
+  .toplinks a:focus-visible{outline:2px solid var(--sky); outline-offset:2px;}
+  section.area h2{margin-bottom:2px;}
+  .area-en{font-size:12.5px; letter-spacing:.12em; color:var(--muted); font-weight:600; margin-bottom:10px;}
+  .daylinks{display:flex; flex-wrap:wrap; gap:6px 8px; margin:0 0 12px;}
+  .daylinks a, .daylinks span{font-size:13.5px; font-weight:700; border-radius:14px; padding:2px 11px; text-decoration:none;}
+  .daylinks a{background:var(--amber-bg); color:var(--amber);}
+  .daylinks span{background:var(--pill); color:var(--pill-text);}
+  dl.ov{margin:0 0 6px; background:var(--card2); border-radius:12px; padding:6px 12px;}
+  dl.ov div{display:flex; gap:10px; padding:7px 0; border-top:1px solid var(--line);}
+  dl.ov div:first-child{border-top:none;}
+  dl.ov dt{flex:0 0 64px; font-size:13.5px; font-weight:700; color:var(--pill-text); line-height:1.7;}
+  dl.ov dd{margin:0; flex:1; min-width:0; font-size:15px; color:var(--text); line-height:1.7; overflow-wrap:anywhere;}
+  .sec-h{font-size:16px; font-weight:700; margin:18px 0 4px; padding-left:10px; border-left:3px solid var(--sky); color:var(--text); line-height:1.4;}
+  .sec-h.shop{border-left-color:var(--mint);}
+  .sec-h.food{border-left-color:var(--amber);}
+  .sec-h.local{border-left-color:var(--muted); font-size:14.5px; color:var(--pill-text);}
+  ul.items{margin:0; padding:0; list-style:none;}
+  ul.items li{font-size:15px; line-height:1.7; padding:7px 0; color:var(--muted); border-top:1px solid rgba(46,76,126,.6); overflow-wrap:anywhere;}
+  ul.items li:first-child{border-top:none;}
+  ul.items li a.lk{font-size:16px;}
+  ul.items.local li{font-size:14.5px; padding:4px 0; border-top:none;}
+  .area-tip{margin-top:14px; font-size:14.5px; color:var(--text); background:rgba(143,203,255,.06); border:1px solid rgba(143,203,255,.42); border-radius:10px; padding:9px 12px; line-height:1.65;}
+  .area-tip b{color:var(--sky); margin-right:8px;}
+  .area-tip a{color:var(--sky); font-weight:600;}
+  .it-h{line-height:1.55;}
+  .it-d{margin-top:3px;}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="brand">東京分區景點指南<small>13 個區域的景點、逛街與素食美食</small></div>
+  </header>
+  <div class="toplinks"><a class="home" href="./">回行程首頁</a><a class="tool" href="helper.html">素食小幫手</a></div>
+  <p class="intro">依區域整理東京必看景點、逛街去處與素食可吃的餐廳，每區附交通時間（從品川出發）與對應的行程日。點上方區域名稱可直接跳到該區。</p>
+  <section class="card hotel">
+    <div class="hotel-tag">閱讀方式</div>
+    <p class="note">「全素」表示不含蛋奶；五辛（蒜、洋蔥、蔥、韭等）有把握的會註明，未註明者請點餐時再確認。「在地名物」是認識當地用，多半不是素食。</p>
+    <div class="legend"><span><b class="r">橘色</b>是餐廳</span><span><b class="p">藍色</b>是景點</span><span><b class="s">綠色</b>是商店</span><span>點名稱就會開啟 Google Maps</span></div>
+  </section>
+  <nav class="daynav" aria-label="跳到某一區"><a href="#shinagawa"><b>品川</b><span>DAY 1、10</span></a><a href="#asakusa"><b>淺草</b><span>DAY 2</span></a><a href="#ueno"><b>上野</b><span>DAY 5</span></a><a href="#marunouchi"><b>東京站</b><span>DAY 3</span></a><a href="#ginza"><b>銀座</b><span>DAY 3、7</span></a><a href="#shinjuku"><b>新宿</b><span>DAY 6</span></a><a href="#harajuku"><b>原宿澀谷</b><span>DAY 6、9</span></a><a href="#roppongi"><b>六本木</b><span>DAY 3、9</span></a><a href="#ikebukuro"><b>池袋</b><span>DAY 8</span></a><a href="#akihabara"><b>秋葉原</b><span>延伸</span></a><a href="#odaiba"><b>台場</b><span>DAY 4</span></a><a href="#kamakura"><b>鎌倉</b><span>DAY 4</span></a><a href="#kawagoe"><b>川越</b><span>DAY 8</span></a></nav>
+<section class="card area" id="shinagawa">
+<div class="badge">1</div>
+<h2>品川、高輪</h2>
+<div class="area-en">SHINAGAWA / TAKANAWA</div>
+<div class="daylinks">
+<a href="./#day1">行程 DAY 1</a>
+<a href="./#day10">行程 DAY 10</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>飯店所在地。JR、京急與新幹線交會的大站，高輪口一側是飯店與日本庭園，港南口一側是商場與辦公大樓；往北一站是2026年3月全面開幕的高輪ゲートウェイシティ新街區。</dd></div>
+<div><dt>適合</dt><dd>抵達日、退房日，或行程較累的晚上就近散步、吃飯、買零食。</dd></div>
+<div><dt>建議停留</dt><dd>半天，或每天早晚零碎時間</dd></div>
+<div><dt>從飯店</dt><dd>品川站步行約3分鐘；高輪ゲートウェイ站搭 JR 一站約2分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B0%E3%83%A9%E3%83%B3%E3%83%89%E3%83%97%E3%83%AA%E3%83%B3%E3%82%B9%E3%83%9B%E3%83%86%E3%83%AB%E9%AB%98%E8%BC%AA%20%E6%97%A5%E6%9C%AC%E5%BA%AD%E5%9C%92" target="_blank" rel="noopener">高輪日本庭園</a><span class="tag">飯店園區內，免費</span></div><div class="it-d">有池塘、茶室與觀音堂，步道平坦，傍晚點燈後很安靜，適合抵達當天散步。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9E%E3%82%AF%E3%82%BB%E3%83%AB%20%E3%82%A2%E3%82%AF%E3%82%A2%E3%83%91%E3%83%BC%E3%82%AF%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">マクセル アクアパーク品川</a><span class="tag">品川王子飯店內</span></div><div class="it-d">結合燈光音樂的室內水族館，海豚表演是重點，約10:00至20:00，雨天備案首選。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B3%89%E5%B2%B3%E5%AF%BA%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">泉岳寺</a><span class="tag">赤穗四十七義士墓所</span></div><div class="it-d">日本最有名的復仇故事「忠臣藏」主角們長眠於此，境內免費，墓所一帶常有人獻香；每年12月14日有義士祭。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=TAKANAWA%20GATEWAY%20CITY" target="_blank" rel="noopener">高輪ゲートウェイシティ</a><span class="tag">高輪ゲートウェイ站直結</span></div><div class="it-d">JR 東日本打造的新街區，2026年3月28日全面開幕；隈研吾外觀設計的文化館<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=MoN%20Takanawa%20The%20Museum%20of%20Narratives" target="_blank" rel="noopener">MoN Takanawa</a>有展覽、商店、榻榻米空間與足湯露台，展覽多需預約。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%93%81%E5%B7%9D%E7%A5%9E%E7%A4%BE%20%E5%8C%97%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">品川神社</a><span class="tag">京急新馬場站旁</span></div><div class="it-d">境內有可以實際爬上去的小型富士山「富士塚」，階梯較陡；附近的<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%97%A7%E6%9D%B1%E6%B5%B7%E9%81%93%20%E5%93%81%E5%B7%9D%E5%AE%BF%20%E5%8C%97%E5%93%81%E5%B7%9D%E5%95%86%E5%BA%97%E8%A1%97" target="_blank" rel="noopener">舊東海道品川宿</a>是江戶時代第一個驛站，老街散步約30分鐘。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">アトレ品川</a><span class="tag">港南口，車站直結</span></div><div class="it-d">服飾、雜貨與餐廳，2F 的 DEAN &amp; DELUCA 可買點心、果汁。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">エキュート品川</a><span class="tag">車站改札內</span></div><div class="it-d">伴手禮與甜點集中地，退房日買伴手禮最方便。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%8B%E3%83%A5%E3%82%A6%E3%83%9E%E3%83%B3%E9%AB%98%E8%BC%AA%20NEWoMan%20TAKANAWA" target="_blank" rel="noopener">ニュウマン高輪</a><span class="tag">高輪ゲートウェイ站</span></div><div class="it-d">新開的大型商場，服飾、生活雜貨、美食街，2026年3月新增 MIMURE 區。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A6%E3%82%A3%E3%83%B3%E3%82%B0%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">ウィング高輪</a><span class="tag">高輪口正前方</span></div><div class="it-d">小型商場，有超市與餐廳，晚上補貨方便。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AD%E3%83%9F%E3%82%BF%E3%83%B3%E3%83%8F%E3%82%A6%E3%82%B9%20%E9%AB%98%E8%BC%AA" target="_blank" rel="noopener">キミタンハウス</a><span class="tag">全素自然食</span></div><div class="it-d">高輪口步行約10分鐘，玄米與蔬菜定食，建議先訂位。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%A4%A8%E3%81%AE%E6%9C%A8%20%E9%AB%98%E8%BC%AA%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">Natural Cafe＆Restaurant 椨の木</a><span class="tag">自然食，葷素同行</span></div><div class="it-d">高輪口約5分鐘，訂位時可要求蛋奶素或全素；週日休，週六無晚餐。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AW55%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">AW55 アトレ品川</a><span class="tag">蔬菜義式串燒</span></div><div class="it-d">アトレ4F，名物蔬菜沾醬含鯷魚，素食者點餐前請確認。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=custom%20salad%20Veggie%20%E3%82%A2%E3%83%88%E3%83%AC%E5%93%81%E5%B7%9D" target="_blank" rel="noopener">custom salad Veggie</a><span class="tag">客製沙拉</span></div><div class="it-d">アトレ3F，可自選配料，醬汁成分請現場確認。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90%20%E4%B8%89%E7%94%B0%E5%BA%97" target="_blank" rel="noopener">罪無き麻婆豆腐 三田店</a><span class="tag">全素麻婆豆腐</span></div><div class="it-d">田町站附近，品川搭 JR 兩站；麻婆多含蒜或蔥，吃五辛素請先問；週末常休，出發前確認。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>品川站周邊拉麵店很多，但湯頭多為豬骨或魚介，非素。</li></ul>
+<p class="area-tip"><b>小提醒</b>雨天可去水族館與アトレ；行程 DAY 1 抵達日、DAY 10 退房日都在這一區。</p>
+</section>
+<section class="card area" id="asakusa">
+<div class="badge">2</div>
+<h2>淺草、晴空塔</h2>
+<div class="area-en">ASAKUSA / SKYTREE</div>
+<div class="daylinks">
+<a href="./#day2">行程 DAY 2</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>東京最有江戶下町氣氛的地方，淺草寺、仲見世老街與人力車；隔著隅田川就是634公尺高的晴空塔與商場ソラマチ。</dd></div>
+<div><dt>適合</dt><dd>第一次來東京、喜歡寺廟與傳統點心、想登高看夜景。</dd></div>
+<div><dt>建議停留</dt><dd>一整天（淺草半天、晴空塔半天）</dd></div>
+<div><dt>從品川</dt><dd>都營淺草線（京急直通車）到淺草約25分鐘，到押上（晴空塔）約30分鐘，部分班次需在泉岳寺換車</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E5%AF%BA" target="_blank" rel="noopener">淺草寺</a><span class="tag">628年創建</span></div><div class="it-d">東京最古老的寺院，從雷門大燈籠、寶藏門到本堂一路直走；本堂10月至3月6:30至17:00，境內24小時可進，清晨或傍晚點燈後人少很多。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%20%E9%9B%B7%E9%96%80" target="_blank" rel="noopener">雷門</a></div><div class="it-d">淺草的代表門面，大紅燈籠高約3.9公尺，白天人潮多，想拍空景可早上8點前來。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E6%96%87%E5%8C%96%E8%A6%B3%E5%85%89%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC" target="_blank" rel="noopener">淺草文化觀光中心</a><span class="tag">雷門正對面，免費</span></div><div class="it-d">隈研吾設計，8樓展望台可同時看到仲見世與晴空塔，也有乾淨廁所與旅遊資訊。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%B9%E3%82%AB%E3%82%A4%E3%83%84%E3%83%AA%E3%83%BC" target="_blank" rel="noopener">東京晴空塔</a></div><div class="it-d">高634公尺，350公尺天望甲板與450公尺天望迴廊兩層；建議官網預購日期時段票，傍晚上去可同時看夕陽與夜景。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%99%E3%81%BF%E3%81%A0%E6%B0%B4%E6%97%8F%E9%A4%A8" target="_blank" rel="noopener">すみだ水族館</a><span class="tag">ソラマチ5至6F</span></div><div class="it-d">以企鵝和水母區聞名的都市型水族館，全年無休，雨天好去處。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%9A%85%E7%94%B0%E5%85%AC%E5%9C%92%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">隅田公園</a></div><div class="it-d">沿隅田川的河濱公園，可遠眺晴空塔；也可從淺草搭<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E8%A6%B3%E5%85%89%E6%B1%BD%E8%88%B9%20%E6%B5%85%E8%8D%89%E4%B9%97%E8%88%B9%E5%A0%B4" target="_blank" rel="noopener">東京水邊線</a>水上巴士往濱離宮或台場。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E8%8A%B1%E3%82%84%E3%81%97%E3%81%8D" target="_blank" rel="noopener">淺草花やしき</a><span class="tag">1853年開園</span></div><div class="it-d">日本最古老的遊樂園，設施小巧懷舊，適合帶小朋友。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BB%B2%E8%A6%8B%E4%B8%96%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">仲見世商店街</a></div><div class="it-d">約250公尺，約90家店賣人形燒、仙貝、扇子與和風小物；多數店約10:00至17:00，傍晚拉下鐵門後可看到門上的淺草繪卷。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%8B%E3%81%A3%E3%81%B1%E6%A9%8B%E9%81%93%E5%85%B7%E8%A1%97" target="_blank" rel="noopener">かっぱ橋道具街</a></div><div class="it-d">日本最大的廚具街，約170家店，食物模型、刀具、陶器都有；週日多數店休息。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%BD%E3%83%A9%E3%83%9E%E3%83%81" target="_blank" rel="noopener">東京ソラマチ</a><span class="tag">晴空塔下</span></div><div class="it-d">約300家店，有日本風伴手禮、動漫角色商店與美食街，雨天可整天待在室內。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%96%B0%E4%BB%B2%E8%A6%8B%E4%B8%96%E9%80%9A%E3%82%8A%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">新仲見世通り</a><span class="tag">有屋頂的商店街</span></div><div class="it-d">和仲見世垂直交叉，下雨時可在屋簷下逛。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Injoy%20%E6%82%A6%E7%B4%8D%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">Injoy 悦納</a><span class="tag">全素</span></div><div class="it-d">不用蛋奶、五辛與酒，石鍋拌飯與素麵很受歡迎；週二公休，午間常客滿，建議訂位。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%BE%E7%AB%B9%E5%86%86%E3%82%AB%E3%83%95%E3%82%A7%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">松竹圓カフェ</a><span class="tag">全素</span></div><div class="it-d">漢堡、Pizza 與甜點，餐點五辛成分請點餐時確認。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%BE%E3%82%8B%E3%81%94%E3%81%A8Vegan%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">まるごとVegan 浅草</a><span class="tag">全素點心</span></div><div class="it-d">適合邊走邊吃的小點。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegan%20Eat%20Tokyo%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">Vegan Eat Tokyo</a><span class="tag">全素</span></div><div class="it-d">漢堡、拉麵等西式與日式餐點，不定休，營業日看官方 Instagram。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%88%9F%E5%92%8C%20%E6%9C%AC%E5%BA%97%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">舟和 本店</a><span class="tag">1902年創業</span></div><div class="it-d">招牌芋羊羹用番薯、砂糖、寒天製成，傳統配方不含蛋奶。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%85%E8%8D%89%E3%81%8D%E3%81%B3%E3%81%A0%E3%82%93%E3%81%94%20%E3%81%82%E3%81%A5%E3%81%BE" target="_blank" rel="noopener">浅草きびだんご あづま</a></div><div class="it-d">現做黍米糰子沾黃豆粉，一串一口，適合邊走邊吃。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B8%B8%E7%9B%A4%E5%A0%82%E9%9B%B7%E3%81%8A%E3%81%93%E3%81%97%E6%9C%AC%E8%88%97%20%E6%B5%85%E8%8D%89" target="_blank" rel="noopener">常盤堂雷おこし本舗</a></div><div class="it-d">雷門旁的米香老店，可看現場製作；米香類點心多為素，部分口味含花生或蜂蜜。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>淺草名物壽喜燒、天丼、文字燒、炸肉餅都是葷食，非素。</li><li>仲見世的人形燒麵糊多含蛋；仙貝以醬油、鹽味較單純，蝦味含海鮮。</li></ul>
+<p class="area-tip"><b>小提醒</b>雨天可去淺草文化觀光中心、ソラマチ與すみだ水族館；淺草到押上搭東武線一站約3分鐘。行程 DAY 2 走這一區。</p>
+</section>
+<section class="card area" id="ueno">
+<div class="badge">3</div>
+<h2>上野、谷中</h2>
+<div class="area-en">UENO / YANAKA</div>
+<div class="daylinks">
+<a href="./#day5">行程 DAY 5</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>上野恩賜公園裡集中了東京國立博物館、國立西洋美術館、科學博物館與動物園，是東京的博物館區；北邊的谷中一帶保留老街、寺院與貓咪散步路線。</dd></div>
+<div><dt>適合</dt><dd>喜歡博物館、佛教藝術、下町老街散步的人；雨天也有很多室內選擇。</dd></div>
+<div><dt>建議停留</dt><dd>一整天</dd></div>
+<div><dt>從品川</dt><dd>JR 上野東京ライン約12分鐘，或京濱東北線、山手線約20分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E5%9B%BD%E7%AB%8B%E5%8D%9A%E7%89%A9%E9%A4%A8" target="_blank" rel="noopener">東京國立博物館</a><span class="tag">1872年創立</span></div><div class="it-d">日本歷史最悠久的博物館，本館看日本美術通史，法隆寺寶物館有飛鳥時代金銅佛；週一休館，9:30至17:00，週五六延長。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%9B%BD%E7%AB%8B%E8%A5%BF%E6%B4%8B%E7%BE%8E%E8%A1%93%E9%A4%A8" target="_blank" rel="noopener">國立西洋美術館</a></div><div class="it-d">本館為柯比意設計，2016年列入世界遺產；常設展有羅丹「沉思者」與莫內等收藏，週一休館。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%9B%BD%E7%AB%8B%E7%A7%91%E5%AD%A6%E5%8D%9A%E7%89%A9%E9%A4%A8" target="_blank" rel="noopener">國立科學博物館</a></div><div class="it-d">日本自然與科學史的大型博物館，恐龍骨骼與日本館的展示很精彩；65歲以上常設展免費，需出示證件。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%8A%E9%87%8E%E5%8B%95%E7%89%A9%E5%9C%92" target="_blank" rel="noopener">上野動物園</a></div><div class="it-d">日本第一座動物園（1882年），週一休園；大貓熊已於2026年1月歸還中國，目前園內沒有貓熊。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%8D%E5%BF%8D%E6%B1%A0" target="_blank" rel="noopener">不忍池</a></div><div class="it-d">公園南側的大池塘，夏季蓮花滿池，池中有弁天堂，可租天鵝船。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B0%B7%E4%B8%AD%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">谷中銀座</a></div><div class="it-d">全長約170公尺、約60家店的昭和風商店街，日暮里側入口的石階「夕やけだんだん」是看夕陽的名所。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%A0%B9%E6%B4%A5%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener">根津神社</a></div><div class="it-d">有1706年建造的華麗權現造社殿（重要文化財）與一排朱紅千本鳥居，從谷中步行約15分鐘。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B0%B7%E4%B8%AD%E9%9C%8A%E5%9C%92" target="_blank" rel="noopener">谷中靈園</a></div><div class="it-d">幽靜的大墓園，櫻花大道很有名，連接日暮里與谷中老街的散步路線。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%A1%E6%A8%AA%E5%95%86%E5%BA%97%E8%A1%97" target="_blank" rel="noopener">阿美橫丁</a></div><div class="it-d">上野到御徒町之間約400公尺、約400家店，零食乾貨、藥妝、運動鞋都有，價格便宜、人潮多。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=2k540%20AKI-OKA%20ARTISAN" target="_blank" rel="noopener">2k540 AKI-OKA ARTISAN</a></div><div class="it-d">御徒町到秋葉原之間的高架下工藝街，皮件、飾品、器皿等手作品牌聚集；週三多數店休。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">エキュート上野</a><span class="tag">上野站改札內</span></div><div class="it-d">伴手禮與甜點，貓熊造型的點心很多。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%BE%E5%9D%82%E5%B1%8B%20%E4%B8%8A%E9%87%8E%E5%BA%97" target="_blank" rel="noopener">松坂屋上野店</a></div><div class="it-d">老字號百貨，地下食品街可買便當與和菓子。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%86%8D%E6%9D%A5%E5%AE%B4%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">再来宴上野仲町通り</a><span class="tag">中式，葷素同行</span></div><div class="it-d">有大豆素肉的素食菜單，如「素八仙」，可訂位。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">T&#x27;sたんたん エキュート上野</a><span class="tag">全素拉麵</span></div><div class="it-d">上野站改札內3F，入谷改札旁，平日與週六10:00至22:00，日假日至21:00。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegeherb%20Saga%20%E4%B8%8A%E9%87%8E" target="_blank" rel="noopener">Vegeherb Saga</a><span class="tag">全素印度</span></div><div class="it-d">御徒町附近，印度料理多用洋蔥大蒜，吃五辛素請先詢問。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=VEGAN%20GYOZA%20YU%20COFFEE%20%E6%9D%B1%E4%BA%AC%E9%83%BD%E5%8F%B0%E6%9D%B1%E5%8C%BA%E6%A0%B9%E5%B2%B83-11-17" target="_blank" rel="noopener">VEGAN GYOZA YU COFFEE</a><span class="tag">鶯谷，全素餃子</span></div><div class="it-d">部分口味含蒜、韭、蔥，點餐時避開；週一、週二休。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%82%E3%82%93%E3%81%BF%E3%81%A4%20%E3%81%BF%E3%81%AF%E3%81%97%20%E4%B8%8A%E9%87%8E%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">あんみつ みはし 上野本店</a><span class="tag">甜品老店</span></div><div class="it-d">寒天、紅豆與黑蜜的餡蜜，加冰淇淋的品項含乳。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>上野的炸豬排、阿美橫丁的海鮮丼與烤串都是葷食，非素。</li><li>谷中的貓咪造型甜甜圈、鯛魚燒麵糊多含蛋奶。</li></ul>
+<p class="area-tip"><b>小提醒</b>博物館多數週一休；雨天可換國立科學博物館。行程 DAY 5 走這一區。</p>
+</section>
+<section class="card area" id="marunouchi">
+<div class="badge">4</div>
+<h2>東京車站、丸之內、皇居</h2>
+<div class="area-en">TOKYO STATION / MARUNOUCHI / IMPERIAL PALACE</div>
+<div class="daylinks">
+<a href="./#day3">行程 DAY 3</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>紅磚的東京車站、整齊的丸之內商辦街與皇居的護城河綠地，是東京最有「首都」氣勢的一區；車站地下是美食與伴手禮的迷宮。</dd></div>
+<div><dt>適合</dt><dd>拍經典建築、逛伴手禮、想在平坦大路上悠閒散步的人。</dd></div>
+<div><dt>建議停留</dt><dd>半天</dd></div>
+<div><dt>從品川</dt><dd>JR 山手線或京濱東北線約11分鐘，東海道線約7分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E9%A7%85%20%E4%B8%B8%E3%81%AE%E5%86%85%E9%A7%85%E8%88%8E" target="_blank" rel="noopener">東京車站丸之內站舍</a></div><div class="it-d">1914年啟用、辰野金吾設計的紅磚站舍，2012年修復回創建時的圓頂；南北圓頂大廳天花板的浮雕值得抬頭看。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%9A%87%E5%B1%85%E6%9D%B1%E5%BE%A1%E8%8B%91" target="_blank" rel="noopener">皇居東御苑</a><span class="tag">免費，入口需安檢</span></div><div class="it-d">江戶城本丸、二之丸遺址改成的庭園，可看天守台石垣；週一、週五休園，10月開放至16:30。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%9A%87%E5%B1%85%E5%A4%96%E8%8B%91%20%E4%BA%8C%E9%87%8D%E6%A9%8B" target="_blank" rel="noopener">皇居外苑、二重橋</a></div><div class="it-d">寬廣的碎石廣場與松樹林，可拍護城河與石橋，免費、全天開放。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=KITTE%20%E3%82%AC%E3%83%BC%E3%83%87%E3%83%B3%20%E4%B8%B8%E3%81%AE%E5%86%85" target="_blank" rel="noopener">KITTE 屋上庭園</a><span class="tag">KITTE 6F，免費</span></div><div class="it-d">正對東京車站的空中花園，是拍紅磚站舍全景的最佳位置，晚上點燈也很美。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%89%E8%8F%B1%E4%B8%80%E5%8F%B7%E9%A4%A8%E7%BE%8E%E8%A1%93%E9%A4%A8" target="_blank" rel="noopener">三菱一號館美術館</a></div><div class="it-d">重建明治時代紅磚洋樓的美術館，以19世紀歐洲藝術特展為主，週一休館。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%92%8C%E7%94%B0%E5%80%89%E5%99%B4%E6%B0%B4%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">和田倉噴水公園</a></div><div class="it-d">皇居旁的噴水池公園，丸之內散步途中可休息。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E9%A7%85%E4%B8%80%E7%95%AA%E8%A1%97" target="_blank" rel="noopener">東京車站一番街</a><span class="tag">八重洲側地下</span></div><div class="it-d">有拉麵街、角色商店街（寶可夢、吉卜力、Tomica 等）與東京點心樂園，買伴手禮一次解決。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%BF%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">グランスタ東京</a><span class="tag">車站地下</span></div><div class="it-d">甜點、便當與限定伴手禮最多的站內商場。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%B8%E3%81%AE%E5%86%85%E4%BB%B2%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">丸之內仲通り</a></div><div class="it-d">行道樹林蔭大道，兩側是精品與咖啡館，平日中午與週末部分時段為行人徒步區。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A4%A7%E4%B8%B8%E6%9D%B1%E4%BA%AC%E5%BA%97" target="_blank" rel="noopener">大丸東京店</a></div><div class="it-d">八重洲口直結的百貨，地下食品街很大。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E3%82%B0%E3%83%A9%E3%83%B3%E3%82%B9%E3%82%BF%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">T&#x27;sたんたん グランスタ東京</a><span class="tag">全素拉麵</span></div><div class="it-d">2026年8月1日遷到東京站地下1樓改札外（グランスタ地下北口附近），10:00至22:00，招牌金胡麻擔擔麵與素餃子。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%9D%E3%82%89%E3%81%AE%E3%81%84%E3%82%8D%20NIPPON%20%E6%9D%B1%E4%BA%AC%E3%83%A9%E3%83%BC%E3%83%A1%E3%83%B3%E3%82%B9%E3%83%88%E3%83%AA%E3%83%BC%E3%83%88" target="_blank" rel="noopener">そらのいろ NIPPON</a><span class="tag">東京拉麵街</span></div><div class="it-d">蘑菇豆乳湯頭的「キノコベジソバ」去掉雞肉叉燒與蘑菇油即為全素，另有全素擔擔麵；9:00至23:00，五辛請現場確認。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>東京站便當（駅弁）種類極多，但多含肉或魚；東京ばな奈等人氣伴手禮多含蛋奶。</li></ul>
+<p class="area-tip"><b>小提醒</b>東御苑週一、週五休，雨天改看東京車站畫廊或 KITTE 內的 Intermediatheque。行程 DAY 3 上午在這一區。</p>
+</section>
+<section class="card area" id="ginza">
+<div class="badge">5</div>
+<h2>銀座、築地、日比谷</h2>
+<div class="area-en">GINZA / TSUKIJI / HIBIYA</div>
+<div class="daylinks">
+<a href="./#day3">行程 DAY 3</a>
+<a href="./#day7">行程 DAY 7</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>百貨與旗艦店林立的高級購物街，週末中央通封街成行人徒步區；東邊是築地本願寺與場外市場，西南邊是日比谷公園與濱離宮庭園。</dd></div>
+<div><dt>適合</dt><dd>購物、逛百貨地下街、找素食餐廳（這一區選擇最多）。</dd></div>
+<div><dt>建議停留</dt><dd>半天至一天</dd></div>
+<div><dt>從品川</dt><dd>JR 到有樂町約9分鐘、到新橋約6分鐘；都營淺草線到東銀座約12分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%AF%89%E5%9C%B0%E6%9C%AC%E9%A1%98%E5%AF%BA" target="_blank" rel="noopener">築地本願寺</a></div><div class="it-d">1934年落成的古印度風石造本堂，內部卻是日式佛殿，可免費入內參拜，少階梯。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%AF%89%E5%9C%B0%E5%A0%B4%E5%A4%96%E5%B8%82%E5%A0%B4" target="_blank" rel="noopener">築地場外市場</a></div><div class="it-d">約460家店，乾貨、刀具、玉子燒與小吃；多數店早上營業、午後打烊，週日、假日與部分週三休市（10月7日為休市日）。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%9C%E9%9B%A2%E5%AE%AE%E6%81%A9%E8%B3%9C%E5%BA%AD%E5%9C%92" target="_blank" rel="noopener">濱離宮恩賜庭園</a></div><div class="it-d">江戶將軍家庭園，引海水的「潮入之池」與高樓天際線同框，可在中島御茶屋喝抹茶；門票300円，65歲以上150円。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%AD%8C%E8%88%9E%E4%BC%8E%E5%BA%A7" target="_blank" rel="noopener">歌舞伎座</a></div><div class="it-d">歌舞伎的專用劇場，買「一幕見席」可只看一幕，時間短、票價低，適合第一次體驗。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%97%A5%E6%AF%94%E8%B0%B7%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">日比谷公園</a></div><div class="it-d">1903年開園、日本第一座西式公園，有花壇、噴水池與老樹，秋天銀杏漸黃。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7%20%E4%B8%AD%E5%A4%AE%E9%80%9A%E3%82%8A%20%E6%AD%A9%E8%A1%8C%E8%80%85%E5%A4%A9%E5%9B%BD" target="_blank" rel="noopener">銀座中央通り 步行者天國</a></div><div class="it-d">10月的週六、日與假日12:00至17:00，銀座通一至八丁目封街，可在大馬路中間散步。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=GINZA%20SIX" target="_blank" rel="noopener">GINZA SIX</a></div><div class="it-d">銀座最大商場，6F 蔦屋書店有藝術書與休息區，頂樓庭園免費。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7%E4%B8%89%E8%B6%8A" target="_blank" rel="noopener">銀座三越</a>與<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%BE%E5%B1%8B%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">松屋銀座</a></div><div class="it-d">老字號百貨，地下食品街適合買和菓子伴手禮。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%80%E5%BA%A7%20%E4%BC%8A%E6%9D%B1%E5%B1%8B%20%E6%9C%AC%E5%BA%97%20G.Itoya" target="_blank" rel="noopener">伊東屋 G.Itoya</a></div><div class="it-d">12層樓的文具專賣店，信紙、鋼筆與和紙小物很好買。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%84%A1%E5%8D%B0%E8%89%AF%E5%93%81%20%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">無印良品 銀座</a></div><div class="it-d">全球旗艦店，有食品區與生活雜貨，樓上是 MUJI HOTEL。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%83%9F%E3%83%83%E3%83%89%E3%82%BF%E3%82%A6%E3%83%B3%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">東京中城日比谷</a></div><div class="it-d">日比谷公園對面的商場，6F 空中花園可眺望公園。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20GINZA" target="_blank" rel="noopener">AIN SOPH. GINZA</a><span class="tag">全素</span></div><div class="it-d">2009年創業的老牌全素餐廳，招牌全素鬆餅，1樓甜點店的布丁也很受歡迎；建議預約。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=REVIVE%20KITCHEN%20THREE%20%E6%97%A5%E6%AF%94%E8%B0%B7" target="_blank" rel="noopener">REVIVE KITCHEN THREE HIBIYA</a><span class="tag">蔬食</span></div><div class="it-d">日比谷中城2F，季節蔬食拼盤與全素拌飯，可訂位。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8A%E3%83%A0%20%E6%9C%AC%E6%A0%BC%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%20%E9%8A%80%E5%BA%A7%E5%BA%97%20%E9%8A%80%E5%BA%A78-10-8" target="_blank" rel="noopener">ANNAM Indian Restaurant Ginza</a><span class="tag">印度，葷素同行</span></div><div class="it-d">蔬食套餐與蔬菜咖哩，印度料理多用洋蔥大蒜，吃五辛素請先說明。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%BD%AA%E7%84%A1%E3%81%8D%E9%BA%BB%E5%A9%86%E8%B1%86%E8%85%90%20%E8%99%8E%E3%83%8E%E9%96%80%E5%BA%97" target="_blank" rel="noopener">罪無き麻婆豆腐 虎ノ門店</a><span class="tag">全素麻婆豆腐</span></div><div class="it-d">新橋站西側步行約10分鐘，週日休；五辛請先詢問。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=KOMEDA%20is%20%E6%9D%B1%E9%8A%80%E5%BA%A7" target="_blank" rel="noopener">KOMEDA is □ 東銀座</a><span class="tag">植物性咖啡館</span></div><div class="it-d">コメダ珈琲的植物性品牌，7:00至22:00，適合早餐或下午茶。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>築地的海鮮丼、壽司都是葷食；玉子燒含蛋，高湯多用柴魚，非素。</li><li>銀座老店紅豆麵包口味多，麵團可能含蛋奶，請看成分。</li></ul>
+<p class="area-tip"><b>小提醒</b>銀座站周邊地下道相連，下雨也好逛；行程 DAY 3 午餐與晚餐、DAY 7 全天在這一區。</p>
+</section>
+<section class="card area" id="shinjuku">
+<div class="badge">6</div>
+<h2>新宿</h2>
+<div class="area-en">SHINJUKU</div>
+<div class="daylinks">
+<a href="./#day6">行程 DAY 6</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>全世界乘客最多的車站，西口是都廳與高樓，東口是百貨、電器行與歌舞伎町的霓虹燈，東南邊是寬廣的新宿御苑。</dd></div>
+<div><dt>適合</dt><dd>逛百貨、看免費夜景、體驗東京夜生活的熱鬧氣氛。</dd></div>
+<div><dt>建議停留</dt><dd>半天至一天</dd></div>
+<div><dt>從品川</dt><dd>JR 山手線約20分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%96%B0%E5%AE%BF%E5%BE%A1%E8%8B%91" target="_blank" rel="noopener">新宿御苑</a></div><div class="it-d">法式、英式與日式庭園合一的國民公園，秋天有菊花展，大溫室雨天也能逛；週一休園，門票500円，65歲以上250円，10月開放至16:30。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E9%83%BD%E5%BA%81%20%E5%B1%95%E6%9C%9B%E5%AE%A4" target="_blank" rel="noopener">東京都廳展望室</a><span class="tag">45樓，免費</span></div><div class="it-d">南展望室9:30至22:00（每月第1、3個週二休），天氣好可看到富士山；日落後都廳外牆有投影秀「TOKYO Night &amp; Light」。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%8A%B1%E5%9C%92%E7%A5%9E%E7%A4%BE%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">花園神社</a></div><div class="it-d">歌舞伎町旁的老神社，是新宿的守護神，11月酉之市很熱鬧。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%80%9D%E3%81%84%E5%87%BA%E6%A8%AA%E4%B8%81" target="_blank" rel="noopener">思い出横丁</a></div><div class="it-d">西口鐵道旁的昭和小巷，擠滿烤串小店，拍照氣氛很好（店家以葷食為主）。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%96%B0%E5%AE%BF%E3%82%B4%E3%83%BC%E3%83%AB%E3%83%87%E3%83%B3%E8%A1%97" target="_blank" rel="noopener">新宿ゴールデン街</a></div><div class="it-d">約200家迷你酒吧聚集的老街區，晚上才熱鬧，許多店有座位費。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%AD%8C%E8%88%9E%E4%BC%8E%E7%94%BA%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">歌舞伎町</a></div><div class="it-d">霓虹燈街區，東寶大樓頂的哥吉拉頭像是拍照點；深夜不建議久留。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BC%8A%E5%8B%A2%E4%B8%B9%20%E6%96%B0%E5%AE%BF%E5%BA%97" target="_blank" rel="noopener">伊勢丹新宿店</a></div><div class="it-d">東京最具代表性的百貨之一，地下食品街甜點水準很高。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%96%B0%E5%AE%BF%E9%AB%99%E5%B3%B6%E5%B1%8B" target="_blank" rel="noopener">新宿高島屋</a>與<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%8B%E3%83%A5%E3%82%A6%E3%83%9E%E3%83%B3%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">NEWoMan新宿</a></div><div class="it-d">南口一帶的百貨與商場，連通車站、下雨方便。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%B4%80%E4%BC%8A%E5%9C%8B%E5%B1%8B%E6%9B%B8%E5%BA%97%20%E6%96%B0%E5%AE%BF%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">紀伊國屋書店 新宿本店</a></div><div class="it-d">大型書店，文具與旅遊書齊全。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%A8%E3%83%89%E3%83%90%E3%82%B7%E3%82%AB%E3%83%A1%E3%83%A9%20%E6%96%B0%E5%AE%BF%E8%A5%BF%E5%8F%A3%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">ヨドバシカメラ 新宿西口本店</a></div><div class="it-d">大型電器行，家電、相機與玩具，可退稅。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20Journey%20%E6%96%B0%E5%AE%BF" target="_blank" rel="noopener">AIN SOPH. Journey</a><span class="tag">全素</span></div><div class="it-d">新宿三丁目，全素鬆餅與咖哩，離新宿御苑近，可預約。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI%20%E6%96%B0%E5%AE%BF%20%E3%83%AB%E3%83%9F%E3%83%8D" target="_blank" rel="noopener">AFURI 新宿ルミネ</a><span class="tag">葷素同行</span></div><div class="it-d">柚子鹽拉麵名店，有「彩り野菜のヴィーガンらーめん」，五辛請現場確認。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%BC%8A%E5%8B%A2%E4%B8%B9%20%E6%96%B0%E5%AE%BF%E5%BA%97%20%E9%A3%9F%E5%93%81%E3%83%95%E3%83%AD%E3%82%A2" target="_blank" rel="noopener">伊勢丹 地下食品街</a></div><div class="it-d">可買水果、和菓子與沙拉當野餐，新宿御苑內可野餐（禁酒）。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>思い出横丁的烤串、新宿中村屋的印度咖哩（1927年起的名物）都是葷食，非素。</li></ul>
+<p class="area-tip"><b>小提醒</b>雨天去新宿御苑大溫室或百貨；都廳展望室在室內，但雲低時看不遠。行程 DAY 6 上午在這一區。</p>
+</section>
+<section class="card area" id="harajuku">
+<div class="badge">7</div>
+<h2>原宿、表參道、澀谷</h2>
+<div class="area-en">HARAJUKU / OMOTESANDO / SHIBUYA</div>
+<div class="daylinks">
+<a href="./#day6">行程 DAY 6</a>
+<a href="./#day9">行程 DAY 9</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>明治神宮的大片森林旁就是年輕人的原宿竹下通，往東是精品建築林立的表參道，往南是全球最有名的十字路口澀谷；全素餐廳選擇也很多。</dd></div>
+<div><dt>適合</dt><dd>逛街、看潮流、拍澀谷十字路口，也適合找素食午晚餐。</dd></div>
+<div><dt>建議停留</dt><dd>一整天</dd></div>
+<div><dt>從品川</dt><dd>JR 山手線到澀谷約13分鐘、到原宿約16分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%98%8E%E6%B2%BB%E7%A5%9E%E5%AE%AE" target="_blank" rel="noopener">明治神宮</a></div><div class="it-d">1920年創建，供奉明治天皇與昭憲皇太后，約70公頃的人造森林；日出開門、日落關門，參拜免費，參道為碎石路。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%98%8E%E6%B2%BB%E7%A5%9E%E5%AE%AE%E3%83%9F%E3%83%A5%E3%83%BC%E3%82%B8%E3%82%A2%E3%83%A0" target="_blank" rel="noopener">明治神宮博物館</a></div><div class="it-d">隈研吾設計，展示明治天皇相關文物，週四休，雨天好選擇。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%A1%A8%E5%8F%82%E9%81%93" target="_blank" rel="noopener">表參道</a></div><div class="it-d">約1公里的櫸木林蔭大道，兩側有安藤忠雄的表參道 Hills 與各國精品建築，散步拍建築很適合。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%B3%E3%83%96%E3%83%AB%E4%BA%A4%E5%B7%AE%E7%82%B9" target="_blank" rel="noopener">澀谷十字路口</a></div><div class="it-d">一次綠燈最多上千人同時穿越，從澀谷站周邊商場高樓往下看最壯觀；旁邊是<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%BF%A0%E7%8A%AC%E3%83%8F%E3%83%81%E5%85%AC%E5%83%8F" target="_blank" rel="noopener">忠犬八公像</a>。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=SHIBUYA%20SKY" target="_blank" rel="noopener">SHIBUYA SKY</a><span class="tag">澀谷 Scramble Square 頂樓，約229公尺</span></div><div class="it-d">露天展望台，10:00至22:30，15點前網路票2,700円，日落時段最搶手；雨天或強風時頂樓會關閉。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=MIYASHITA%20PARK" target="_blank" rel="noopener">MIYASHITA PARK</a></div><div class="it-d">屋頂公園加商場，頂樓有草坪與運動場，一樓有餐廳。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%AB%B9%E4%B8%8B%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">竹下通</a></div><div class="it-d">約350公尺的年輕潮流街，可麗餅、飾品、二手衣；週末人潮極多。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%A1%A8%E5%8F%82%E9%81%93%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">表參道 Hills</a></div><div class="it-d">安藤忠雄設計，斜坡式的室內購物空間。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E6%80%A5%E3%83%97%E3%83%A9%E3%82%B6%E5%8E%9F%E5%AE%BF%20%E3%83%8F%E3%83%A9%E3%82%AB%E3%83%89" target="_blank" rel="noopener">東急プラザ原宿 ハラカド</a><span class="tag">原宿路口，2024年開幕</span></div><div class="it-d">頂樓露台可休息，地下有錢湯。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7PARCO" target="_blank" rel="noopener">澀谷PARCO</a></div><div class="it-d">6F 有 Nintendo TOKYO、寶可夢中心與動漫商店，B1 是美食樓層。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7%E3%82%B9%E3%82%AF%E3%83%A9%E3%83%B3%E3%83%96%E3%83%AB%E3%82%B9%E3%82%AF%E3%82%A8%E3%82%A2" target="_blank" rel="noopener">澀谷 Scramble Square</a>與<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B8%8B%E8%B0%B7%E3%83%92%E3%82%AB%E3%83%AA%E3%82%A8" target="_blank" rel="noopener">澀谷 Hikarie</a></div><div class="it-d">車站直結的高樓商場，下雨也好逛。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegan%20Bistro%20Jangara%20%E5%8E%9F%E5%AE%BF" target="_blank" rel="noopener">Vegan Bistro Jangara</a><span class="tag">全素拉麵</span></div><div class="it-d">九州じゃんがら旗下，可改無五辛，不接受訂位。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Brown%20Rice%20by%20Neal%27s%20Yard%20Remedies%20%E8%A1%A8%E5%8F%82%E9%81%93" target="_blank" rel="noopener">Brown Rice by Neal&#x27;s Yard Remedies</a><span class="tag">全素定食</span></div><div class="it-d">表參道巷內的玄米蔬菜定食，只營業到18:00，適合午餐。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%A2%E3%83%9F%E3%83%8E%E3%82%AD%E3%83%8F%E3%82%A6%E3%82%B9%20%E5%8E%9F%E5%AE%BF" target="_blank" rel="noopener">モミノキハウス</a><span class="tag">玄米自然食</span></div><div class="it-d">1976年開業的老牌自然食餐廳，有全素選項。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=vegan%20veggie%20%E5%AB%A6%E5%A8%A5%20%E5%8D%97%E9%9D%92%E5%B1%B1%20%E8%A1%A8%E5%8F%82%E9%81%93%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">vegan veggie 嫦娥</a><span class="tag">全素藥膳中菜</span></div><div class="it-d">南青山，大豆素肉做的麻婆豆腐、青椒肉絲，可網路訂位。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=MASAKA%20%E6%B8%8B%E8%B0%B7PARCO" target="_blank" rel="noopener">真さか MASAKA</a><span class="tag">全素居酒屋</span></div><div class="it-d">澀谷PARCO B1，全素餃子、炸物與定食。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Jikasei%20MENSHO%20%E6%B8%8B%E8%B0%B7PARCO" target="_blank" rel="noopener">Jikasei MENSHO</a><span class="tag">葷素同行拉麵</span></div><div class="it-d">澀谷PARCO B1，有全素擔擔麵與辣味全素味噌拉麵，11:00至23:00，五辛請現場確認。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>竹下通的可麗餅麵糊與鮮奶油含蛋奶，吃蛋奶素可、全素不行。</li></ul>
+<p class="area-tip"><b>小提醒</b>雨天改逛澀谷站直結商場與明治神宮博物館；SHIBUYA SKY 雨天可能關閉。行程 DAY 6 下午、DAY 9 下午在這一區。</p>
+</section>
+<section class="card area" id="roppongi">
+<div class="badge">8</div>
+<h2>六本木、麻布台、東京鐵塔</h2>
+<div class="area-en">ROPPONGI / AZABUDAI / TOKYO TOWER</div>
+<div class="daylinks">
+<a href="./#day3">行程 DAY 3</a>
+<a href="./#day9">行程 DAY 9</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>美術館與高樓展望台集中的藝術區，六本木 Hills、東京中城與2023年開幕的麻布台 Hills 三大複合設施相鄰；東側是增上寺與東京鐵塔。</dd></div>
+<div><dt>適合</dt><dd>看美術館、登高看東京鐵塔夜景、teamLab 數位藝術，多數在室內、雨天也適合。</dd></div>
+<div><dt>建議停留</dt><dd>一整天</dd></div>
+<div><dt>從品川</dt><dd>計程車約15分鐘最省事；東京鐵塔可搭 JR 到浜松町（約7分鐘）再走約15分鐘，或都營淺草線到大門走約10分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%BF%E3%83%AF%E3%83%BC" target="_blank" rel="noopener">東京鐵塔</a><span class="tag">1958年，高333公尺</span></div><div class="it-d">150公尺 Main Deck 9:00至23:00，大人1,500円；250公尺 Top Deck 需參加導覽行程（網路票3,300円）。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A2%97%E4%B8%8A%E5%AF%BA" target="_blank" rel="noopener">增上寺</a></div><div class="it-d">德川將軍家菩提寺，朱紅三解脫門（1622年）是東京最古老的木造建築之一，和東京鐵塔同框是經典畫面。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%82%B7%E3%83%86%E3%82%A3%E3%83%93%E3%83%A5%E3%83%BC%20%E5%85%AD%E6%9C%AC%E6%9C%A8%E3%83%92%E3%83%AB%E3%82%BA%E6%A3%AE%E3%82%BF%E3%83%AF%E3%83%BC" target="_blank" rel="noopener">東京City View</a><span class="tag">森塔52F</span></div><div class="it-d">室內展望台，正面看東京鐵塔；同棟53F是以當代藝術聞名的森美術館。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">麻布台 Hills</a></div><div class="it-d">2023年11月開幕，森JP塔高約325公尺，有綠意中庭與商店；地下的<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=teamLab%20Borderless%20%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">teamLab無界美術館</a>是沒有路線的沉浸式數位藝術館，需預約時段票。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%9B%BD%E7%AB%8B%E6%96%B0%E7%BE%8E%E8%A1%93%E9%A4%A8" target="_blank" rel="noopener">國立新美術館</a></div><div class="it-d">黑川紀章設計的波浪玻璃外牆，沒有常設展、只辦特展，建築本身就很值得看；週二休館。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E4%BA%AC%E3%83%9F%E3%83%83%E3%83%89%E3%82%BF%E3%82%A6%E3%83%B3%20%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">東京中城</a></div><div class="it-d">有三得利美術館與安藤忠雄設計的21_21 DESIGN SIGHT（兩館皆週二休），後方有檜町公園。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%85%AD%E6%9C%AC%E6%9C%A8%E3%83%92%E3%83%AB%E3%82%BA" target="_blank" rel="noopener">六本木 Hills</a></div><div class="it-d">大型複合商場，森塔下的巨型蜘蛛雕塑「Maman」是地標。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%B8%83%E5%8F%B0%E3%83%92%E3%83%AB%E3%82%BA%20%E3%83%9E%E3%83%BC%E3%82%B1%E3%83%83%E3%83%88" target="_blank" rel="noopener">麻布台 Hills 商場</a></div><div class="it-d">以食品與生活選物為主，有精品超市與甜點店。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%B8%83%E5%8D%81%E7%95%AA%E5%95%86%E5%BA%97%E8%A1%97" target="_blank" rel="noopener">麻布十番商店街</a></div><div class="it-d">有百年老店的下町商店街，離六本木步行約10分鐘，仙貝、豆菓子與和菓子老舖多。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=SOUGO%20%E5%AE%97%E8%83%A1%20%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">SOUGO</a><span class="tag">寺院風蔬食料理</span></div><div class="it-d">全素的日式季節套餐，約三週換菜單；需去除五辛請2天前告知，建議預約。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%86%8D%E9%86%90%20%E6%84%9B%E5%AE%95%20%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">醍醐</a><span class="tag">寺院風蔬食懷石</span></div><div class="it-d">東京鐵塔北側愛宕的名店，日式庭園包廂，價位高、需預約。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AFURI%20%E5%85%AD%E6%9C%AC%E6%9C%A8" target="_blank" rel="noopener">AFURI 六本木</a><span class="tag">葷素同行</span></div><div class="it-d">柚子鹽拉麵，有全素拉麵，五辛請現場確認。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B5%AA%E8%8A%B1%E5%AE%B6%E7%B7%8F%E6%9C%AC%E5%BA%97%20%E9%BA%BB%E5%B8%83%E5%8D%81%E7%95%AA" target="_blank" rel="noopener">浪花家総本店</a><span class="tag">1909年創業</span></div><div class="it-d">鯛魚燒元祖，紅豆餡為素，麵糊成分請現場確認。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>麻布十番的更科蕎麥麵名店湯汁多用柴魚高湯，非素。</li></ul>
+<p class="area-tip"><b>小提醒</b>這一區多在室內，是雨天的好選擇；行程 DAY 3 下午（增上寺、東京鐵塔）與 DAY 9 上午（六本木、麻布台）在這一區。</p>
+</section>
+<section class="card area" id="ikebukuro">
+<div class="badge">9</div>
+<h2>池袋</h2>
+<div class="area-en">IKEBUKURO</div>
+<div class="daylinks">
+<a href="./#day8">行程 DAY 8</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>東京北邊的大轉運站，東口有陽光城（Sunshine City）與動漫女性向商店街，西口有藝術劇場與老建築；也是去川越的轉車站。</dd></div>
+<div><dt>適合</dt><dd>動漫與寶可夢迷、家庭親子（水族館、展望台），或川越回程順路逛。</dd></div>
+<div><dt>建議停留</dt><dd>半天</dd></div>
+<div><dt>從品川</dt><dd>JR 山手線約35分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B3%E6%B0%B4%E6%97%8F%E9%A4%A8" target="_blank" rel="noopener">サンシャイン水族館</a></div><div class="it-d">陽光城頂樓的都市水族館，戶外「天空企鵝」看起來像在大樓間飛翔。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B360%E5%B1%95%E6%9C%9B%E5%8F%B0%20%E3%81%A6%E3%82%93%E3%81%BC%E3%81%86%E3%83%91%E3%83%BC%E3%82%AF" target="_blank" rel="noopener">サンシャイン60展望台 てんぼうパーク</a><span class="tag">海拔約251公尺</span></div><div class="it-d">室內展望台，有人工草坪可坐下休息，9月10日至11月30日有秋季活動。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%87%AA%E7%94%B1%E5%AD%A6%E5%9C%92%E6%98%8E%E6%97%A5%E9%A4%A8" target="_blank" rel="noopener">自由學園明日館</a></div><div class="it-d">萊特（Frank Lloyd Wright）設計的1921年學校建築，重要文化財，可入內參觀並喝茶；週一休館。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%B1%A0%E8%A2%8B%E8%A5%BF%E5%8F%A3%E5%85%AC%E5%9C%92%20GLOBAL%20RING" target="_blank" rel="noopener">池袋西口公園</a></div><div class="it-d">有環形大型天幕的公園與戶外劇場，常有活動表演。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%86%E3%82%A3%20%E6%B1%A0%E8%A2%8B" target="_blank" rel="noopener">サンシャインシティ</a></div><div class="it-d">約200家店的大型商場，2F 有<a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9D%E3%82%B1%E3%83%A2%E3%83%B3%E3%82%BB%E3%83%B3%E3%82%BF%E3%83%BC%E3%83%A1%E3%82%AC%E3%83%88%E3%82%A6%E3%82%AD%E3%83%A7%E3%83%BC" target="_blank" rel="noopener">ポケモンセンターメガトウキョー</a>。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B9%99%E5%A5%B3%E3%83%AD%E3%83%BC%E3%83%89%20%E6%B1%A0%E8%A2%8B" target="_blank" rel="noopener">乙女ロード</a></div><div class="it-d">女性向動漫、同人誌商店集中的街道。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%8B%E3%83%A1%E3%82%A4%E3%83%88%E6%B1%A0%E8%A2%8B%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">アニメイト池袋本店</a></div><div class="it-d">世界最大規模的動漫周邊專賣店之一。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9D%B1%E6%AD%A6%E7%99%BE%E8%B2%A8%E5%BA%97%20%E6%B1%A0%E8%A2%8B%E6%9C%AC%E5%BA%97" target="_blank" rel="noopener">東武百貨店、西武池袋本店</a></div><div class="it-d">車站兩側的大型百貨，地下食品街很大，適合買便當。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E6%B1%A0%E8%A2%8B" target="_blank" rel="noopener">T&#x27;sたんたん 池袋</a><span class="tag">全素拉麵</span></div><div class="it-d">JR 池袋站改札內中央大廳，去川越轉車時就能吃，不用出站。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=AIN%20SOPH.%20soar%20%E6%B1%A0%E8%A2%8B" target="_blank" rel="noopener">AIN SOPH. soar</a><span class="tag">全素</span></div><div class="it-d">東口步行約8分鐘，全素鬆餅、漢堡；11:30至16:00、18:00至21:00，不定休，出發前看官網。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>池袋是拉麵激戰區，名店多為豬骨或魚介湯頭，非素。</li></ul>
+<p class="area-tip"><b>小提醒</b>陽光城全在室內，雨天可逛；行程 DAY 8 往返川越會在池袋轉車，若川越大雨也可改來這裡。</p>
+</section>
+<section class="card area" id="akihabara">
+<div class="badge">10</div>
+<h2>秋葉原</h2>
+<div class="area-en">AKIHABARA</div>
+<div class="daylinks">
+<span>不在行程主線，延伸選項</span>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>電器、動漫、電玩與扭蛋的聖地，大型電器行與動漫大樓林立；往西走是有千年歷史的神田明神。</dd></div>
+<div><dt>適合</dt><dd>電器、相機、動漫與模型迷；小朋友也喜歡扭蛋與遊樂場。</dd></div>
+<div><dt>建議停留</dt><dd>半天</dd></div>
+<div><dt>從品川</dt><dd>JR 京濱東北線或山手線約18分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A5%9E%E7%94%B0%E6%98%8E%E7%A5%9E" target="_blank" rel="noopener">神田明神</a></div><div class="it-d">相傳730年創建，是神田、秋葉原一帶的守護神社，有 IT 產業常買的電子御守，也常和動漫合作。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%9E%E3%83%BC%E3%83%81%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E7%A5%9E%E7%94%B0%E4%B8%87%E4%B8%96%E6%A9%8B" target="_blank" rel="noopener">mAAch ecute 神田萬世橋</a></div><div class="it-d">舊萬世橋站紅磚高架改建的商業空間，可走上舊月台看中央線電車從身旁駛過；10月5日休館。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A7%8B%E8%91%89%E5%8E%9F%E9%9B%BB%E6%B0%97%E8%A1%97" target="_blank" rel="noopener">秋葉原電器街</a></div><div class="it-d">中央通兩側的電器與動漫大樓，週日下午有部分時段封街成行人徒步區。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%A8%E3%83%89%E3%83%90%E3%82%B7Akiba" target="_blank" rel="noopener">Yodobashi Akiba</a></div><div class="it-d">超大型電器行，家電、相機、玩具與模型一應俱全，可退稅。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A7%8B%E8%91%89%E5%8E%9F%E3%83%A9%E3%82%B8%E3%82%AA%E4%BC%9A%E9%A4%A8" target="_blank" rel="noopener">秋葉原ラジオ会館</a></div><div class="it-d">動漫模型、卡牌與收藏品專門店集中的大樓。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%A7%8B%E8%91%89%E5%8E%9F%E3%82%AC%E3%83%81%E3%83%A3%E3%83%9D%E3%83%B3%E4%BC%9A%E9%A4%A8" target="_blank" rel="noopener">秋葉原ガチャポン会館</a></div><div class="it-d">數百台扭蛋機，常有新品與冷門款。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=CHABARA%20%E7%A7%8B%E8%91%89%E5%8E%9F" target="_blank" rel="noopener">CHABARA</a></div><div class="it-d">高架下的日本食材選物市集，可買醬料、茶葉與零食伴手禮。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%93%E3%81%BE%E3%81%8D%E3%81%97%E3%82%87%E3%81%8F%E3%81%A9%E3%81%86%20%E9%8E%8C%E5%80%89%E4%B8%8D%E8%AD%98%E5%BA%B5%20%E7%A7%8B%E8%91%89%E5%8E%9F" target="_blank" rel="noopener">こまきしょくどう 鎌倉不識庵</a><span class="tag">全素、無五辛</span></div><div class="it-d">CHABARA 內，傳統寺院風蔬食定食，招牌「口福定食」有9道季節小菜；11:00至20:00，平日可能縮短，建議先確認。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=T%27s%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%20%E3%82%A8%E3%82%AD%E3%83%A5%E3%83%BC%E3%83%88%E7%A7%8B%E8%91%89%E5%8E%9F" target="_blank" rel="noopener">T&#x27;sたんたん エキュート秋葉原</a><span class="tag">全素拉麵</span></div><div class="it-d">2026年8月新開，JR 秋葉原站電氣街改札出口左側。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>女僕咖啡廳與秋葉原拉麵、咖哩名店多為葷食，素食選擇有限。</li></ul>
+<p class="area-tip"><b>小提醒</b>多數商店在室內，雨天也適合；這一區不在行程主線上，可當晚上或空檔的延伸選項。</p>
+</section>
+<section class="card area" id="odaiba">
+<div class="badge">11</div>
+<h2>台場、豊洲</h2>
+<div class="area-en">ODAIBA / TOYOSU</div>
+<div class="daylinks">
+<a href="./#day4">行程 DAY 4</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>東京灣填海而成的濱海新區，有海景、彩虹橋夜景與大型商場；豊洲有 teamLab Planets 與取代築地的豊洲市場。</dd></div>
+<div><dt>適合</dt><dd>看海景夜景、數位藝術、親子與雨天室內行程。</dd></div>
+<div><dt>建議停留</dt><dd>半天至一天</dd></div>
+<div><dt>從品川</dt><dd>JR 到新橋轉百合海鷗號，到台場約30分鐘、到豊洲約35分鐘；或 JR 到大井町轉臨海線到東京テレポート約25分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%81%E3%83%BC%E3%83%A0%E3%83%A9%E3%83%9C%E3%83%97%E3%83%A9%E3%83%8D%E3%83%83%E3%83%84%20TOKYO%20DMM" target="_blank" rel="noopener">teamLab Planets TOKYO</a><span class="tag">豊洲</span></div><div class="it-d">赤腳走進水中與花海的沉浸式數位藝術館，會期到2027年底；需網路預購時段票，現場不售票。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B1%8A%E6%B4%B2%E5%B8%82%E5%A0%B4" target="_blank" rel="noopener">豊洲市場</a></div><div class="it-d">東京的中央批發市場，可從參觀走道看鮪魚拍賣（清晨）；週日、假日與部分週三休市。旁邊的<a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%B1%8A%E6%B4%B2%20%E5%8D%83%E5%AE%A2%E4%B8%87%E6%9D%A5" target="_blank" rel="noopener">豊洲千客萬來</a>是2024年開幕的江戶風美食街與溫泉。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%8A%E5%8F%B0%E5%A0%B4%E6%B5%B7%E6%B5%9C%E5%85%AC%E5%9C%92" target="_blank" rel="noopener">台場海濱公園</a></div><div class="it-d">人工沙灘與自由女神像複製品，可拍彩虹橋，傍晚到夜間景色最好。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%AC%E3%82%A4%E3%83%B3%E3%83%9C%E3%83%BC%E3%83%96%E3%83%AA%E3%83%83%E3%82%B8" target="_blank" rel="noopener">彩虹橋</a></div><div class="it-d">連接芝浦與台場的吊橋，可沿步道徒步過橋約30分鐘，夜間點燈。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%97%A5%E6%9C%AC%E7%A7%91%E5%AD%A6%E6%9C%AA%E6%9D%A5%E9%A4%A8" target="_blank" rel="noopener">日本科學未來館</a></div><div class="it-d">以地球儀「Geo-Cosmos」聞名的科學館，互動展示多，週二休館。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=THE%20GUNDAM%20BASE%20TOKYO%20%E3%83%80%E3%82%A4%E3%83%90%E3%83%BC%E3%82%B7%E3%83%86%E3%82%A3%E6%9D%B1%E4%BA%AC" target="_blank" rel="noopener">THE GUNDAM BASE TOKYO</a></div><div class="it-d">鋼彈模型總部仍營業；廣場上的實物大獨角獸鋼彈立像已於2026年8月31日結束展示。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%80%E3%82%A4%E3%83%90%E3%83%BC%E3%82%B7%E3%83%86%E3%82%A3%E6%9D%B1%E4%BA%AC%20%E3%83%97%E3%83%A9%E3%82%B6" target="_blank" rel="noopener">ダイバーシティ東京 プラザ</a></div><div class="it-d">服飾與美食街，鋼彈模型基地在7F。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%82%AF%E3%82%A2%E3%82%B7%E3%83%86%E3%82%A3%E3%81%8A%E5%8F%B0%E5%A0%B4" target="_blank" rel="noopener">アクアシティお台場</a></div><div class="it-d">海景餐廳多，傍晚可看彩虹橋點燈。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%83%87%E3%83%83%E3%82%AF%E3%82%B9%E6%9D%B1%E4%BA%AC%E3%83%93%E3%83%BC%E3%83%81" target="_blank" rel="noopener">デックス東京ビーチ</a></div><div class="it-d">有昭和風的台場一丁目商店街、樂高探索中心與 JOYPOLIS 室內遊樂場。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A2%E3%83%BC%E3%83%90%E3%83%B3%E3%83%89%E3%83%83%E3%82%AF%20%E3%82%89%E3%82%89%E3%81%BD%E3%83%BC%E3%81%A8%E8%B1%8A%E6%B4%B2" target="_blank" rel="noopener">ららぽーと豊洲</a></div><div class="it-d">豊洲站旁的大型商場，面海的露台很適合休息。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Vegan%20Ramen%20UZU%20Tokyo" target="_blank" rel="noopener">Vegan Ramen UZU Tokyo</a><span class="tag">全素拉麵</span></div><div class="it-d">teamLab Planets 園區內，限入場者，五辛請現場確認。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=WE%20ARE%20THE%20FARM%20%E8%B1%8A%E6%B4%B2" target="_blank" rel="noopener">WE ARE THE FARM 豊洲</a><span class="tag">自家農場蔬菜</span></div><div class="it-d">以蔬菜料理為主，有全素、蛋奶素選項。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%A4%E3%83%B3%E3%83%89%E6%96%99%E7%90%86%E3%83%A0%E3%83%B3%E3%83%90%E3%82%A4%20%E3%82%A2%E3%82%AF%E3%82%A2%E3%82%B7%E3%83%86%E3%82%A3%E3%81%8A%E5%8F%B0%E5%A0%B4" target="_blank" rel="noopener">インド料理ムンバイ アクアシティお台場</a><span class="tag">印度，葷素同行</span></div><div class="it-d">有素食菜單，海景座位；印度菜多含洋蔥大蒜，吃五辛素請先說明。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>豊洲市場與千客萬來以海鮮丼、壽司為主，非素。</li></ul>
+<p class="area-tip"><b>小提醒</b>台場大多在室內商場，雨天可逛，但海景與夜景會打折；行程 DAY 4 的雨天備案可改去 teamLab Planets。</p>
+</section>
+<section class="card area" id="kamakura">
+<div class="badge">12</div>
+<h2>鎌倉（一日遊）</h2>
+<div class="area-en">KAMAKURA</div>
+<div class="daylinks">
+<a href="./#day4">行程 DAY 4</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>12世紀末鎌倉幕府的古都，山海之間散布著大佛、古寺與神社，搭江之電沿著海岸線走很有氣氛。</dd></div>
+<div><dt>適合</dt><dd>喜歡寺院、大佛與古都散步，也有多家全素餐廳。</dd></div>
+<div><dt>建議停留</dt><dd>一整天</dd></div>
+<div><dt>從品川</dt><dd>JR 橫須賀線直達鎌倉約55分鐘（可坐綠色車廂）；鎌倉轉江之電到長谷約5分鐘</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%AB%98%E5%BE%B3%E9%99%A2%20%E9%8E%8C%E5%80%89%E5%A4%A7%E4%BB%8F" target="_blank" rel="noopener">高德院 鎌倉大佛</a></div><div class="it-d">高約11.3公尺的露天青銅阿彌陀佛坐像，國寶；門票300円，另付50円可進入佛像內部。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E8%B0%B7%E5%AF%BA%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">長谷寺</a></div><div class="it-d">供奉高9.18公尺的木造十一面觀音，見晴台可眺望由比濱；山門到本堂約80級石階，下方庭園與池塘平坦。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%B6%B4%E5%B2%A1%E5%85%AB%E5%B9%A1%E5%AE%AE" target="_blank" rel="noopener">鶴岡八幡宮</a></div><div class="it-d">鎌倉的精神中心，源賴朝1180年遷建於現址，本宮在61級大石段上，參道「段葛」兩側種滿櫻花。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8A%AD%E6%B4%97%E5%BC%81%E8%B2%A1%E5%A4%A9%E5%AE%87%E8%B3%80%E7%A6%8F%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener">錢洗弁財天宇賀福神社</a></div><div class="it-d">穿過岩壁隧道進入的洞窟神社，用泉水洗錢祈求財運；後段是陡坡。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%BB%BA%E9%95%B7%E5%AF%BA%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">建長寺</a></div><div class="it-d">1253年創建、日本最早的禪宗專門道場，三門與法堂天井的雲龍圖很壯觀。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%86%86%E8%A6%9A%E5%AF%BA%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">圓覺寺</a></div><div class="it-d">北鎌倉站旁的禪寺，舍利殿為國寶，境內森林幽靜；石階較多。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E7%94%B1%E6%AF%94%E3%83%B6%E6%B5%9C" target="_blank" rel="noopener">由比濱</a></div><div class="it-d">長谷站走約5分鐘就到的海灘，可沿海邊散步或搭江之電往江之島。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%8E%8C%E5%80%89%20%E5%B0%8F%E7%94%BA%E9%80%9A%E3%82%8A" target="_blank" rel="noopener">小町通り</a></div><div class="it-d">鎌倉站東口到鶴岡八幡宮約360公尺，約250家伴手禮店、和風雜貨與小吃。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%BE%A1%E6%88%90%E9%80%9A%E3%82%8A%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">御成通り</a></div><div class="it-d">鎌倉站西口的在地商店街，人較少，有咖啡館與麵包店。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%95%B7%E8%B0%B7%20%E5%A4%A7%E4%BB%8F%E9%80%9A%E3%82%8A%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">長谷 大佛通り</a></div><div class="it-d">長谷站到大佛之間的小街，有和菓子與陶器小店。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%9C%A8%E3%81%A8%E5%AD%A3%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">木と季</a><span class="tag">全素野菜定食</span></div><div class="it-d">大佛旁，自家栽培有機蔬菜的定食，完全預約制，需2天前訂，週日休。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E4%B8%80%E7%B4%A0%E8%8C%B6%E5%BA%B5%20%E5%8C%97%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">一素茶庵</a><span class="tag">台灣風全素茶點</span></div><div class="it-d">台灣茶配豆乳布丁等甜點；週二、週三休，只收現金。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%BE%A1%E6%88%90%E6%A8%AA%E4%B8%81%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">御成横丁</a><span class="tag">壽司、拉麵，時有全素</span></div><div class="it-d">鎌倉站西口，有蔬菜壽司與全素拉麵。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=Cotonoha%20%E9%95%B7%E8%B0%B7" target="_blank" rel="noopener">Cotonoha</a>與<a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E9%BA%BB%E5%BF%83%20%E9%95%B7%E8%B0%B7%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">麻心</a><span class="tag">長谷，野菜飯與茶</span></div><div class="it-d">靠近長谷寺，蔬食午餐。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=vege%20sowaka%20%E9%8E%8C%E5%80%89" target="_blank" rel="noopener">vege sowaka</a><span class="tag">全素自助餐</span></div><div class="it-d">2026年2月在雪ノ下新開，營業時間請先確認。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%81%94%E3%81%BE%E7%A6%8F%E5%A0%82%20%E9%8E%8C%E5%80%89%E5%BA%97" target="_blank" rel="noopener">ごま福堂 鎌倉店</a><span class="tag">小町通り</span></div><div class="it-d">豆乳做的黑芝麻霜淇淋，不含蛋奶。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>鎌倉名物魩仔魚丼（しらす丼）是海鮮，非素；鴿子餅乾（鳩サブレー）含奶油與蛋。</li><li>紫芋霜淇淋一般含乳，吃全素請改選豆乳霜淇淋。</li></ul>
+<p class="area-tip"><b>小提醒</b>雨天可看長谷寺觀音博物館或鎌倉歷史文化交流館；小町通り週末中午非常擁擠，平日早上最舒服。行程 DAY 4 是鎌倉一日遊。</p>
+</section>
+<section class="card area" id="kawagoe">
+<div class="badge">13</div>
+<h2>川越（一日遊）</h2>
+<div class="area-en">KAWAGOE</div>
+<div class="daylinks">
+<a href="./#day8">行程 DAY 8</a>
+</div><dl class="ov">
+<div><dt>特色</dt><dd>號稱「小江戶」的城下町，黑色土藏造老屋並排的一番街、報時的時之鐘與糖果點心巷，是離東京最近的江戶風情老街。</dd></div>
+<div><dt>適合</dt><dd>喜歡老街、傳統點心與寺社散步的人，步道大多平坦。</dd></div>
+<div><dt>建議停留</dt><dd>一整天</dd></div>
+<div><dt>從品川</dt><dd>約1小時20分：JR 山手線到池袋，轉東武東上線急行到川越市站或川越站</dd></div>
+</dl>
+<h3 class="sec-h">景點</h3><ul class="items"><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E6%99%82%E3%81%AE%E9%90%98%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">時之鐘</a></div><div class="it-d">高約16公尺的木造鐘樓，是川越的地標，每天6:00、12:00、15:00、18:00敲鐘報時。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E4%B8%80%E7%95%AA%E8%A1%97%E5%95%86%E5%BA%97%E8%A1%97" target="_blank" rel="noopener">小江戶川越一番街</a></div><div class="it-d">江戶到明治時代的土藏造商家建築並排，黑漆外牆防火，是國家重要傳統建造物群保存地區。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%96%9C%E5%A4%9A%E9%99%A2%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">喜多院</a></div><div class="it-d">有從江戶城移築的「家光誕生之間」，以及538尊表情各異的五百羅漢；共通拜觀券400円。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E6%B0%B7%E5%B7%9D%E7%A5%9E%E7%A4%BE" target="_blank" rel="noopener">川越冰川神社</a></div><div class="it-d">約1500年歷史的結緣神社，可抽鯛魚造型的籤，境內木造大鳥居高約15公尺。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E5%9F%8E%E6%9C%AC%E4%B8%B8%E5%BE%A1%E6%AE%BF" target="_blank" rel="noopener">川越城本丸御殿</a></div><div class="it-d">1848年建造，是現存少數的城郭御殿之一，需脫鞋參觀。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B7%9D%E8%B6%8A%E3%81%BE%E3%81%A4%E3%82%8A%E4%BC%9A%E9%A4%A8" target="_blank" rel="noopener">川越祭會館</a></div><div class="it-d">展示真實的祭典山車，每月第2、4個週三休，雨天好去處。</div></li><li><div class="it-h"><a class="lk place" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%A4%A7%E6%AD%A3%E6%B5%AA%E6%BC%AB%E5%A4%A2%E9%80%9A%E3%82%8A%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">大正浪漫夢通り</a></div><div class="it-d">大正時代洋風店面並排的商店街，比一番街人少。</div></li></ul>
+<h3 class="sec-h shop">逛街購物</h3><ul class="items"><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%8F%93%E5%AD%90%E5%B1%8B%E6%A8%AA%E4%B8%81%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">菓子屋橫丁</a></div><div class="it-d">石板小巷裡二十多家傳統糖果、麩菓子與仙貝店，約1公尺長的黑糖麩菓子是招牌。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B0%8F%E6%B1%9F%E6%88%B8%E8%94%B5%E9%87%8C" target="_blank" rel="noopener">小江戸蔵里</a></div><div class="it-d">本川越站旁老酒廠改建的伴手禮館，川越名產集中。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E3%82%AF%E3%83%AC%E3%82%A2%E3%83%A2%E3%83%BC%E3%83%AB%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">クレアモール</a></div><div class="it-d">川越站到本川越之間約1.2公里的商店街，藥妝與連鎖店多。</div></li></ul>
+<h3 class="sec-h food">美食（素食可吃）</h3><ul class="items"><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=%E5%B9%B8%E3%81%99%E3%81%97%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">幸すし（幸壽司）</a><span class="tag">葷素同行</span></div><div class="it-d">明治11年創業的壽司老店，有素鰻魚飯、素壽喜燒與蔬菜壽司套餐，需2天前預約，週一休。</div></li><li><div class="it-h"><a class="lk rest" href="https://www.google.com/maps/search/?api=1&amp;query=PiENi%20K%C3%B6TA%20%E5%B7%9D%E8%B6%8A%E5%B8%82%E9%80%A3%E9%9B%80%E7%94%BA" target="_blank" rel="noopener">PiENi KöTA</a><span class="tag">古道具與全素點心</span></div><div class="it-d">自家焙煎咖啡與植物性烘焙點心，座位少，營業日請看官方 Instagram。</div></li><li><div class="it-h"><a class="lk shop" href="https://www.google.com/maps/search/?api=1&amp;query=%E8%8F%93%E5%8C%A0%E5%8F%B3%E9%96%80%20%E5%B7%9D%E8%B6%8A" target="_blank" rel="noopener">菓匠右門 いも恋</a></div><div class="it-d">番薯與紅豆餡的蒸饅頭，原料不含蛋，但未標示全素，嚴格全素請先問。</div></li></ul>
+<h3 class="sec-h local">在地名物，多為葷食</h3><ul class="items local"><li>川越名物鰻魚飯老店很多，非素；番薯霜淇淋一般含乳。</li></ul>
+<p class="area-tip"><b>小提醒</b>雨天多待室內的川越祭會館、市立博物館與本丸御殿；小江戶巡迴巴士可串起各景點。行程 DAY 8 是川越一日遊。</p>
+</section>
+  <footer class="note">
+    資料整理於2026年9月；營業時間、公休日與票價以出發前官網公告為準，素食需求到店後請再向店員確認。<br>
+    地圖連結為 Google Maps 搜尋連結，若出現多個結果請選對應分店。<br>
+    <a href="./">回行程首頁</a>　<a href="helper.html">素食小幫手</a>
+  </footer>
+</div>
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('nav.daynav a'));
+  var map={}; links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+  var nav=document.querySelector('nav.daynav');
+  function setActive(id){
+    links.forEach(function(a){a.classList.toggle('active',a===map[id]);});
+    var a=map[id]; if(a&&nav){var l=a.offsetLeft-nav.clientWidth/2+a.clientWidth/2; nav.scrollTo({left:l,behavior:'smooth'});}
+  }
+  if(!('IntersectionObserver' in window)) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting) setActive(e.target.id); });
+  },{rootMargin:'-80px 0px -70% 0px'});
+  Object.keys(map).forEach(function(id){var el=document.getElementById(id); if(el) io.observe(el);});
+})();
+</script>
+</body>
+</html>
